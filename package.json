@@ -1,0 +1,14 @@
+{
+  "name": "moy-sklad",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "ky": "^1.14.3"
+  }
+}
