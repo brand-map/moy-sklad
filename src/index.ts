@@ -6,6 +6,7 @@ export type {
 } from "./api-client"
 export * from "./endpoints"
 export * from "./errors"
+export { createMoysklad } from "./create-moysklad"
 export type { Moysklad } from "./moysklad"
 export * from "./types"
 

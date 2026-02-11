@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/correctness/noUnusedFunctionParameters: testing types */
 /** biome-ignore-all lint/suspicious/noEmptyBlockStatements: testing types */
 
-import type { EmptyObject } from "type-fest"
+import type { EmptyObject } from "./type-utils"
 import { assertType, describe, expectTypeOf, it } from "vitest"
 import type {
   ArchivedFilter,

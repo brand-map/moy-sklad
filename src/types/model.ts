@@ -1,4 +1,4 @@
-import type { ReadonlyKeysOf } from "type-fest"
+import type { ReadonlyKeysOf } from "./type-utils"
 import type { Attribute } from "./attribute"
 import type { Entity } from "./entity"
 import type { Filter } from "./filters"

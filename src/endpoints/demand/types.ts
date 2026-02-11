@@ -1,4 +1,4 @@
-import type { RequireExactlyOne } from "type-fest"
+import type { RequireExactlyOne } from "../../types"
 import type {
   AccountModel,
   AssortmentEntity,

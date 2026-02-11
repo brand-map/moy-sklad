@@ -1,4 +1,4 @@
-import type { EmptyObject } from "type-fest"
+import type { EmptyObject } from "./type-utils"
 import { describe, expectTypeOf, it } from "vitest"
 import type {
   ExpandOptions,
@@ -7,7 +7,7 @@ import type {
 } from "."
 
 interface NonExpandableModel extends Model {
-  expandalbe: EmptyObject
+  expandable: EmptyObject
 }
 
 describe("expand", () => {

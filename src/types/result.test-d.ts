@@ -1,4 +1,4 @@
-import type { EmptyObject, Simplify, SimplifyDeep } from "type-fest"
+import type { EmptyObject, Simplify, SimplifyDeep } from "./type-utils"
 import { describe, expectTypeOf, it } from "vitest"
 import type { PositionStockData } from "."
 import type { Entity } from "./entity"

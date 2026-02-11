@@ -1,4 +1,4 @@
-import type { IsEmptyObject, IsNever, Primitive } from "type-fest"
+import type { IsEmptyObject, IsNever, Primitive } from "./type-utils"
 import type { DateTime } from "./datetime"
 import type { Model } from "./model"
 

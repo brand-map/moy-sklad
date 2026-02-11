@@ -1,4 +1,4 @@
-import type { ConditionalKeys, IsEmptyObject, IsEqual } from "type-fest"
+import type { ConditionalKeys, IsEmptyObject, IsEqual } from "./type-utils"
 import type { RestoreExpandableFieldsOptionality } from "./expand"
 import type { ListMeta } from "./metadata"
 import type { Model } from "./model"

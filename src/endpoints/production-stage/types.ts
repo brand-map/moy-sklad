@@ -1,4 +1,4 @@
-import type { SetRequired } from "type-fest"
+import type { SetRequired } from "../../types"
 import type {
   Entity,
   ExpandOptions,

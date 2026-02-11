@@ -1,4 +1,4 @@
-import type { EmptyObject } from "type-fest"
+import type { EmptyObject } from "../../types"
 import type {
   DateTime,
   DateTimeFilter,

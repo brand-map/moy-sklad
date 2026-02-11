@@ -53,10 +53,7 @@ export interface ProductEndpoint {
   all<T extends AllProductsOptions = Record<string, unknown>>(
     options?: Subset<T, AllProductsOptions>,
   ): Promise<
-    BatchGetResult<
-      GetFindResult<ProductModel, T["expand"]>,
-      Entity.BonusTransaction
-    >
+    BatchGetResult<GetFindResult<ProductModel, T["expand"]>, Entity.Product>
   >
 
   /**

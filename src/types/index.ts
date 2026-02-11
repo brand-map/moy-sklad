@@ -1,3 +1,4 @@
+export * from "./type-utils"
 export * from "./account"
 export * from "./attribute"
 export * from "./audit"

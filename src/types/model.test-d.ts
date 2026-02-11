@@ -1,4 +1,4 @@
-import type { IsEmptyObject } from "type-fest"
+import type { IsEmptyObject } from "./type-utils"
 import { describe, expectTypeOf, it } from "vitest"
 import type { Entity } from "./entity"
 import type { MediaType } from "./media-type"

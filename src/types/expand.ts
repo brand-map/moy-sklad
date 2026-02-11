@@ -3,7 +3,7 @@ import type {
   IsEmptyObject,
   OptionalKeysOf,
   SetOptional,
-} from "type-fest"
+} from "./type-utils"
 import type { Model } from "./model"
 
 /**
