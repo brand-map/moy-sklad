@@ -4,8 +4,7 @@ import type {
     AssortmentModel,
     BatchGetResult,
     Entity,
-    ListResponse,
-    Subset,
+    ListResponse
 } from "../../types"
 import { buildSearchParams } from "../../utils/search-params-handlers"
 import {
@@ -51,7 +50,7 @@ async function fetchAssortmentResponse(
  */
 export async function listAssortment(
     client: ApiClient,
-    options?: Subset<ListAssortmentOptions, ListAssortmentOptions>,
+    options?: ListAssortmentOptions,
 ): Promise<ListResponse<AssortmentModel["object"], Entity.Assortment>> {
     const searchParameters = composeSearchParameters({
         pagination: options?.pagination,
@@ -81,7 +80,7 @@ export async function listAssortment(
  */
 export async function allAssortment(
     client: ApiClient,
-    options?: Subset<AllAssortmentOptions, AllAssortmentOptions>,
+    options?: AllAssortmentOptions,
 ): Promise<BatchGetResult<AssortmentModel["object"], Entity.Assortment>> {
     return client.batchGet(
         async (limit, offset) => {
@@ -119,7 +118,7 @@ export async function allAssortment(
  */
 export async function firstAssortment(
     client: ApiClient,
-    options?: Subset<FirstAssortmentOptions, FirstAssortmentOptions>,
+    options?: FirstAssortmentOptions,
 ): Promise<ListResponse<AssortmentModel["object"], Entity.Assortment>> {
     const searchParameters = composeSearchParameters({
         pagination: { limit: 1 },
