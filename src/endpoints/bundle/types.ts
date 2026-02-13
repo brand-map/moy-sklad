@@ -258,3 +258,26 @@ export interface BundleModel extends Model {
     weight: NumberFilter
   }
 }
+
+export interface ListBundleOptions {
+  pagination?: import("../../types").PaginationOptions
+  expand?: import("../../types").ExpandOptions<BundleModel>
+  order?: import("../../types").OrderOptions<BundleModel>
+  search?: string
+  filter?: import("../../types").FilterOptions<BundleModel>
+}
+
+export interface CreateBundleOptions {
+  expand?: import("../../types").ExpandOptions<BundleModel>
+}
+
+export interface UpdateBundleOptions {
+  expand?: import("../../types").ExpandOptions<BundleModel>
+}
+
+export interface GetBundleOptions {
+  expand?: import("../../types").ExpandOptions<BundleModel>
+}
+
+export type FirstBundleOptions = Omit<ListBundleOptions, "pagination">
+export type AllBundleOptions = Omit<ListBundleOptions, "pagination">

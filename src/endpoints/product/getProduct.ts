@@ -134,3 +134,16 @@ export async function firstProduct<T extends FirstProductOptions = FirstProductO
 
   return fetchProductsResponse<T["expand"]>(client, searchParameters)
 }
+
+
+const ms = new ApiClient({
+  auth: {
+    token: "90d9343a0c6906c40bb44521f11bedd6fb20f60c",
+  },
+})
+
+allProducts(ms, {
+  expand: {
+    agent: true,
+  },
+}).then(console.log)

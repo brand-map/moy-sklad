@@ -545,4 +545,14 @@ export class ApiClient {
 
     return { context, rows: allRows }
   }
+
+  /**
+   * Perform a request and directly return parsed JSON.
+   *
+   * This helper reduces boilerplate for callers that need the response body as a typed object.
+   */
+  async requestJson<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
+    const response = await this.request(endpoint, options)
+    return (await response.json()) as T
+  }
 }
