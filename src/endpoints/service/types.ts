@@ -204,3 +204,26 @@ export interface ServiceModel extends Model {
     updated: DateTimeFilter
   }
 }
+
+export interface ListServicesOptions {
+  pagination?: import("../../types").PaginationOptions
+  expand?: import("../../types").ExpandOptions<ServiceModel>
+  order?: import("../../types").OrderOptions<ServiceModel>
+  search?: string
+  filter?: import("../../types").FilterOptions<ServiceModel>
+}
+
+export interface CreateServiceOptions {
+  expand?: import("../../types").ExpandOptions<ServiceModel>
+}
+
+export interface UpdateServiceOptions {
+  expand?: import("../../types").ExpandOptions<ServiceModel>
+}
+
+export interface GetServiceOptions {
+  expand?: import("../../types").ExpandOptions<ServiceModel>
+}
+
+export type FirstServiceOptions = Omit<ListServicesOptions, "pagination">
+export type AllServiceOptions = Omit<ListServicesOptions, "pagination">

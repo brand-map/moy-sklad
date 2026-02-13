@@ -139,7 +139,7 @@ export interface CounterpartyEndpoint {
    *
    * @returns Количество контрагентов
    *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-kontragent-poluchit-kontragentow
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionarizes/#suschnosti-kontragent-poluchit-kontragentow
    *
    * @example
    * ```ts

@@ -6,6 +6,7 @@ import type {
   ListResponse,
 } from "../types"
 import { handleError } from "./handle-error"
+import { TokenBucket } from "./token-bucket"
 
 /**
  * Rate limit information from API response headers
@@ -151,7 +152,8 @@ export class ApiClient {
   private auth: Auth
   private batchGetOptions: Required<BatchGetOptions>
   private requestWeight: RequestWeight
-  private rateLimitThreshold: number
+  // private rateLimitThreshold: number
+  private bucket: TokenBucket;
   ky: typeof ky
   private lastResponse: Response | undefined
   private rateLimitState: RateLimitState = {
@@ -169,7 +171,10 @@ export class ApiClient {
 
     this.auth = options.auth
     this.requestWeight = getRequestWeight(options.auth)
-    this.rateLimitThreshold = getRateLimitThreshold(this.requestWeight)
+    // this.rateLimitThreshold = getRateLimitThreshold(this.requestWeight)
+    this.requestWeight = getRequestWeight(options.auth);
+    const threshold = getRateLimitThreshold(this.requestWeight);
+    this.bucket = new TokenBucket(threshold, 3); // capacity = 45/weight
     this.batchGetOptions = {
       limit: 1000,
       expandLimit: 100,
@@ -255,40 +260,40 @@ export class ApiClient {
   /**
    * Calculates milliseconds to wait before next request based on rate limits
    */
-  private calculateBackoffDelay(): number {
-    const now = Math.floor(Date.now() / 1000)
+  // private calculateBackoffDelay(): number {
+  //   const now = Math.floor(Date.now() / 1000)
 
-    // If we're in a new window, no delay needed
-    if (now >= this.rateLimitState.lastReset) {
-      return 0
-    }
+  //   // If we're in a new window, no delay needed
+  //   if (now >= this.rateLimitState.lastReset) {
+  //     return 0
+  //   }
 
-    // Calculate how much of the window remains
-    const windowRemaining = this.rateLimitState.lastReset - now
-    const requestsRemaining =
-      this.rateLimitThreshold - this.rateLimitState.requestsUsed
+  //   // Calculate how much of the window remains
+  //   const windowRemaining = this.rateLimitState.lastReset - now
+  //   const requestsRemaining =
+  //     this.rateLimitThreshold - this.rateLimitState.requestsUsed
 
-    // If we have requests remaining, no delay needed
-    if (requestsRemaining > 1) {
-      return 0
-    }
+  //   // If we have requests remaining, no delay needed
+  //   if (requestsRemaining > 1) {
+  //     return 0
+  //   }
 
-    // We're at or near the limit - wait until window resets
-    return windowRemaining * 1000 + 100 // Add 100ms buffer
-  }
+  //   // We're at or near the limit - wait until window resets
+  //   return windowRemaining * 1000 + 100 // Add 100ms buffer
+  // }
 
   /**
    * Waits for rate limit window if necessary
    */
-  private async waitForRateLimit(): Promise<void> {
-    const delay = this.calculateBackoffDelay()
+  // private async waitForRateLimit(): Promise<void> {
+  //   const delay = this.calculateBackoffDelay()
 
-    if (delay > 0) {
-      await new Promise((resolve) => setTimeout(resolve, delay))
-      // Reset counter after waiting
-      this.rateLimitState.requestsUsed = 0
-    }
-  }
+  //   if (delay > 0) {
+  //     await new Promise((resolve) => setTimeout(resolve, delay))
+  //     // Reset counter after waiting
+  //     this.rateLimitState.requestsUsed = 0
+  //   }
+  // }
 
   /**
    * Waits for parallel request slot if at limit
@@ -310,62 +315,46 @@ export class ApiClient {
    * const response = await apiClient.request("/entity/counterparty", { method: "POST", body: { name: "ООО Ромашка" } });
    * ```
    */
-  async request(
-    endpoint: string,
-    { searchParameters, body, ...options }: RequestOptions = {},
-  ): Promise<Response> {
-    // Wait for parallel request slot
-    await this.waitForParallelSlot()
-    this.rateLimitState.concurrent++
+  async request(endpoint: string, options: RequestOptions = {}): Promise<Response> {
+    await this.waitForParallelSlot();
+    this.rateLimitState.concurrent++;
 
     try {
-      // Wait for rate limit if necessary
-      await this.waitForRateLimit()
+      // 1. Consume tokens (this may wait)
+      await this.bucket.consume(this.requestWeight);
 
-      const normalizedEndpoint = endpoint.startsWith("/")
-        ? endpoint.slice(1)
-        : endpoint
-
-      const searchParams = new URLSearchParams(searchParameters)
-
+      // 2. Perform the actual HTTP call
+      const normalizedEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
+      const searchParams = new URLSearchParams(options.searchParameters);
       const kyOptions: Record<string, unknown> = {
         ...options,
         searchParams: searchParams.size > 0 ? searchParams : undefined,
+      };
+      if (options.body) kyOptions.json = options.body;
+
+      await this.ky(normalizedEndpoint, kyOptions);
+      const response = this.lastResponse;
+      if (!response) throw new Error('No response captured');
+
+      // 3. Sync bucket with response headers
+      const rateLimitInfo = this.parseRateLimitHeaders(response);
+      if (rateLimitInfo) {
+        this.bucket.sync(rateLimitInfo.remaining, rateLimitInfo.reset);
       }
 
-      if (body) {
-        kyOptions.json = body
+      // 4. Handle 429 (should be rare now)
+      if (response.status === 429) {
+        const retryAfter = response.headers.get('Retry-After');
+        const delay = retryAfter ? parseInt(retryAfter, 10) * 1000 : 3100;
+        await new Promise((r) => setTimeout(r, delay));
+        // Retry – bucket will handle capacity again
+        return this.request(endpoint, options);
       }
 
-      await this.ky(normalizedEndpoint, kyOptions)
-
-      const response = this.lastResponse
-      if (!response) {
-        throw new Error("Failed to capture response from ky")
-      }
-
-      // Track successful request
-      this.rateLimitState.requestsUsed += this.requestWeight
-
-      if (!response.ok) {
-        // Handle rate limit errors with exponential backoff
-        if (response.status === 429) {
-          const retryAfter = response.headers.get("Retry-After")
-          const delay = retryAfter
-            ? parseInt(retryAfter, 10) * 1000
-            : 3100 // Default to slightly more than 3 second window
-
-          await new Promise((resolve) => setTimeout(resolve, delay))
-          // Retry the request
-          return this.request(endpoint, { searchParameters, body, ...options })
-        }
-
-        await handleError(response)
-      }
-
-      return response
+      if (!response.ok) await handleError(response);
+      return response;
     } finally {
-      this.rateLimitState.concurrent--
+      this.rateLimitState.concurrent--;
     }
   }
 

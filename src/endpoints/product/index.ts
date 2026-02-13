@@ -1,3 +1,3 @@
 export type { ProductEndpoint } from "./product"
-export { allProducts, firstProduct, listProducts } from "./getProduct"
+export { allProducts, firstProduct, listProducts, productById } from "./getProduct"
 export * from "./types"

@@ -45,36 +45,36 @@ export function createMoysklad(options: ApiClientOptions) {
     client,
 
     assortment: {
-      list<T extends ListAssortmentOptions = ListAssortmentOptions>(
-        opts?: Subset<T, ListAssortmentOptions>,
+      list(
+        opts?: ListAssortmentOptions,
       ) {
         return listAssortment(client, opts)
       },
-      all<T extends AllAssortmentOptions = AllAssortmentOptions>(
-        opts?: Subset<T, AllAssortmentOptions>,
+      all(
+        opts?: AllAssortmentOptions,
       ) {
         return allAssortment(client, opts)
       },
-      first<T extends FirstAssortmentOptions = FirstAssortmentOptions>(
-        opts?: Subset<T, FirstAssortmentOptions>,
+      first(
+        opts?: FirstAssortmentOptions,
       ) {
         return firstAssortment(client, opts)
       },
     },
 
     product: {
-      list<T extends ListProductsOptions = ListProductsOptions>(
-        opts?: Subset<T, ListProductsOptions>,
+      list(
+        opts?: ListProductsOptions,
       ) {
         return listProducts(client, opts)
       },
-      all<T extends AllProductsOptions = AllProductsOptions>(
-        opts?: Subset<T, AllProductsOptions>,
+      all(
+        opts?: AllProductsOptions,
       ) {
         return allProducts(client, opts)
       },
-      first<T extends FirstProductOptions = FirstProductOptions>(
-        opts?: Subset<T, FirstProductOptions>,
+      first(
+        opts?: FirstProductOptions,
       ) {
         return firstProduct(client, opts)
       },

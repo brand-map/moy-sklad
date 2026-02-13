@@ -1,14 +1,22 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
 import type {
+    AssortmentEntity,
     AssortmentModel,
     BatchGetResult,
+    BundleAssortmentModel,
+    ConsignmentAssortmentModel,
     Entity,
-    ListResponse
+    ListMeta,
+    ListResponse,
+    ProductAssortmentModel,
+    ServiceAssortmentModel,
+    VariantAssortmentModel
 } from "../../types"
 import { buildSearchParams } from "../../utils/search-params-handlers"
 import {
     type AllAssortmentOptions,
+    type AssortmentEndpoint,
     type FirstAssortmentOptions,
     type ListAssortmentOptions
 } from "./assortment"
@@ -129,3 +137,5 @@ export async function firstAssortment(
 
     return fetchAssortmentResponse(client, finalSearchParams)
 }
+
+

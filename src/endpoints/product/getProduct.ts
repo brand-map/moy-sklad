@@ -47,9 +47,9 @@ async function fetchProductsResponse<T>(
  * });
  * ```
  */
-export async function listProducts<T extends ListProductsOptions = ListProductsOptions>(
+export async function listProducts<T extends ListProductsOptions>(
   client: ApiClient,
-  options?: Subset<T, ListProductsOptions>,
+  options?: ListProductsOptions,
 ): Promise<
   ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>
 > {
@@ -80,9 +80,9 @@ export async function listProducts<T extends ListProductsOptions = ListProductsO
  * });
  * ```
  */
-export async function allProducts<T extends AllProductsOptions = AllProductsOptions>(
+export async function allProducts<T extends AllProductsOptions>(
   client: ApiClient,
-  options?: Subset<T, AllProductsOptions>,
+  options?: AllProductsOptions,
 ): Promise<
   BatchGetResult<GetFindResult<ProductModel, T["expand"]>, Entity.Product>
 > {
@@ -118,9 +118,9 @@ export async function allProducts<T extends AllProductsOptions = AllProductsOpti
  * });
  * ```
  */
-export async function firstProduct<T extends FirstProductOptions = FirstProductOptions>(
+export async function firstProduct<T extends FirstProductOptions>(
   client: ApiClient,
-  options?: Subset<T, FirstProductOptions>,
+  options?: FirstProductOptions,
 ): Promise<
   ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>
 > {
@@ -133,4 +133,13 @@ export async function firstProduct<T extends FirstProductOptions = FirstProductO
   })
 
   return fetchProductsResponse<T["expand"]>(client, searchParameters)
+}
+
+export async function productById(
+  client: ApiClient,
+  id: string,
+): Promise<ProductModel> {
+  const response = await client.get(`entity/product/${id}`)
+
+  return response.json() as Promise<ProductModel>
 }
