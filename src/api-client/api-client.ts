@@ -219,9 +219,9 @@ export class ApiClient {
    * Parses rate limit information from response headers
    */
   private parseRateLimitHeaders(response: Response): RateLimitInfo | null {
-    const remaining = response.headers.get("X-RateLimit-Remaining")
-    const limit = response.headers.get("X-RateLimit-Limit")
-    const reset = response.headers.get("X-RateLimit-Reset")
+    const remaining = response.headers.get("x-ratelimit-remaining")
+    const limit = response.headers.get("x-ratelimit-limit")
+    const reset = response.headers.get("x-lognex-reset")
 
     if (!remaining || !limit || !reset) {
       return null
@@ -239,12 +239,16 @@ export class ApiClient {
    * Updates internal rate limit state based on response headers
    */
   private updateRateLimitInfo(response: Response): void {
+    console.log(response);
+
     const rateLimitInfo = this.parseRateLimitHeaders(response)
+    console.log(rateLimitInfo);
+    console.log('before', this.rateLimitState);
 
     if (!rateLimitInfo) {
       return
     }
-
+    console.log('before', this.rateLimitState);
     // Reset state if we've entered a new rate limit window
     const now = Math.floor(Date.now() / 1000)
     if (now >= rateLimitInfo.reset) {
