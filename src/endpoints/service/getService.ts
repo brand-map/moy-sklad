@@ -1,5 +1,6 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
+import { endpointPaths } from "../../endpoint-paths"
 import type {
   BatchGetResult,
   Entity,
@@ -21,7 +22,7 @@ async function fetchServicesResponse<T>(
   client: ApiClient,
   searchParameters?: URLSearchParams,
 ): Promise<ListResponse<GetFindResult<ServiceModel, T>, Entity.Service>> {
-  const response = await client.get("entity/service", {
+  const response = await client.get(endpointPaths.entity.service, {
     searchParameters: searchParameters ?? undefined,
   })
 
@@ -114,7 +115,7 @@ export async function serviceById(
   client: ApiClient,
   id: string,
 ): Promise<ServiceModel> {
-  const response = await client.get(`entity/service/${id}`)
+  const response = await client.get(`${endpointPaths.entity.service}/${id}`)
 
   return response.json() as Promise<ServiceModel>
 }

@@ -1,5 +1,6 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
+import { endpointPaths } from "../../endpoint-paths"
 import type {
   BatchGetResult,
   Entity,
@@ -21,7 +22,7 @@ async function fetchBundlesResponse<T>(
   client: ApiClient,
   searchParameters?: URLSearchParams,
 ): Promise<ListResponse<GetFindResult<BundleModel, T>, Entity.Bundle>> {
-  const response = await client.get("entity/bundle", {
+  const response = await client.get(endpointPaths.entity.bundle, {
     searchParameters: searchParameters ?? undefined,
   })
 
@@ -114,7 +115,7 @@ export async function bundleById(
   client: ApiClient,
   id: string,
 ): Promise<BundleModel> {
-  const response = await client.get(`entity/bundle/${id}`)
+  const response = await client.get(`${endpointPaths.entity.bundle}/${id}`)
 
   return response.json() as Promise<BundleModel>
 }

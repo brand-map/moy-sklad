@@ -1,22 +1,15 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
+import { endpointPaths } from "../../endpoint-paths"
 import type {
-    AssortmentEntity,
     AssortmentModel,
     BatchGetResult,
-    BundleAssortmentModel,
-    ConsignmentAssortmentModel,
     Entity,
-    ListMeta,
-    ListResponse,
-    ProductAssortmentModel,
-    ServiceAssortmentModel,
-    VariantAssortmentModel
+    ListResponse
 } from "../../types"
 import { buildSearchParams } from "../../utils/search-params-handlers"
 import {
     type AllAssortmentOptions,
-    type AssortmentEndpoint,
     type FirstAssortmentOptions,
     type ListAssortmentOptions
 } from "./assortment"
@@ -29,7 +22,7 @@ async function fetchAssortmentResponse(
     client: ApiClient,
     searchParameters: URLSearchParams,
 ): Promise<ListResponse<AssortmentModel["object"], Entity.Assortment>> {
-    const response = await client.get("entity/assortment", {
+    const response = await client.get(endpointPaths.entity.assortment, {
         searchParameters,
     })
 

@@ -94,6 +94,7 @@ export enum Entity {
   TurnoverByStore = "turnoverbystore",
   TurnoverByOperation = "turnoverbyoperation",
   StockByStore = "stockbystore",
+  Webhook = "webhook",
 }
 
 export type AssortmentEntity =

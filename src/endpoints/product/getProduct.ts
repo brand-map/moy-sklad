@@ -1,5 +1,6 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
+import { endpointPaths } from "../../endpoint-paths"
 import type {
   BatchGetResult,
   Entity,
@@ -21,7 +22,7 @@ async function fetchProductsResponse<T>(
   client: ApiClient,
   searchParameters: URLSearchParams | undefined,
 ): Promise<ListResponse<GetFindResult<ProductModel, T>, Entity.Product>> {
-  const response = await client.get("entity/product", {
+  const response = await client.get(endpointPaths.entity.product, {
     searchParameters: searchParameters ?? undefined,
   })
 
@@ -139,7 +140,7 @@ export async function productById(
   client: ApiClient,
   id: string,
 ): Promise<ProductModel> {
-  const response = await client.get(`entity/product/${id}`)
+  const response = await client.get(`${endpointPaths.entity.product}/${id}`)
 
   return response.json() as Promise<ProductModel>
 }

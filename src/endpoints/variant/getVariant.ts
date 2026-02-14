@@ -1,5 +1,6 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
+import { endpointPaths } from "../../endpoint-paths"
 import type {
   BatchGetResult,
   Entity,
@@ -21,7 +22,7 @@ async function fetchVariantsResponse<T>(
   client: ApiClient,
   searchParameters?: URLSearchParams,
 ): Promise<ListResponse<GetFindResult<VariantModel, T>, Entity.Variant>> {
-  const response = await client.get("entity/variant", {
+  const response = await client.get(endpointPaths.entity.variant, {
     searchParameters: searchParameters ?? undefined,
   })
 
@@ -114,7 +115,7 @@ export async function variantById(
   client: ApiClient,
   id: string,
 ): Promise<VariantModel> {
-  const response = await client.get(`entity/variant/${id}`)
+  const response = await client.get(`${endpointPaths.entity.variant}/${id}`)
 
   return response.json() as Promise<VariantModel>
 }

@@ -151,9 +151,9 @@ export class ApiClient {
   private userAgent: string
   private auth: Auth
   private batchGetOptions: Required<BatchGetOptions>
-  private requestWeight: RequestWeight
-  // private rateLimitThreshold: number
-  private bucket: TokenBucket;
+  // private requestWeight: RequestWeight
+  // // private rateLimitThreshold: number
+  // private bucket: TokenBucket;
   ky: typeof ky
   private lastResponse: Response | undefined
   private rateLimitState: RateLimitState = {
@@ -161,7 +161,7 @@ export class ApiClient {
     requestsUsed: 0,
     concurrent: 0,
   }
-  private parallelRequestLimit = 5
+  private parallelRequestLimit = 3
 
   constructor(options: ApiClientOptions) {
     this.baseUrl = options.baseUrl ?? "https://api.moysklad.ru/api/remap/1.2"
@@ -170,11 +170,11 @@ export class ApiClient {
       'brand-map/moy-sklad (+https://github.com/brand-map/moy-sklad)'
 
     this.auth = options.auth
-    this.requestWeight = getRequestWeight(options.auth)
+    // this.requestWeight = getRequestWeight(options.auth)
     // this.rateLimitThreshold = getRateLimitThreshold(this.requestWeight)
-    this.requestWeight = getRequestWeight(options.auth);
-    const threshold = getRateLimitThreshold(this.requestWeight);
-    this.bucket = new TokenBucket(threshold, 3); // capacity = 45/weight
+    // this.requestWeight = getRequestWeight(options.auth);
+    // const threshold = getRateLimitThreshold(this.requestWeight);
+    // this.bucket = new TokenBucket(threshold, 3); // capacity = 45/weight
     this.batchGetOptions = {
       limit: 1000,
       expandLimit: 100,
@@ -183,9 +183,10 @@ export class ApiClient {
     }
 
     // Ensure concurrency limit respects API constraints (max 5 parallel requests)
-    if (this.batchGetOptions.concurrencyLimit > this.parallelRequestLimit) {
-      this.batchGetOptions.concurrencyLimit = this.parallelRequestLimit
-    }
+    // if (this.batchGetOptions.concurrencyLimit > this.parallelRequestLimit) {
+    //   this.batchGetOptions.concurrencyLimit = this.parallelRequestLimit
+    // }
+
 
     // Initialize ky instance with default headers and configuration
     this.ky = ky.create({
@@ -218,20 +219,44 @@ export class ApiClient {
   /**
    * Parses rate limit information from response headers
    */
-  private parseRateLimitHeaders(response: Response): RateLimitInfo | null {
-    const remaining = response.headers.get("x-ratelimit-remaining")
-    const limit = response.headers.get("x-ratelimit-limit")
-    const reset = response.headers.get("x-lognex-reset")
+  // private parseRateLimitHeaders(response: Response): RateLimitInfo | null {
+  //   const remaining = response.headers.get("x-ratelimit-remaining")
+  //   const limit = response.headers.get("x-ratelimit-limit")
+  //   const reset = response.headers.get("x-lognex-reset")
 
-    if (!remaining || !limit || !reset) {
-      return null
-    }
+  //   if (!remaining || !limit || !reset) {
+  //     return null
+  //   }
+
+  //   return {
+  //     remaining: parseInt(remaining, 10),
+  //     limit: parseInt(limit, 10),
+  //     reset: parseInt(reset, 10),
+  //     resetTime: new Date(parseInt(reset, 10) * 1000),
+  //   }
+  // }
+
+  private getRateLimitInfo(headers: Headers | Record<string, string>) {
+    const headersObj = headers instanceof Headers ? Object.fromEntries(headers) : headers;
 
     return {
-      remaining: parseInt(remaining, 10),
-      limit: parseInt(limit, 10),
-      reset: parseInt(reset, 10),
-      resetTime: new Date(parseInt(reset, 10) * 1000),
+      limit: parseInt(headersObj["x-ratelimit-limit"] || "0"),
+      remaining: parseInt(headersObj["x-ratelimit-remaining"] || "0"),
+      reset: parseInt(headersObj["x-lognex-reset"] || "0"),
+      retryAfter: parseInt(headersObj["x-lognex-retry-after"] || "0"),
+      retryTimeInterval: parseInt(headersObj["x-lognex-retry-timeinterval"] || "1000"),
+    };
+  }
+
+  private async checkAndHandleRateLimit(rateLimit: ReturnType<typeof this.getRateLimitInfo>, thresholdPercentage: number = 30): Promise<void> {
+    const thresholdValue = Math.ceil((rateLimit.limit * thresholdPercentage) / 100);
+
+    if (rateLimit.remaining <= thresholdValue) {
+      console.log('rate limit works', rateLimit.remaining);
+
+      const waitTime = rateLimit.retryTimeInterval || 3000;
+      console.warn(`[{filename}]: approaching rate limit (${rateLimit.remaining}/${rateLimit.limit}), waiting ${waitTime}ms`);
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
     }
   }
 
@@ -239,26 +264,29 @@ export class ApiClient {
    * Updates internal rate limit state based on response headers
    */
   private updateRateLimitInfo(response: Response): void {
-    console.log(response);
+    console.log(new Date().toISOString(), response.status);
 
-    const rateLimitInfo = this.parseRateLimitHeaders(response)
-    console.log(rateLimitInfo);
-    console.log('before', this.rateLimitState);
-
-    if (!rateLimitInfo) {
-      return
-    }
-    console.log('before', this.rateLimitState);
-    // Reset state if we've entered a new rate limit window
-    const now = Math.floor(Date.now() / 1000)
-    if (now >= rateLimitInfo.reset) {
-      this.rateLimitState.lastReset = rateLimitInfo.reset
-      this.rateLimitState.requestsUsed = 0
+    const rateLimitInfo = this.getRateLimitInfo(response.headers)
+    if (rateLimitInfo) {
+      this.checkAndHandleRateLimit(rateLimitInfo)
+      console.log(rateLimitInfo);
     }
 
-    // Update remaining capacity
-    this.rateLimitState.requestsUsed =
-      rateLimitInfo.limit - rateLimitInfo.remaining
+    // console.log('before', this.rateLimitState);
+
+    //   if (!rateLimitInfo) {
+    //     return
+    //   }
+    //   // Reset state if we've entered a new rate limit window
+    //   const now = Math.floor(Date.now() / 1000)
+    //   if (now >= rateLimitInfo.reset) {
+    //     this.rateLimitState.lastReset = rateLimitInfo.reset
+    //     this.rateLimitState.requestsUsed = 0
+    //   }
+
+    //   // Update remaining capacity
+    //   this.rateLimitState.requestsUsed =
+    //     rateLimitInfo.limit - rateLimitInfo.remaining
   }
 
   /**
@@ -325,7 +353,7 @@ export class ApiClient {
 
     try {
       // 1. Consume tokens (this may wait)
-      await this.bucket.consume(this.requestWeight);
+      // await this.bucket.consume(this.requestWeight);
 
       // 2. Perform the actual HTTP call
       const normalizedEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
@@ -341,15 +369,15 @@ export class ApiClient {
       if (!response) throw new Error('No response captured');
 
       // 3. Sync bucket with response headers
-      const rateLimitInfo = this.parseRateLimitHeaders(response);
-      if (rateLimitInfo) {
-        this.bucket.sync(rateLimitInfo.remaining, rateLimitInfo.reset);
-      }
+      // const rateLimitInfo = this.parseRateLimitHeaders(response);
+      // if (rateLimitInfo) {
+      // this.bucket.sync(rateLimitInfo.remaining, rateLimitInfo.reset);
+      // }
 
       // 4. Handle 429 (should be rare now)
       if (response.status === 429) {
-        const retryAfter = response.headers.get('Retry-After');
-        const delay = retryAfter ? parseInt(retryAfter, 10) * 1000 : 3100;
+        // const retryAfter = response.headers.get('Retry-After');
+        const delay = 3100;
         await new Promise((r) => setTimeout(r, delay));
         // Retry – bucket will handle capacity again
         return this.request(endpoint, options);
@@ -495,6 +523,7 @@ export class ApiClient {
     const limit = hasExpand
       ? this.batchGetOptions.expandLimit
       : this.batchGetOptions.limit
+
 
     const data = await fetcher(limit, 0)
     const { size } = data.meta
