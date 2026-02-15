@@ -40,12 +40,7 @@ export interface SalesReturnEndpoint {
    */
   list<T extends ListSalesReturnsOptions = Record<string, unknown>>(
     options?: Subset<T, ListSalesReturnsOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<SalesReturnModel, T["expand"], T["fields"]>,
-      Entity.SalesReturn
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<SalesReturnModel, T["expand"], T["fields"]>, Entity.SalesReturn>>
 
   /**
    * Получить все возвраты покупателей с учетом пагинации.
@@ -62,12 +57,7 @@ export interface SalesReturnEndpoint {
    */
   all<T extends AllSalesReturnsOptions = Record<string, unknown>>(
     options?: Subset<T, AllSalesReturnsOptions>,
-  ): Promise<
-    BatchGetResult<
-      GetFindResult<SalesReturnModel, T["expand"], T["fields"]>,
-      Entity.SalesReturn
-    >
-  >
+  ): Promise<BatchGetResult<GetFindResult<SalesReturnModel, T["expand"], T["fields"]>, Entity.SalesReturn>>
 
   /**
    * Получить возврат покупателя по ID.
@@ -101,12 +91,7 @@ export interface SalesReturnEndpoint {
    */
   first<T extends FirstSalesReturnOptions = Record<string, unknown>>(
     options?: Subset<T, FirstSalesReturnOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<SalesReturnModel, T["expand"], T["fields"]>,
-      Entity.SalesReturn
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<SalesReturnModel, T["expand"], T["fields"]>, Entity.SalesReturn>>
 
   /**
    * Получить количество возвратов покупателей.
@@ -188,9 +173,7 @@ export interface SalesReturnEndpoint {
   >(
     data: TData,
     options?: Subset<TOptions, UpsertSalesReturnsOptions>,
-  ): Promise<
-    MatchArrayType<TData, GetFindResult<SalesReturnModel, TOptions["expand"]>>
-  >
+  ): Promise<MatchArrayType<TData, GetFindResult<SalesReturnModel, TOptions["expand"]>>>
 
   /**
    * Получить шаблон возврата покупателя на основе отгрузки.
@@ -207,7 +190,5 @@ export interface SalesReturnEndpoint {
    * });
    * ```
    */
-  template(
-    data: SalesReturnTemplateData,
-  ): Promise<GetFindResult<SalesReturnModel, { positions: true }>>
+  template(data: SalesReturnTemplateData): Promise<GetFindResult<SalesReturnModel, { positions: true }>>
 }

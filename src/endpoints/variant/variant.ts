@@ -48,9 +48,7 @@ export interface VariantEndpoint {
    */
   list<T extends ListVariantsOptions = Record<string, unknown>>(
     options?: Subset<T, ListVariantsOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>
-  >
+  ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>>
 
   /**
    * Получить все модификации.
@@ -67,9 +65,7 @@ export interface VariantEndpoint {
    */
   all<T extends AllVariantsOptions = Record<string, unknown>>(
     options?: Subset<T, AllVariantsOptions>,
-  ): Promise<
-    BatchGetResult<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>
-  >
+  ): Promise<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>>
 
   /**
    * Получить первую модификацию.
@@ -86,9 +82,7 @@ export interface VariantEndpoint {
    */
   first<T extends FirstVariantOptions = Record<string, unknown>>(
     options?: Subset<T, FirstVariantOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>
-  >
+  ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>>
 
   /**
    * Получить модификацию по id.

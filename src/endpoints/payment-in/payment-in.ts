@@ -36,9 +36,7 @@ export interface PaymentInEndpoint {
    */
   list<T extends ListPaymentInsOptions = Record<string, unknown>>(
     options?: Subset<T, ListPaymentInsOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<PaymentInModel, T["expand"]>, Entity.PaymentIn>
-  >
+  ): Promise<ListResponse<GetFindResult<PaymentInModel, T["expand"]>, Entity.PaymentIn>>
 
   /**
    * Получить все входящие платежи
@@ -48,9 +46,7 @@ export interface PaymentInEndpoint {
    */
   all<T extends AllPaymentInsOptions = Record<string, unknown>>(
     options?: Subset<T, AllPaymentInsOptions>,
-  ): Promise<
-    BatchGetResult<GetFindResult<PaymentInModel, T["expand"]>, Entity.PaymentIn>
-  >
+  ): Promise<BatchGetResult<GetFindResult<PaymentInModel, T["expand"]>, Entity.PaymentIn>>
 
   /**
    * Получить входящий платеж по ID
@@ -119,9 +115,7 @@ export interface PaymentInEndpoint {
    */
   first<T extends FirstPaymentInOptions = Record<string, unknown>>(
     options?: Subset<T, FirstPaymentInOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<PaymentInModel, T["expand"]>, Entity.PaymentIn>
-  >
+  ): Promise<ListResponse<GetFindResult<PaymentInModel, T["expand"]>, Entity.PaymentIn>>
 
   /**
    * Получить количество входящих платежей

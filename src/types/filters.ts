@@ -67,18 +67,11 @@ export interface EndsWithFilter {
 /**
  * A type that is used to ensure that equality and inequality filters are not used together.
  */
-export type EqualityFilter<T extends Primitive> =
-  | EqualsFilter<T>
-  | NotEqualsFilter<T>
-  | IsNullFilter
-  | IsNotNullFilter
+export type EqualityFilter<T extends Primitive> = EqualsFilter<T> | NotEqualsFilter<T> | IsNullFilter | IsNotNullFilter
 
 export type IdFilter = Partial<EqualityFilter<string>> | string | string[]
 
-export type EnumFilter<T extends Primitive> =
-  | Partial<EqualityFilter<T>>
-  | T
-  | T[]
+export type EnumFilter<T extends Primitive> = Partial<EqualityFilter<T>> | T | T[]
 
 export type BooleanFilter = Partial<EqualityFilter<boolean>> | boolean
 
@@ -100,9 +93,7 @@ export type NumberFilter =
   | number[]
 
 export type StringFilter =
-  | Partial<
-      EqualityFilter<string> & LikeFilter & StartsWithFilter & EndsWithFilter
-    >
+  | Partial<EqualityFilter<string> & LikeFilter & StartsWithFilter & EndsWithFilter>
   | string
   | string[]
 
@@ -117,27 +108,14 @@ export type DateTimeFilter =
   | DateTime
   | DateTime[]
 
-export type Filter =
-  | IdFilter
-  | BooleanFilter
-  | ArchivedFilter
-  | NumberFilter
-  | StringFilter
-  | DateTimeFilter
+export type Filter = IdFilter | BooleanFilter | ArchivedFilter | NumberFilter | StringFilter | DateTimeFilter
 
-type AddAttributesFilters<
-  M extends Model,
-  F,
-> = "attributes" extends keyof M["object"]
+type AddAttributesFilters<M extends Model, F> = "attributes" extends keyof M["object"]
   ? IsNever<F> extends false
     ? F & { [attributeUrl: string]: Filter }
     : { [attributeUrl: string]: Filter }
   : F
 
-type GetFiltersForModel<M extends Model> =
-  IsEmptyObject<M["filters"]> extends true ? never : Partial<M["filters"]>
+type GetFiltersForModel<M extends Model> = IsEmptyObject<M["filters"]> extends true ? never : Partial<M["filters"]>
 
-export type FilterOptions<M extends Model> = AddAttributesFilters<
-  M,
-  GetFiltersForModel<M>
->
+export type FilterOptions<M extends Model> = AddAttributesFilters<M, GetFiltersForModel<M>>

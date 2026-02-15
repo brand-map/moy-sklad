@@ -1,19 +1,8 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
 import { endpointPaths } from "../../endpoint-paths"
-import type {
-  BatchGetResult,
-  Entity,
-  GetFindResult,
-  ListResponse,
-  Subset,
-} from "../../types"
-import type {
-  AllServiceOptions,
-  FirstServiceOptions,
-  ListServicesOptions,
-  ServiceModel,
-} from "./types"
+import type { BatchGetResult, Entity, GetFindResult, ListResponse, Subset } from "../../types"
+import type { AllServiceOptions, FirstServiceOptions, ListServicesOptions, ServiceModel } from "./types"
 
 /**
  * Fetches services from API and parses JSON response.
@@ -26,9 +15,7 @@ async function fetchServicesResponse<T>(
     searchParameters: searchParameters ?? undefined,
   })
 
-  return response.json() as Promise<
-    ListResponse<GetFindResult<ServiceModel, T>, Entity.Service>
-  >
+  return response.json() as Promise<ListResponse<GetFindResult<ServiceModel, T>, Entity.Service>>
 }
 
 /**
@@ -37,14 +24,10 @@ async function fetchServicesResponse<T>(
  * @param client - API client instance
  * @param options - List options including filters, pagination, expand, order, search
  */
-export async function listServices<
-  T extends ListServicesOptions = ListServicesOptions,
->(
+export async function listServices<T extends ListServicesOptions = ListServicesOptions>(
   client: ApiClient,
   options?: Subset<T, ListServicesOptions>,
-): Promise<
-  ListResponse<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>
-> {
+): Promise<ListResponse<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>> {
   const searchParameters = composeSearchParameters({
     pagination: options?.pagination,
     expand: options?.expand,
@@ -62,14 +45,10 @@ export async function listServices<
  * @param client - API client instance
  * @param options - Options including filters, expand, order, search
  */
-export async function allServices<
-  T extends AllServiceOptions = AllServiceOptions,
->(
+export async function allServices<T extends AllServiceOptions = AllServiceOptions>(
   client: ApiClient,
   options?: Subset<T, AllServiceOptions>,
-): Promise<
-  BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>
-> {
+): Promise<BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>> {
   return client.batchGet(
     async (limit, offset) => {
       const searchParameters = composeSearchParameters({
@@ -92,14 +71,10 @@ export async function allServices<
  * @param client - API client instance
  * @param options - Options including filters, expand, order, search
  */
-export async function firstService<
-  T extends FirstServiceOptions = FirstServiceOptions,
->(
+export async function firstService<T extends FirstServiceOptions = FirstServiceOptions>(
   client: ApiClient,
   options?: Subset<T, FirstServiceOptions>,
-): Promise<
-  ListResponse<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>
-> {
+): Promise<ListResponse<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>> {
   const searchParameters = composeSearchParameters({
     pagination: { limit: 1 },
     expand: options?.expand,
@@ -111,10 +86,7 @@ export async function firstService<
   return fetchServicesResponse<T["expand"]>(client, searchParameters)
 }
 
-export async function serviceById(
-  client: ApiClient,
-  id: string,
-): Promise<ServiceModel> {
+export async function serviceById(client: ApiClient, id: string): Promise<ServiceModel> {
   const response = await client.get(`${endpointPaths.entity.service}/${id}`)
 
   return response.json() as Promise<ServiceModel>

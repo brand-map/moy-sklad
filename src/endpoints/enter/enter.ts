@@ -58,9 +58,7 @@ export interface EnterEndpoint {
    */
   all<T extends AllEntersOptions = Record<string, unknown>>(
     options?: Subset<T, AllEntersOptions>,
-  ): Promise<
-    BatchGetResult<GetFindResult<EnterModel, T["expand"]>, Entity.Enter>
-  >
+  ): Promise<BatchGetResult<GetFindResult<EnterModel, T["expand"]>, Entity.Enter>>
 
   /**
    * Получить оприходование по ID.
@@ -147,10 +145,7 @@ export interface EnterEndpoint {
    * ```
    */
   upsert<T extends CreateEnterOptions = Record<string, unknown>>(
-    data: (
-      | GetModelCreatableFields<EnterModel>
-      | (GetModelUpdatableFields<EnterModel> & UpdateMeta<Entity.Enter>)
-    )[],
+    data: (GetModelCreatableFields<EnterModel> | (GetModelUpdatableFields<EnterModel> & UpdateMeta<Entity.Enter>))[],
     options?: Subset<T, CreateEnterOptions>,
   ): Promise<GetFindResult<EnterModel, T["expand"]>[]>
 

@@ -22,9 +22,7 @@ import type { GroupModel } from "../group"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vypolnenie-atapa-proizwodstwa-vypolneniq-atapow-proizwodstwa
  */
-export interface ProductionStageCompletion
-  extends Idable,
-    Meta<Entity.ProductionStageCompletion> {
+export interface ProductionStageCompletion extends Idable, Meta<Entity.ProductionStageCompletion> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -113,23 +111,15 @@ export interface GetProductionStageCompletionOptions {
   expand?: ExpandOptions<ProductionStageCompletionModel>
 }
 
-export type FirstProductionStageCompletionOptions = Omit<
-  ListProductionStageCompletionsOptions,
-  "pagination"
->
-export type AllProductionStageCompletionOptions = Omit<
-  ListProductionStageCompletionsOptions,
-  "pagination"
->
+export type FirstProductionStageCompletionOptions = Omit<ListProductionStageCompletionsOptions, "pagination">
+export type AllProductionStageCompletionOptions = Omit<ListProductionStageCompletionsOptions, "pagination">
 
 /**
  * Материал выполнения этапа производства
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vypolnenie-atapa-proizwodstwa-materialy-wypolneniq-atapa-proizwodstwa
  */
-export interface ProductionStageCompletionMaterial
-  extends Idable,
-    Meta<Entity.ProductionStageCompletionMaterial> {
+export interface ProductionStageCompletionMaterial extends Idable, Meta<Entity.ProductionStageCompletionMaterial> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -177,9 +167,7 @@ export type AllProductionStageCompletionMaterialOptions = Omit<
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vypolnenie-atapa-proizwodstwa-produkty-wypolneniq-atapa-proizwodstwa
  */
-export interface ProductionStageCompletionResult
-  extends Idable,
-    Meta<Entity.ProductionStageCompletionResult> {
+export interface ProductionStageCompletionResult extends Idable, Meta<Entity.ProductionStageCompletionResult> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -212,7 +200,4 @@ export type FirstProductionStageCompletionResultOptions = Omit<
   ListProductionStageCompletionResultsOptions,
   "pagination"
 >
-export type AllProductionStageCompletionResultOptions = Omit<
-  ListProductionStageCompletionResultsOptions,
-  "pagination"
->
+export type AllProductionStageCompletionResultOptions = Omit<ListProductionStageCompletionResultsOptions, "pagination">

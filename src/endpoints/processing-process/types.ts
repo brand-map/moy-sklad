@@ -1,11 +1,4 @@
-import type {
-  DateTime,
-  Entity,
-  Idable,
-  ListMeta,
-  Meta,
-  Model,
-} from "../../types"
+import type { DateTime, Entity, Idable, ListMeta, Meta, Model } from "../../types"
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
 import type { ProcessingStageModel } from "../processing-stage"
@@ -15,9 +8,7 @@ import type { ProcessingStageModel } from "../processing-stage"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehprocess-tehprocessy
  */
-export interface ProcessingProcess
-  extends Idable,
-    Meta<Entity.ProcessingProcess> {
+export interface ProcessingProcess extends Idable, Meta<Entity.ProcessingProcess> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -62,9 +53,7 @@ export interface ProcessingProcessModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehprocess-poluchit-pozicii-tehprocessa
  */
-export interface ProcessingProcessPosition
-  extends Idable,
-    Meta<Entity.ProcessingProcessPosition> {
+export interface ProcessingProcessPosition extends Idable, Meta<Entity.ProcessingProcessPosition> {
   /** ID учетной записи */
   readonly accountId: string
 

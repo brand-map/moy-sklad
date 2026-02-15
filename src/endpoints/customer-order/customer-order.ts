@@ -63,12 +63,7 @@ export interface CustomerOrderEndpoint {
    */
   list<T extends ListCustomerOrdersOptions = Record<string, unknown>>(
     options?: Subset<T, ListCustomerOrdersOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<CustomerOrderModel, T["expand"]>,
-      Entity.CustomerOrder
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<CustomerOrderModel, T["expand"]>, Entity.CustomerOrder>>
 
   /**
    * Получить все заказы покупателей.
@@ -85,12 +80,7 @@ export interface CustomerOrderEndpoint {
    */
   all<T extends AllCustomerOrdersOptions = Record<string, unknown>>(
     options?: Subset<T, AllCustomerOrdersOptions>,
-  ): Promise<
-    BatchGetResult<
-      GetFindResult<CustomerOrderModel, T["expand"]>,
-      Entity.BonusTransaction
-    >
-  >
+  ): Promise<BatchGetResult<GetFindResult<CustomerOrderModel, T["expand"]>, Entity.BonusTransaction>>
 
   /**
    * Получить первый заказ покупателя.
@@ -110,12 +100,7 @@ export interface CustomerOrderEndpoint {
    */
   first<T extends FirstCustomerOrderOptions = Record<string, unknown>>(
     options?: Subset<T, FirstCustomerOrderOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<CustomerOrderModel, T["expand"]>,
-      Entity.CustomerOrder
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<CustomerOrderModel, T["expand"]>, Entity.CustomerOrder>>
 
   /**
    * Получить заказ покупателя по id.
@@ -141,9 +126,7 @@ export interface CustomerOrderEndpoint {
    *
    * @returns Общее количество заказов покупателей
    */
-  size(
-    options?: AllCustomerOrdersOptions,
-  ): Promise<ListMeta<Entity.CustomerOrder>>
+  size(options?: AllCustomerOrdersOptions): Promise<ListMeta<Entity.CustomerOrder>>
 
   /**
    * Удалить заказ покупателя по id.
@@ -291,8 +274,7 @@ export interface CustomerOrderEndpoint {
   upsert<T extends CreateCustomerOrderOptions = Record<string, unknown>>(
     data: (
       | GetModelCreatableFields<CustomerOrderModel>
-      | (GetModelUpdatableFields<CustomerOrderModel> &
-          UpdateMeta<Entity.CustomerOrder>)
+      | (GetModelUpdatableFields<CustomerOrderModel> & UpdateMeta<Entity.CustomerOrder>)
     )[],
     options?: Subset<T, CreateCustomerOrderOptions>,
   ): Promise<GetFindResult<CustomerOrderModel, T["expand"]>[]>

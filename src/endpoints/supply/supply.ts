@@ -42,9 +42,7 @@ export interface SupplyEndpoint {
    */
   list<T extends ListSuppliesOptions = Record<string, unknown>>(
     options?: Subset<T, ListSuppliesOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<SupplyModel, T["expand"]>, Entity.Supply>
-  >
+  ): Promise<ListResponse<GetFindResult<SupplyModel, T["expand"]>, Entity.Supply>>
 
   /**
    * Получить все приёмки
@@ -59,9 +57,7 @@ export interface SupplyEndpoint {
    */
   all<T extends AllSuppliesOptions = Record<string, unknown>>(
     options?: Subset<T, AllSuppliesOptions>,
-  ): Promise<
-    BatchGetResult<GetFindResult<SupplyModel, T["expand"]>, Entity.Supply>
-  >
+  ): Promise<BatchGetResult<GetFindResult<SupplyModel, T["expand"]>, Entity.Supply>>
 
   /**
    * Получить приёмку по ID
@@ -130,9 +126,7 @@ export interface SupplyEndpoint {
   >(
     data: TData,
     options?: Subset<TOptions, UpsertSuppliesOptions>,
-  ): Promise<
-    MatchArrayType<TData, GetFindResult<SupplyModel, TOptions["expand"]>>
-  >
+  ): Promise<MatchArrayType<TData, GetFindResult<SupplyModel, TOptions["expand"]>>>
 
   /**
    * Получить первую приёмку, соответствующую фильтру
@@ -147,9 +141,7 @@ export interface SupplyEndpoint {
    */
   first<T extends FirstSupplyOptions = Record<string, unknown>>(
     options?: Subset<T, FirstSupplyOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<SupplyModel, T["expand"]>, Entity.Supply>
-  >
+  ): Promise<ListResponse<GetFindResult<SupplyModel, T["expand"]>, Entity.Supply>>
 
   /**
    * Получить количество приёмок
@@ -207,7 +199,5 @@ export interface SupplyEndpoint {
    * });
    * ```
    */
-  template(
-    data: SupplyTemplateData,
-  ): Promise<GetFindResult<SupplyModel, { positions: true }>>
+  template(data: SupplyTemplateData): Promise<GetFindResult<SupplyModel, { positions: true }>>
 }

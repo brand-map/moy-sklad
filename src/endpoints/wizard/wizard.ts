@@ -1,19 +1,10 @@
 import type { SetRequired } from "../../types"
-import {
-  type AssortmentEntity,
-  type DateTime,
-  Entity,
-  type Meta,
-} from "../../types"
+import { type AssortmentEntity, type DateTime, Entity, type Meta } from "../../types"
 
 /**
  * Определяет какую информацию нужно заполнить: цены (`evaluate_price`), ндс (`evaluate_vat`), скидки (`evaluate_discount`) или себестоимость (`evaluate_cost`).
  */
-export type WizardAction =
-  | "evaluate_price"
-  | "evaluate_discount"
-  | "evaluate_vat"
-  | "evaluate_cost"
+export type WizardAction = "evaluate_price" | "evaluate_discount" | "evaluate_vat" | "evaluate_cost"
 
 interface BaseOptions<A extends WizardAction> {
   action: A
@@ -46,14 +37,13 @@ export const EntitiesActions = {
   [Entity.SalesReturn]: "evaluate_cost",
 } as const
 
-export type WizardOptions<A extends WizardAction = WizardAction> =
-  A extends "evaluate_price"
+export type WizardOptions<A extends WizardAction = WizardAction> = A extends "evaluate_price"
+  ? SetRequired<Partial<BaseOptions<A>>, "action" | "agent">
+  : A extends "evaluate_discount"
     ? SetRequired<Partial<BaseOptions<A>>, "action" | "agent">
-    : A extends "evaluate_discount"
-      ? SetRequired<Partial<BaseOptions<A>>, "action" | "agent">
-      : A extends "evaluate_vat"
-        ? SetRequired<Partial<BaseOptions<A>>, "action" | "organization">
-        : SetRequired<Partial<BaseOptions<A>>, "action" | "store">
+    : A extends "evaluate_vat"
+      ? SetRequired<Partial<BaseOptions<A>>, "action" | "organization">
+      : SetRequired<Partial<BaseOptions<A>>, "action" | "store">
 
 export type WizardResult<A extends WizardAction> = A extends "evaluate_cost"
   ? {

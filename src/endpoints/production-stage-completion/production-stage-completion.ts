@@ -37,12 +37,7 @@ interface ProductionStageComletionMethods {
      * @param options - Опции для получения материалов выполнения этапа производства {@linkcode ListProductionStageCompletionMaterialsOptions}
      * @returns Объект с массивом материалов выполнения этапа производства
      */
-    list<
-      T extends ListProductionStageCompletionMaterialsOptions = Record<
-        string,
-        unknown
-      >,
-    >(
+    list<T extends ListProductionStageCompletionMaterialsOptions = Record<string, unknown>>(
       options?: Subset<T, ListProductionStageCompletionMaterialsOptions>,
     ): Promise<
       ListResponse<
@@ -58,17 +53,10 @@ interface ProductionStageComletionMethods {
      * @param options - Опции для создания материала выполнения этапа производства {@linkcode CreateProductionStageCompletionMaterialOptions}
      * @returns Объект с созданным материалом выполнения этапа производства {@linkcode ProductionStageCompletionMaterialModel}
      */
-    create<
-      T extends CreateProductionStageCompletionMaterialOptions = Record<
-        string,
-        unknown
-      >,
-    >(
+    create<T extends CreateProductionStageCompletionMaterialOptions = Record<string, unknown>>(
       data: GetModelCreatableFields<ProductionStageCompletionMaterialModel>,
       options?: Subset<T, CreateProductionStageCompletionMaterialOptions>,
-    ): Promise<
-      GetFindResult<ProductionStageCompletionMaterialModel, T["expand"]>
-    >
+    ): Promise<GetFindResult<ProductionStageCompletionMaterialModel, T["expand"]>>
 
     /**
      * Обновить материал выполнения этапа производства.
@@ -78,18 +66,11 @@ interface ProductionStageComletionMethods {
      * @param options - Опции для обновления материала выполнения этапа производства {@linkcode UpdateProductionStageCompletionMaterialOptions}
      * @returns Объект с обновленным материалом выполнения этапа производства {@linkcode ProductionStageCompletionMaterialModel}
      */
-    update<
-      T extends UpdateProductionStageCompletionMaterialOptions = Record<
-        string,
-        unknown
-      >,
-    >(
+    update<T extends UpdateProductionStageCompletionMaterialOptions = Record<string, unknown>>(
       id: string,
       data: GetModelUpdatableFields<ProductionStageCompletionMaterialModel>,
       options?: Subset<T, UpdateProductionStageCompletionMaterialOptions>,
-    ): Promise<
-      GetFindResult<ProductionStageCompletionMaterialModel, T["expand"]>
-    >
+    ): Promise<GetFindResult<ProductionStageCompletionMaterialModel, T["expand"]>>
 
     /**
      * Получить первый материал выполнения этапа производства.
@@ -97,12 +78,7 @@ interface ProductionStageComletionMethods {
      * @param options - Опции для получения первого материала выполнения этапа производства {@linkcode FirstProductionStageCompletionMaterialOptions}
      * @returns Объект с первым материалом выполнения этапа производства
      */
-    first<
-      T extends FirstProductionStageCompletionMaterialOptions = Record<
-        string,
-        unknown
-      >,
-    >(
+    first<T extends FirstProductionStageCompletionMaterialOptions = Record<string, unknown>>(
       options?: Subset<T, FirstProductionStageCompletionMaterialOptions>,
     ): Promise<
       ListResponse<
@@ -116,9 +92,7 @@ interface ProductionStageComletionMethods {
      *
      * @returns Общее количество материалов выполнения этапа производства
      */
-    size(
-      options?: AllProductionStageCompletionOptions,
-    ): Promise<ListMeta<Entity.ProductionStageCompletionMaterial>>
+    size(options?: AllProductionStageCompletionOptions): Promise<ListMeta<Entity.ProductionStageCompletionMaterial>>
   }
 
   products: {
@@ -128,12 +102,7 @@ interface ProductionStageComletionMethods {
      * @param options - Опции для получения продуктов выполнения этапа производства {@linkcode ListProductionStageCompletionResultsOptions}
      * @returns Объект с массивом продуктов выполнения этапа производства
      */
-    list<
-      T extends ListProductionStageCompletionResultsOptions = Record<
-        string,
-        unknown
-      >,
-    >(
+    list<T extends ListProductionStageCompletionResultsOptions = Record<string, unknown>>(
       options?: Subset<T, ListProductionStageCompletionResultsOptions>,
     ): Promise<
       ListResponse<
@@ -150,12 +119,7 @@ interface ProductionStageComletionMethods {
      * @param options - Опции для обновления продукта выполнения этапа производства {@linkcode UpdateProductionStageCompletionResultOptions}
      * @returns Объект с обновленным продуктом выполнения этапа производства {@linkcode ProductionStageCompletionResultModel}
      */
-    update<
-      T extends UpdateProductionStageCompletionResultOptions = Record<
-        string,
-        unknown
-      >,
-    >(
+    update<T extends UpdateProductionStageCompletionResultOptions = Record<string, unknown>>(
       id: string,
       data: GetModelUpdatableFields<ProductionStageCompletionResultModel>,
       options?: Subset<T, UpdateProductionStageCompletionResultOptions>,
@@ -167,12 +131,7 @@ interface ProductionStageComletionMethods {
      * @param options - Опции для получения первого продукта выполнения этапа производства {@linkcode FirstProductionStageCompletionResultOptions}
      * @returns Объект с первым продуктом выполнения этапа производства
      */
-    first<
-      T extends FirstProductionStageCompletionResultOptions = Record<
-        string,
-        unknown
-      >,
-    >(
+    first<T extends FirstProductionStageCompletionResultOptions = Record<string, unknown>>(
       options?: Subset<T, FirstProductionStageCompletionResultOptions>,
     ): Promise<
       ListResponse<
@@ -186,9 +145,7 @@ interface ProductionStageComletionMethods {
      *
      * @returns Общее количество продуктов выполнения этапа производства
      */
-    size(
-      options?: AllProductionStageCompletionOptions,
-    ): Promise<ListMeta<Entity.ProductionStageCompletionResult>>
+    size(options?: AllProductionStageCompletionOptions): Promise<ListMeta<Entity.ProductionStageCompletionResult>>
   }
 }
 
@@ -204,16 +161,9 @@ export type ProductionStageCompletionEndpoint = {
    * @param options - Опции для получения выполнения этапов производства {@linkcode ListProductionStageCompletionsOptions}
    * @returns Объект с массивом выполнений этапов производства
    */
-  list<
-    T extends ListProductionStageCompletionsOptions = Record<string, unknown>,
-  >(
+  list<T extends ListProductionStageCompletionsOptions = Record<string, unknown>>(
     options?: Subset<T, ListProductionStageCompletionsOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<ProductionStageCompletionModel, T["expand"]>,
-      Entity.ProductionStageCompletion
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<ProductionStageCompletionModel, T["expand"]>, Entity.ProductionStageCompletion>>
 
   /**
    * Получить все выполнения этапов производства.
@@ -224,10 +174,7 @@ export type ProductionStageCompletionEndpoint = {
   all<T extends AllProductionStageCompletionOptions = Record<string, unknown>>(
     options?: Subset<T, AllProductionStageCompletionOptions>,
   ): Promise<
-    BatchGetResult<
-      GetFindResult<ProductionStageCompletionModel, T["expand"]>,
-      Entity.ProductionStageCompletion
-    >
+    BatchGetResult<GetFindResult<ProductionStageCompletionModel, T["expand"]>, Entity.ProductionStageCompletion>
   >
 
   /**
@@ -250,9 +197,7 @@ export type ProductionStageCompletionEndpoint = {
    * @param options - Опции для изменения выполнения этапа производства {@linkcode UpdateProductionStageCompletionOptions}
    * @returns Объект с обновленным выполнением этапа производства {@linkcode ProductionStageCompletionModel}
    */
-  update<
-    T extends UpdateProductionStageCompletionOptions = Record<string, unknown>,
-  >(
+  update<T extends UpdateProductionStageCompletionOptions = Record<string, unknown>>(
     id: string,
     data: GetModelUpdatableFields<ProductionStageCompletionModel>,
     options?: Subset<T, UpdateProductionStageCompletionOptions>,
@@ -265,9 +210,7 @@ export type ProductionStageCompletionEndpoint = {
    * @param options - Опции для создания выполнения этапа производства {@linkcode CreateProductionStageCompletionOptions}
    * @returns Объект с созданным выполнением этапа производства {@linkcode ProductionStageCompletionModel}
    */
-  create<
-    T extends CreateProductionStageCompletionOptions = Record<string, unknown>,
-  >(
+  create<T extends CreateProductionStageCompletionOptions = Record<string, unknown>>(
     data: GetModelCreatableFields<ProductionStageCompletionModel>,
     options?: Subset<T, CreateProductionStageCompletionOptions>,
   ): Promise<GetFindResult<ProductionStageCompletionModel, T["expand"]>>
@@ -279,13 +222,10 @@ export type ProductionStageCompletionEndpoint = {
    * @param options - Опции для создания и обновления выполнения этапов производства {@linkcode CreateProductionStageCompletionOptions}
    * @returns Массив с созданными и обновленными выполнения этапов производства {@linkcode ProductionStageCompletionModel}
    */
-  upsert<
-    T extends CreateProductionStageCompletionOptions = Record<string, unknown>,
-  >(
+  upsert<T extends CreateProductionStageCompletionOptions = Record<string, unknown>>(
     data: (
       | GetModelCreatableFields<ProductionStageCompletionModel>
-      | (GetModelUpdatableFields<ProductionStageCompletionModel> &
-          UpdateMeta<Entity.ProductionStageCompletion>)
+      | (GetModelUpdatableFields<ProductionStageCompletionModel> & UpdateMeta<Entity.ProductionStageCompletion>)
     )[],
     options?: Subset<T, CreateProductionStageCompletionOptions>,
   ): Promise<GetFindResult<ProductionStageCompletionModel, T["expand"]>[]>
@@ -296,24 +236,15 @@ export type ProductionStageCompletionEndpoint = {
    * @param options - Опции для получения первого выполнения этапа производства {@linkcode FirstProductionStageCompletionOptions}
    * @returns Объект с первым выполнением этапа производства
    */
-  first<
-    T extends FirstProductionStageCompletionOptions = Record<string, unknown>,
-  >(
+  first<T extends FirstProductionStageCompletionOptions = Record<string, unknown>>(
     options?: Subset<T, FirstProductionStageCompletionOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<ProductionStageCompletionModel, T["expand"]>,
-      Entity.ProductionStageCompletion
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<ProductionStageCompletionModel, T["expand"]>, Entity.ProductionStageCompletion>>
 
   /**
    * Получить общее количество выполнений этапов производства.
    * @returns Общее количество выполнений этапов производства
    */
-  size(
-    options?: AllProductionStageCompletionOptions,
-  ): Promise<ListMeta<Entity.ProductionStageCompletion>>
+  size(options?: AllProductionStageCompletionOptions): Promise<ListMeta<Entity.ProductionStageCompletion>>
 
   /**
    * Удалить выполнение этапа производства по id.

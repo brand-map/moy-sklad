@@ -1,11 +1,4 @@
-import type {
-  BatchGetResult,
-  Entity,
-  GetFindResult,
-  GetModelUpdatableFields,
-  ListResponse,
-  Subset,
-} from "../../types"
+import type { BatchGetResult, Entity, GetFindResult, GetModelUpdatableFields, ListResponse, Subset } from "../../types"
 import type {
   AllProductionStagesOptions,
   FirstProductionStageOptions,
@@ -45,12 +38,7 @@ export interface ProductionStageEndpoint {
    */
   list<T extends ListProductionStagesOptions>(
     options: Subset<T, ListProductionStagesOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<ProductionStageModel, T["expand"]>,
-      Entity.ProductionStage
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<ProductionStageModel, T["expand"]>, Entity.ProductionStage>>
 
   /**
    * Получить все производственные этапы.
@@ -71,12 +59,7 @@ export interface ProductionStageEndpoint {
    */
   all<T extends AllProductionStagesOptions>(
     options: Subset<T, AllProductionStagesOptions>,
-  ): Promise<
-    BatchGetResult<
-      GetFindResult<ProductionStageModel, T["expand"]>,
-      Entity.ProductionStage
-    >
-  >
+  ): Promise<BatchGetResult<GetFindResult<ProductionStageModel, T["expand"]>, Entity.ProductionStage>>
 
   /**
    * Получить производственный этап по id.
@@ -140,12 +123,7 @@ export interface ProductionStageEndpoint {
    */
   first<T extends FirstProductionStageOptions>(
     options: Subset<T, FirstProductionStageOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<ProductionStageModel, T["expand"]>,
-      Entity.ProductionStage
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<ProductionStageModel, T["expand"]>, Entity.ProductionStage>>
 
   /**
    * Получить общее количество производственных этапов.

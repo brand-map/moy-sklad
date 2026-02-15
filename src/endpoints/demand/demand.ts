@@ -40,12 +40,7 @@ export interface DemandEndpoint {
    */
   list<T extends ListDemandsOptions = Record<string, unknown>>(
     options?: Subset<T, ListDemandsOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<DemandModel, T["expand"], T["fields"]>,
-      Entity.Demand
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<DemandModel, T["expand"], T["fields"]>, Entity.Demand>>
 
   /**
    * Получить все отгрузки с учетом пагинации.
@@ -62,12 +57,7 @@ export interface DemandEndpoint {
    */
   all<T extends AllDemandsOptions = Record<string, unknown>>(
     options?: Subset<T, AllDemandsOptions>,
-  ): Promise<
-    BatchGetResult<
-      GetFindResult<DemandModel, T["expand"], T["fields"]>,
-      Entity.Demand
-    >
-  >
+  ): Promise<BatchGetResult<GetFindResult<DemandModel, T["expand"], T["fields"]>, Entity.Demand>>
 
   /**
    * Получить отгрузку по ID.
@@ -101,12 +91,7 @@ export interface DemandEndpoint {
    */
   first<T extends FirstDemandOptions = Record<string, unknown>>(
     options?: Subset<T, FirstDemandOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<DemandModel, T["expand"], T["fields"]>,
-      Entity.Demand
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<DemandModel, T["expand"], T["fields"]>, Entity.Demand>>
 
   /**
    * Получить количество отгрузок.
@@ -188,9 +173,7 @@ export interface DemandEndpoint {
   >(
     data: TData,
     options?: Subset<TOptions, UpsertDemandsOptions>,
-  ): Promise<
-    MatchArrayType<TData, GetFindResult<DemandModel, TOptions["expand"]>>
-  >
+  ): Promise<MatchArrayType<TData, GetFindResult<DemandModel, TOptions["expand"]>>>
 
   /**
    * Получить шаблон отгрузки на основе заказа покупателя или счета покупателю.
@@ -207,7 +190,5 @@ export interface DemandEndpoint {
    * });
    * ```
    */
-  template(
-    data: DemandTemplateData,
-  ): Promise<GetFindResult<DemandModel, { positions: true }>>
+  template(data: DemandTemplateData): Promise<GetFindResult<DemandModel, { positions: true }>>
 }

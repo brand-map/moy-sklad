@@ -24,27 +24,14 @@ export type ConditionalKeys<T, V> = {
   : never
 
 /** True if A and B are equal types. */
-export type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <
-  G,
->() => G extends B ? 1 : 2
-  ? true
-  : false
+export type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <G>() => G extends B ? 1 : 2 ? true : false
 
 /** Helper for comparing two types. */
-type IfEquals<X, Y, A, B> = (<T>() => T extends X ? 1 : 2) extends <
-  T,
->() => T extends Y ? 1 : 2
-  ? A
-  : B
+type IfEquals<X, Y, A, B> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B
 
 /** Keys of T that are readonly. */
 export type ReadonlyKeysOf<T> = {
-  [K in keyof T]: IfEquals<
-    { [P in K]: T[K] },
-    { -readonly [P in K]: T[K] },
-    never,
-    K
-  >
+  [K in keyof T]: IfEquals<{ [P in K]: T[K] }, { -readonly [P in K]: T[K] }, never, K>
 }[keyof T]
 
 /** Keys of T that are optional. */
@@ -59,22 +46,18 @@ export type HasOptionalKeys<T> = OptionalKeysOf<T> extends never ? false : true
 export type SetOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 /** Make keys K of T required. */
-export type SetRequired<T, K extends keyof T> = Omit<T, K> &
-  Required<Pick<T, K>>
+export type SetRequired<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
 
 /** Flatten type (single level). */
 export type Simplify<T> = { [K in keyof T]: T[K] }
 
 /** Recursively flatten type. */
-export type SimplifyDeep<T> = T extends object
-  ? { [K in keyof T]: SimplifyDeep<T[K]> }
-  : T
+export type SimplifyDeep<T> = T extends object ? { [K in keyof T]: SimplifyDeep<T[K]> } : T
 
 /**
  * Exactly one of the keys in T must be present.
  * Result is a union: { a: A } | { b: B } | ... (each variant has one key required, others absent).
  */
 export type RequireExactlyOne<T> = {
-  [K in keyof T]: Required<Pick<T, K>> &
-    { [P in Exclude<keyof T, K>]?: never }
+  [K in keyof T]: Required<Pick<T, K>> & { [P in Exclude<keyof T, K>]?: never }
 }[keyof T]

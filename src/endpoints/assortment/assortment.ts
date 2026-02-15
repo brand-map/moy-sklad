@@ -141,10 +141,7 @@ export interface ListAssortmentOptions {
     supplier?: EqualityFilter<string> | string | string[]
 
     /** Фильтрация по типу сущности */
-    type?:
-      | EqualityFilter<AssortmentEntityType>
-      | AssortmentEntityType
-      | AssortmentEntityType[]
+    type?: EqualityFilter<AssortmentEntityType> | AssortmentEntityType | AssortmentEntityType[]
 
     /** Фильтрация по времени последнего обновления */
     updated?: DateTimeFilter

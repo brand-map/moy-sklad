@@ -5,11 +5,7 @@ import type { Model } from "./model"
 import type { PositionFields, PositionStockData } from "./position-fields"
 
 // TODO finish & format
-export type IncludeFields<
-  Result,
-  M extends Model,
-  F extends PositionFields | undefined,
-> = F extends PositionFields
+export type IncludeFields<Result, M extends Model, F extends PositionFields | undefined> = F extends PositionFields
   ? F[number] extends "stock"
     ? "stock" extends keyof M["object"]
       ? Omit<Result, "stock"> & { stock: PositionStockData }
@@ -17,11 +13,7 @@ export type IncludeFields<
     : Result
   : Result
 
-export type GetFindResult<
-  M extends Model,
-  E,
-  F extends PositionFields | undefined = undefined,
-> =
+export type GetFindResult<M extends Model, E, F extends PositionFields | undefined = undefined> =
   // biome-ignore lint/suspicious/noExplicitAny: we need to check for any
   IsEqual<E, any> extends true // ❔ Is expand not defined ..
     ? // 🚫 return default.
@@ -37,10 +29,7 @@ export type GetFindResult<
             M,
             {
               // ℹ️ only map through truthy values (explicitly expanded fields)
-              [K in keyof E as E[K] extends false | undefined
-                ? never
-                : K]: // ❔ Can the expanded field to be expanded ..
-              K extends keyof M["expandable"]
+              [K in keyof E as E[K] extends false | undefined ? never : K]: K extends keyof M["expandable"] // ❔ Can the expanded field to be expanded ..
                 ? // ❔ Does the entity contain expanded field ..
                   K extends keyof M["object"]
                   ? // ❔ Does the expanded field contain a description of the model ..
@@ -59,11 +48,7 @@ export type GetFindResult<
                         M["object"][K] extends ListMeta<infer O>
                         ? // ✅ Expand list field.
                           ListMeta<O> & {
-                            rows: IncludeFields<
-                              M["expandable"][K]["object"],
-                              M["expandable"][K],
-                              F
-                            >[]
+                            rows: IncludeFields<M["expandable"][K]["object"], M["expandable"][K], F>[]
                           }
                         : // ❔ Is the entity field an array ..
                           NonNullable<M["object"][K]> extends unknown[]
@@ -80,10 +65,6 @@ export type GetFindResult<
             }
           > &
             // ℹ️ Merge other model fields except expanded fields
-            IncludeFields<
-              Omit<M["object"], ConditionalKeys<E, true | object>>,
-              M,
-              F
-            >
+            IncludeFields<Omit<M["object"], ConditionalKeys<E, true | object>>, M, F>
         : // 🚫 expand not defined
           IncludeFields<M["object"], M, F>

@@ -1,19 +1,8 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
 import { endpointPaths } from "../../endpoint-paths"
-import type {
-  BatchGetResult,
-  Entity,
-  GetFindResult,
-  ListResponse,
-  Subset,
-} from "../../types"
-import type {
-  AllVariantsOptions,
-  FirstVariantOptions,
-  ListVariantsOptions,
-  VariantModel,
-} from "./types"
+import type { BatchGetResult, Entity, GetFindResult, ListResponse, Subset } from "../../types"
+import type { AllVariantsOptions, FirstVariantOptions, ListVariantsOptions, VariantModel } from "./types"
 
 /**
  * Fetches variants from API and parses JSON response.
@@ -26,9 +15,7 @@ async function fetchVariantsResponse<T>(
     searchParameters: searchParameters ?? undefined,
   })
 
-  return response.json() as Promise<
-    ListResponse<GetFindResult<VariantModel, T>, Entity.Variant>
-  >
+  return response.json() as Promise<ListResponse<GetFindResult<VariantModel, T>, Entity.Variant>>
 }
 
 /**
@@ -37,14 +24,10 @@ async function fetchVariantsResponse<T>(
  * @param client - API client instance
  * @param options - List options including filters, pagination, expand, order, search
  */
-export async function listVariants<
-  T extends ListVariantsOptions = ListVariantsOptions,
->(
+export async function listVariants<T extends ListVariantsOptions = ListVariantsOptions>(
   client: ApiClient,
   options?: Subset<T, ListVariantsOptions>,
-): Promise<
-  ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>
-> {
+): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>> {
   const searchParameters = composeSearchParameters({
     pagination: options?.pagination,
     expand: options?.expand,
@@ -62,14 +45,10 @@ export async function listVariants<
  * @param client - API client instance
  * @param options - Options including filters, expand, order, search
  */
-export async function allVariants<
-  T extends AllVariantsOptions = AllVariantsOptions,
->(
+export async function allVariants<T extends AllVariantsOptions = AllVariantsOptions>(
   client: ApiClient,
   options?: Subset<T, AllVariantsOptions>,
-): Promise<
-  BatchGetResult<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>
-> {
+): Promise<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>> {
   return client.batchGet(
     async (limit, offset) => {
       const searchParameters = composeSearchParameters({
@@ -92,14 +71,10 @@ export async function allVariants<
  * @param client - API client instance
  * @param options - Options including filters, expand, order, search
  */
-export async function firstVariant<
-  T extends FirstVariantOptions = FirstVariantOptions,
->(
+export async function firstVariant<T extends FirstVariantOptions = FirstVariantOptions>(
   client: ApiClient,
   options?: Subset<T, FirstVariantOptions>,
-): Promise<
-  ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>
-> {
+): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>> {
   const searchParameters = composeSearchParameters({
     pagination: { limit: 1 },
     expand: options?.expand,
@@ -111,10 +86,7 @@ export async function firstVariant<
   return fetchVariantsResponse<T["expand"]>(client, searchParameters)
 }
 
-export async function variantById(
-  client: ApiClient,
-  id: string,
-): Promise<VariantModel> {
+export async function variantById(client: ApiClient, id: string): Promise<VariantModel> {
   const response = await client.get(`${endpointPaths.entity.variant}/${id}`)
 
   return response.json() as Promise<VariantModel>

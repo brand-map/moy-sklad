@@ -44,9 +44,7 @@ export enum BonusTransactionType {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-bonusnaq-operaciq-bonusnye-operacii
  */
-export interface BonusTransaction
-  extends Idable,
-    Meta<Entity.BonusTransaction> {
+export interface BonusTransaction extends Idable, Meta<Entity.BonusTransaction> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -255,15 +253,9 @@ export interface ListBonusTransactionsOptions {
   filter?: FilterOptions<BonusTransactionModel>
 }
 
-export type AllBonusTransactionsOptions = Omit<
-  ListBonusTransactionsOptions,
-  "pagination"
->
+export type AllBonusTransactionsOptions = Omit<ListBonusTransactionsOptions, "pagination">
 
-export type FirstBonusTransactionOptions = Omit<
-  ListBonusTransactionsOptions,
-  "pagination"
->
+export type FirstBonusTransactionOptions = Omit<ListBonusTransactionsOptions, "pagination">
 
 export interface GetBonusTransactionOptions {
   /**

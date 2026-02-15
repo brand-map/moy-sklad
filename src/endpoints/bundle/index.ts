@@ -1,7 +1,2 @@
 export * from "./types"
-export {
-    allBundles,
-    firstBundle,
-    listBundles,
-    bundleById,
-} from "./getBundle"
+export { allBundles, firstBundle, listBundles, bundleById } from "./getBundle"

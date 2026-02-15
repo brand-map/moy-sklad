@@ -125,15 +125,9 @@ export interface ListProductionStagesOptions {
   filter: SetRequired<FilterOptions<ProductionStageModel>, "productionTask">
 }
 
-export type AllProductionStagesOptions = Omit<
-  ListProductionStagesOptions,
-  "pagination"
->
+export type AllProductionStagesOptions = Omit<ListProductionStagesOptions, "pagination">
 
-export type FirstProductionStageOptions = Omit<
-  ListProductionStagesOptions,
-  "pagination"
->
+export type FirstProductionStageOptions = Omit<ListProductionStagesOptions, "pagination">
 
 export interface GetProductionStageOptions {
   expand?: ExpandOptions<ProductionStageModel>
@@ -148,9 +142,7 @@ export interface UpdateProductionStageOptions {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie-proizwodstwennye-atapy
  */
-export interface ProductionTaskMaterial
-  extends Idable,
-    Meta<Entity.ProductionTaskMaterial> {
+export interface ProductionTaskMaterial extends Idable, Meta<Entity.ProductionTaskMaterial> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -187,15 +179,9 @@ export interface ListProductionTaskMaterialsOptions {
   filter?: FilterOptions<ProductionTaskMaterialModel>
 }
 
-export type AllProductionTaskMaterialsOptions = Omit<
-  ListProductionTaskMaterialsOptions,
-  "pagination"
->
+export type AllProductionTaskMaterialsOptions = Omit<ListProductionTaskMaterialsOptions, "pagination">
 
-export type FirstProductionTaskMaterialOptions = Omit<
-  ListProductionTaskMaterialsOptions,
-  "pagination"
->
+export type FirstProductionTaskMaterialOptions = Omit<ListProductionTaskMaterialsOptions, "pagination">
 
 export interface GetProductionTaskMaterialOptions {
   expand?: ExpandOptions<ProductionTaskMaterialModel>

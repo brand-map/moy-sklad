@@ -89,14 +89,7 @@ export interface ProductFolderModel extends Model {
     productFolder: ProductFolderModel
   }
 
-  orderableFields:
-    | "id"
-    | "code"
-    | "externalCode"
-    | "name"
-    | "updated"
-    | "archived"
-    | "pathName"
+  orderableFields: "id" | "code" | "externalCode" | "name" | "updated" | "archived" | "pathName"
 
   requiredCreateFields: "name"
 
@@ -201,15 +194,9 @@ export interface ListProductFoldersOptions {
   filter?: FilterOptions<ProductFolderModel>
 }
 
-export type AllProductFoldersOptions = Omit<
-  ListProductFoldersOptions,
-  "pagination"
->
+export type AllProductFoldersOptions = Omit<ListProductFoldersOptions, "pagination">
 
-export type FirstProductFolderOptions = Omit<
-  ListProductFoldersOptions,
-  "pagination"
->
+export type FirstProductFolderOptions = Omit<ListProductFoldersOptions, "pagination">
 
 export interface GetProductFolderOptions {
   /**

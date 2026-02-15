@@ -40,9 +40,7 @@ export interface PaymentOutEndpoint {
    */
   list<T extends ListPaymentOutsOptions = Record<string, unknown>>(
     options?: Subset<T, ListPaymentOutsOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<PaymentOutModel, T["expand"]>, Entity.Product>
-  >
+  ): Promise<ListResponse<GetFindResult<PaymentOutModel, T["expand"]>, Entity.Product>>
 
   /**
    * Получить все исходящие платежи с пагинацией.
@@ -59,12 +57,7 @@ export interface PaymentOutEndpoint {
    */
   all<T extends AllPaymentOutsOptions = Record<string, unknown>>(
     options?: Subset<T, AllPaymentOutsOptions>,
-  ): Promise<
-    BatchGetResult<
-      GetFindResult<PaymentOutModel, T["expand"]>,
-      Entity.BonusTransaction
-    >
-  >
+  ): Promise<BatchGetResult<GetFindResult<PaymentOutModel, T["expand"]>, Entity.BonusTransaction>>
 
   /**
    * Получить первый исходящий платеж.
@@ -81,9 +74,7 @@ export interface PaymentOutEndpoint {
    */
   first<T extends FirstPaymentOutOptions = Record<string, unknown>>(
     options?: Subset<T, FirstPaymentOutOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<PaymentOutModel, T["expand"]>, Entity.Product>
-  >
+  ): Promise<ListResponse<GetFindResult<PaymentOutModel, T["expand"]>, Entity.Product>>
 
   /**
    * Получить исходящий платеж по ID.

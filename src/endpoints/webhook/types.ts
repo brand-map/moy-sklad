@@ -1,12 +1,4 @@
-import type {
-  BooleanFilter,
-  Entity,
-  Idable,
-  IdFilter,
-  Meta,
-  Model,
-  StringFilter,
-} from "../../types"
+import type { BooleanFilter, Entity, Idable, IdFilter, Meta, Model, StringFilter } from "../../types"
 
 /**
  * Действие, которое отслеживается вебхуком.
@@ -61,7 +53,9 @@ export interface Webhook extends Idable, Meta<Entity.Webhook> {
   action: WebhookAction
 
   /** Метаданные решения, создавшего вебхук (только для чтения) */
-  readonly authorApplication?: { meta: { href: string; type: string; mediaType: string; metadataHref: string } }
+  readonly authorApplication?: {
+    meta: { href: string; type: string; mediaType: string; metadataHref: string }
+  }
 
   /**
    * Режим отображения изменения сущности. Только для action=UPDATE.
@@ -125,9 +119,7 @@ export interface UpdateWebhookData {
 }
 
 /** Элемент массива для массового создания/обновления: новый вебхук или обновление по meta */
-export type WebhookCreateOrUpdateItem =
-  | CreateWebhookData
-  | (UpdateWebhookData & Meta<Entity.Webhook>)
+export type WebhookCreateOrUpdateItem = CreateWebhookData | (UpdateWebhookData & Meta<Entity.Webhook>)
 
 export interface ListWebhooksOptions {
   pagination?: import("../../types").PaginationOptions

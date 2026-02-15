@@ -1,19 +1,8 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
 import { endpointPaths } from "../../endpoint-paths"
-import type {
-  BatchGetResult,
-  Entity,
-  GetFindResult,
-  ListResponse,
-  Subset,
-} from "../../types"
-import type {
-  AllProductsOptions,
-  FirstProductOptions,
-  ListProductsOptions,
-  ProductModel,
-} from "./types"
+import type { BatchGetResult, Entity, GetFindResult, ListResponse, Subset } from "../../types"
+import type { AllProductsOptions, FirstProductOptions, ListProductsOptions, ProductModel } from "./types"
 
 /**
  * Fetches products from API and parses JSON response.
@@ -26,9 +15,7 @@ async function fetchProductsResponse<T>(
     searchParameters: searchParameters ?? undefined,
   })
 
-  return response.json() as Promise<
-    ListResponse<GetFindResult<ProductModel, T>, Entity.Product>
-  >
+  return response.json() as Promise<ListResponse<GetFindResult<ProductModel, T>, Entity.Product>>
 }
 
 /**
@@ -51,9 +38,7 @@ async function fetchProductsResponse<T>(
 export async function listProducts<T extends ListProductsOptions>(
   client: ApiClient,
   options?: ListProductsOptions,
-): Promise<
-  ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>
-> {
+): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>> {
   const searchParameters = composeSearchParameters({
     pagination: options?.pagination,
     expand: options?.expand,
@@ -84,9 +69,7 @@ export async function listProducts<T extends ListProductsOptions>(
 export async function allProducts<T extends AllProductsOptions>(
   client: ApiClient,
   options?: AllProductsOptions,
-): Promise<
-  BatchGetResult<GetFindResult<ProductModel, T["expand"]>, Entity.Product>
-> {
+): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, Entity.Product>> {
   return client.batchGet(
     async (limit, offset) => {
       const searchParameters = composeSearchParameters({
@@ -122,9 +105,7 @@ export async function allProducts<T extends AllProductsOptions>(
 export async function firstProduct<T extends FirstProductOptions>(
   client: ApiClient,
   options?: FirstProductOptions,
-): Promise<
-  ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>
-> {
+): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>> {
   const searchParameters = composeSearchParameters({
     pagination: { limit: 1 },
     expand: options?.expand,
@@ -136,10 +117,7 @@ export async function firstProduct<T extends FirstProductOptions>(
   return fetchProductsResponse<T["expand"]>(client, searchParameters)
 }
 
-export async function productById(
-  client: ApiClient,
-  id: string,
-): Promise<ProductModel> {
+export async function productById(client: ApiClient, id: string): Promise<ProductModel> {
   const response = await client.get(`${endpointPaths.entity.product}/${id}`)
 
   return response.json() as Promise<ProductModel>
