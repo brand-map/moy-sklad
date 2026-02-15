@@ -167,7 +167,7 @@ export type FirstAssortmentOptions = Omit<ListAssortmentOptions, "pagination">
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-assortiment
  */
-export interface AssortmentEndpoint {
+export interface AssortmentEndpointInterface {
   /**
    * Получить список товаров, комплектов, услуг и модификаций в виде списка.
    *

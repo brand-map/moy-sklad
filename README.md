@@ -12,24 +12,38 @@ npm install
 yarn install
 ```
 
-## Quick Start
+## Quick Start (Class API)
+
+```typescript
+import { Moysklad } from "moy-sklad"
+
+const moysklad = new Moysklad({
+  auth: {
+    token: "your-auth-token",
+  },
+})
+
+// Get assortment with pagination
+const assortment = await moysklad.assortment.list({
+  pagination: { limit: 50, offset: 0 },
+})
+```
+
+## Quick Start (Functional API)
 
 ```typescript
 import { ApiClient, listProducts, allProducts } from "moy-sklad"
 
-// Create API client
 const client = new ApiClient({
   auth: {
     token: "your-auth-token",
   },
 })
 
-// Get list of products
 const products = await listProducts(client, {
   pagination: { limit: 50, offset: 0 },
 })
 
-// Get all products with auto pagination
 const allItems = await allProducts(client, {
   expand: ["images", "variants"],
 })

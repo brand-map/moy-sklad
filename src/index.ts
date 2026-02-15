@@ -22,6 +22,7 @@
 
 export { ApiClient } from "./api-client"
 export type { ApiClientOptions, Auth, BasicAuth, TokenAuth } from "./api-client"
+export { Moysklad } from "./moysklad"
 
 // ============================================================================
 // ERROR HANDLING
@@ -113,24 +114,24 @@ export {
   batchDeleteWebhooks,
 } from "./endpoints/webhook"
 
-// ============================================================================
-// ENDPOINT FUNCTIONS - Assortment
-// ============================================================================
+// // ============================================================================
+// // ENDPOINT FUNCTIONS - Assortment
+// // ============================================================================
 
-/**
- * Assortment functions for working with mixed product types
- * (products, services, bundles, variants, consignments)
- */
-export { listAssortment, allAssortment, firstAssortment } from "./endpoints/assortment"
+// /**
+//  * Assortment functions for working with mixed product types
+//  * (products, services, bundles, variants, consignments)
+//  */
+// export { listAssortment, allAssortment, firstAssortment } from "./endpoints/assortment/endpoint"
 
-// ============================================================================
-// ALL ENDPOINTS TYPES
-// ============================================================================
+// // ============================================================================
+// // ALL ENDPOINTS TYPES
+// // ============================================================================
 
-/**
- * All endpoint-specific types (Product, Service, Bundle, etc.)
- */
-export * from "./endpoints"
+// /**
+//  * All endpoint-specific types (Product, Service, Bundle, etc.)
+//  */
+// export * from "./endpoints"
 
 // // ============================================================================
 // // UTILITY FUNCTIONS
