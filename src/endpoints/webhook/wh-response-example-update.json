@@ -1,0 +1,41 @@
+{
+    "headers": {
+        "host": "example.com",
+        "user-agent": "MoySklad webhook touch agent 2.0 (https://www.moysklad.ru)",
+        "content-length": "431",
+        "accept-encoding": "gzip,deflate",
+        "content-type": "application/json; charset=UTF-8",
+        "x-forwarded-for": "123.123.123.123",
+        "x-forwarded-host": "example.com",
+        "x-forwarded-proto": "https"
+    },
+    "params": {},
+    "query": {
+        "requestId": "dba6ff60-169e-4e0b-a7f1-be8be46253b3"
+    },
+    "body": {
+        "auditContext": {
+            "meta": {
+                "type": "audit",
+                "href": "https://api.moysklad.ru/api/remap/1.2/audit/4f8b84a6-0a8d-11f1-0a80-0f1e00267ef8"
+            },
+            "uid": "adminname@email",
+            "moment": "2026-02-15 19:42:26"
+        },
+        "events": [
+            {
+                "meta": {
+                    "type": "product",
+                    "href": "https://api.moysklad.ru/api/remap/1.2/entity/product/20df1b0a-0a8c-11f1-0a80-0370002678e7"
+                },
+                "updatedFields": [
+                    "salePrices"
+                ],
+                "action": "UPDATE",
+                "accountId": "d16223e4-f22d-11f0-0a80-112f0000908c"
+            }
+        ]
+    },
+    "webhookUrl": "https://example.com/webhook/5852801d-5293-4740-8c7d-977b230fcd8a",
+    "executionMode": "production"
+}

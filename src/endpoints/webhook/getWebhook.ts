@@ -170,8 +170,8 @@ export async function batchCreateOrUpdateWebhooks(
   const id =
     urlId ??
     (items[0] && "meta" in items[0]
-      ? items[0].meta.meta.href.split("/").pop()
-      : "00000000-0000-0000-0000-000000000000") // TODO: проверить будет ли работать с ""
+      ? items[0].meta.href.split("/").pop()
+      : "") // TODO: проверить будет ли работать с ""
   const response = await client.post(`${webhookPath}/${id}`, {
     body: items,
   })

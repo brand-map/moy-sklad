@@ -127,7 +127,7 @@ export interface UpdateWebhookData {
 /** Элемент массива для массового создания/обновления: новый вебхук или обновление по meta */
 export type WebhookCreateOrUpdateItem =
   | CreateWebhookData
-  | (UpdateWebhookData & { meta: Meta<Entity.Webhook> })
+  | (UpdateWebhookData & Meta<Entity.Webhook>)
 
 export interface ListWebhooksOptions {
   pagination?: import("../../types").PaginationOptions

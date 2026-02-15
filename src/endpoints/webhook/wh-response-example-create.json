@@ -1,0 +1,38 @@
+{
+    "headers": {
+        "host": "example.com",
+        "user-agent": "MoySklad webhook touch agent 2.0 (https://www.moysklad.ru)",
+        "content-length": "400",
+        "accept-encoding": "gzip,deflate",
+        "content-type": "application/json; charset=UTF-8",
+        "x-forwarded-for": "23.105.238.220",
+        "x-forwarded-host": "example.com",
+        "x-forwarded-proto": "https"
+    },
+    "params": {},
+    "query": {
+        "requestId": "e710258b-c811-4816-a4b8-f48fcc75e76f"
+    },
+    "body": {
+        "auditContext": {
+            "meta": {
+                "type": "audit",
+                "href": "https://api.moysklad.ru/api/remap/1.2/audit/25067427-0bc0-11f1-0a80-0e410025ea61"
+            },
+            "uid": "adminname@admin",
+            "moment": "2026-02-15 20:02:43"
+        },
+        "events": [
+            {
+                "meta": {
+                    "type": "product",
+                    "href": "https://api.moysklad.ru/api/remap/1.2/entity/product/2532e402-0a90-11f1-0a80-0e410025ea5e"
+                },
+                "action": "CREATE",
+                "accountId": "d16223e4-f22d-11f0-0a80-112f00009fac"
+            }
+        ]
+    },
+    "webhookUrl": "https://example.com/webhook/5852801d-5293-4740-8c7d-977a3430fcd8a",
+    "executionMode": "production"
+}

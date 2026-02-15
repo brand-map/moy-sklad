@@ -1,7 +1,21 @@
 {
   "name": "moy-sklad",
+  "version": "1.0.0",
+  "description": "Fully typed TypeScript client for Moysklad API with comprehensive support for products, services, webhooks, and more",
   "module": "index.ts",
   "type": "module",
+  "keywords": [
+    "moysklad",
+    "api",
+    "client",
+    "typescript",
+    "ecommerce",
+    "products",
+    "inventory",
+    "webhooks"
+  ],
+  "author": "",
+  "license": "MIT",
   "devDependencies": {
     "@types/bun": "latest"
   },
