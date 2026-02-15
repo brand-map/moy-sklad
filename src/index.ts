@@ -132,19 +132,24 @@ export { listAssortment, allAssortment, firstAssortment } from "./endpoints/asso
  */
 export * from "./endpoints"
 
-// ============================================================================
-// UTILITY FUNCTIONS
-// ============================================================================
+// // ============================================================================
+// // UTILITY FUNCTIONS
+// // ============================================================================
 
-/**
- * Helper utilities for working with API data
- *
- * @example
- * ```typescript
- * import { parseDateTime, extractIdFromMetaHref } from 'moy-sklad'
- *
- * const date = parseDateTime('2024-02-15T10:30:00.000')
- * const id = extractIdFromMetaHref('https://api.moysklad.ru/api/remap/1.2/entity/product/xyz')
- * ```
- */
-export { composeDateTime, extractIdFromMetaHref, isAssortmentOfType, parseDateTime } from "./utils"
+// /**
+//  * Helper utilities for working with API data
+//  *
+//  * @example
+//  * ```typescript
+//  * import { parseDateTime, extractIdFromMetaHref } from 'moy-sklad'
+//  *
+//  * const date = parseDateTime('2024-02-15T10:30:00.000')
+//  * const id = extractIdFromMetaHref('https://api.moysklad.ru/api/remap/1.2/entity/product/xyz')
+//  * ```
+//  */
+// export {
+//   // composeDateTime,
+//   // extractIdFromMetaHref,
+//   // isAssortmentOfType,
+//   // parseDateTime,
+// } from "./utils"

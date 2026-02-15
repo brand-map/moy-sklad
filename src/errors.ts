@@ -9,11 +9,11 @@ export class MoyskladError extends Error {
 
 export class MoyskladApiError extends MoyskladError {
   public code?: number
-  public moreInfo?: string
+  public info?: string
 
-  constructor(message: string, response: Response, code?: number, moreInfo?: string) {
+  constructor(message: string, response: Response, code?: number, info?: string) {
     super(message, response)
     this.code = code
-    this.moreInfo = moreInfo
+    this.info = info
   }
 }

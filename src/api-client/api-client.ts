@@ -1,4 +1,4 @@
-import ky from "ky"
+import ky, { type KyInstance } from "ky"
 import type { BatchGetOptions, BatchGetResult, Entity, ListResponse } from "../types"
 import { handleError } from "./handle-error"
 import { TokenBucket } from "./token-bucket"
@@ -149,7 +149,7 @@ export class ApiClient {
   // private requestWeight: RequestWeight
   // // private rateLimitThreshold: number
   // private bucket: TokenBucket;
-  ky: typeof ky
+  ky: KyInstance
   private lastResponse: Response | undefined
   private rateLimitState: RateLimitState = {
     lastReset: 0,

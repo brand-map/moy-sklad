@@ -53,7 +53,9 @@ export interface Webhook extends Idable, Meta<Entity.Webhook> {
   action: WebhookAction
 
   /** Метаданные решения, создавшего вебхук (только для чтения) */
-  readonly authorApplication?: { meta: { href: string; type: string; mediaType: string; metadataHref: string } }
+  readonly authorApplication?: {
+    meta: { href: string; type: string; mediaType: string; metadataHref: string }
+  }
 
   /**
    * Режим отображения изменения сущности. Только для action=UPDATE.

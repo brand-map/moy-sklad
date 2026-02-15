@@ -60,7 +60,10 @@ export type GetModelUpdatableFields<M extends Model> = {
  */
 export type GetModelRequiredCreateFields<M extends Model> = {
   // iterate over creatable fields in model's object, while making them required
-  [Key in Extract<M["requiredCreateFields"], keyof M["object"]>]-?: M["object"][Key] extends Meta<infer T> // value is a Meta object?
+  [Key in Extract<M["requiredCreateFields"], keyof M["object"]>]-?: M["object"][Key] extends Meta<
+    // value is a Meta object?
+    infer T
+  >
     ? // replace it with UpdateMeta
       UpdateMeta<T>
     : NonNullable<M["object"][Key]>

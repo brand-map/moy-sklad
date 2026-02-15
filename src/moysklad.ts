@@ -29,7 +29,6 @@ import type {
   WizardEndpoint,
 } from "./endpoints"
 
-/** Клиент МойСклад */
 export interface Moysklad {
   /**
    * API клиент
