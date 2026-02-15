@@ -23,7 +23,7 @@ interface MoyskladApiErrorObject {
   error_message?: string
 
   /** Ссылка на документацию с описанием полученной ошибки */
-  moreInfo?: string
+  info?: string
 
   /** Строка JSON, на которой произошла ошибка */
   line?: number
@@ -62,7 +62,7 @@ function processErrorsObject({ errors: [error] }: { errors: MoyskladApiErrorObje
   if (!error) {
     throw new MoyskladError("No errors in errors array", response)
   }
-  throw new MoyskladApiError(error.error, response, error.code, error.moreInfo)
+  throw new MoyskladApiError(error.error, response, error.code, error.info)
 }
 
 export async function handleError(response: Response): Promise<never> {
