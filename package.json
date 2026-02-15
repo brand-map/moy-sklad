@@ -15,7 +15,10 @@
   "license": "MIT",
   "author": "",
   "type": "module",
-  "module": "index.ts",
+  "module": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
     "fmt": "oxfmt ."
   },
