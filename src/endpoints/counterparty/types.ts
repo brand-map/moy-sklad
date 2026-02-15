@@ -132,10 +132,7 @@ export interface IndividualCounterparty extends BaseCounterparty {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-kontragent-kontragenty
  */
-export type Counterparty =
-  | LegalCounterparty
-  | EntrepreneurCounterparty
-  | IndividualCounterparty
+export type Counterparty = LegalCounterparty | EntrepreneurCounterparty | IndividualCounterparty
 
 export interface CounterpartyModel extends Model {
   object: Counterparty
@@ -192,14 +189,8 @@ export interface ListCounterpartiesOptions {
   filter?: FilterOptions<CounterpartyModel>
 }
 
-export type AllCounterpartiesOptions = Omit<
-  ListCounterpartiesOptions,
-  "pagination"
->
-export type FirstCounterpartyOptions = Omit<
-  ListCounterpartiesOptions,
-  "pagination"
->
+export type AllCounterpartiesOptions = Omit<ListCounterpartiesOptions, "pagination">
+export type FirstCounterpartyOptions = Omit<ListCounterpartiesOptions, "pagination">
 
 export interface GetCounterpartyOptions {
   expand?: ExpandOptions<CounterpartyModel>

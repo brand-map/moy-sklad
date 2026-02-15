@@ -38,9 +38,7 @@ export interface ProductEndpoint {
    */
   list<T extends ListProductsOptions = Record<string, unknown>>(
     options?: Subset<T, ListProductsOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>
-  >
+  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>>
 
   /**
    * Получить все товары.
@@ -52,9 +50,7 @@ export interface ProductEndpoint {
    */
   all<T extends AllProductsOptions = Record<string, unknown>>(
     options?: Subset<T, AllProductsOptions>,
-  ): Promise<
-    BatchGetResult<GetFindResult<ProductModel, T["expand"]>, Entity.Product>
-  >
+  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, Entity.Product>>
 
   /**
    * Получить первый товар из списка.
@@ -66,9 +62,7 @@ export interface ProductEndpoint {
    */
   first<T extends FirstProductOptions = Record<string, unknown>>(
     options?: Subset<T, FirstProductOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>
-  >
+  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>>
 
   /**
    * Получить товар по ID.
@@ -132,9 +126,7 @@ export interface ProductEndpoint {
   >(
     data: TData,
     options?: Subset<TOptions, UpsertProductsOptions>,
-  ): Promise<
-    MatchArrayType<TData, GetFindResult<ProductModel, TOptions["expand"]>>
-  >
+  ): Promise<MatchArrayType<TData, GetFindResult<ProductModel, TOptions["expand"]>>>
 
   /**
    * Массовое удаление товаров.
@@ -167,8 +159,5 @@ export interface ProductEndpoint {
    *
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/audit/#audit-audit-poluchit-sobytiq-po-suschnosti
    */
-  audit(
-    id: string,
-    options?: GetAuditByEntityOptions,
-  ): Promise<ListResponse<AuditEvent, Entity.AuditEvent>>
+  audit(id: string, options?: GetAuditByEntityOptions): Promise<ListResponse<AuditEvent, Entity.AuditEvent>>
 }

@@ -29,8 +29,7 @@ export type GetModelUpdatableFields<M extends Model> = {
       Key extends keyof M["expandable"]
       ? M["expandable"][Key] extends Model
         ? // Recursively get the updatable fields of the expanded model
-            | { rows: GetModelUpdatableFields<M["expandable"][Key]>[] }
-            | GetModelUpdatableFields<M["expandable"][Key]>[]
+            { rows: GetModelUpdatableFields<M["expandable"][Key]>[] } | GetModelUpdatableFields<M["expandable"][Key]>[]
         : never
       : // Model does not support expand on this field
         UpdateMeta<T>[]
@@ -45,15 +44,14 @@ export type GetModelUpdatableFields<M extends Model> = {
           NonNullable<M["object"][Key]> extends Array<infer T>
           ? // value is an Attribute array?
             T extends Attribute
-            ? (UpdateMeta<Entity.AttributeMetadata> &
-                Pick<Attribute, "value">)[]
+            ? (UpdateMeta<Entity.AttributeMetadata> & Pick<Attribute, "value">)[]
             : T extends Meta<infer U>
               ? UpdateMeta<U>[]
               : T[]
           : // key is optional?
             undefined extends M["object"][Key]
             ? // make it nullable
-              M["object"][Key] | null
+                M["object"][Key] | null
             : M["object"][Key]
 }
 
@@ -62,11 +60,7 @@ export type GetModelUpdatableFields<M extends Model> = {
  */
 export type GetModelRequiredCreateFields<M extends Model> = {
   // iterate over creatable fields in model's object, while making them required
-  [Key in Extract<
-    M["requiredCreateFields"],
-    keyof M["object"]
-  >]-?: // value is a Meta object?
-  M["object"][Key] extends Meta<infer T>
+  [Key in Extract<M["requiredCreateFields"], keyof M["object"]>]-?: M["object"][Key] extends Meta<infer T> // value is a Meta object?
     ? // replace it with UpdateMeta
       UpdateMeta<T>
     : NonNullable<M["object"][Key]>
@@ -75,10 +69,8 @@ export type GetModelRequiredCreateFields<M extends Model> = {
 /**
  * Given model M, get the fields for creating a new object.
  */
-export type GetModelCreatableFields<
-  M extends Model,
-  R = GetModelRequiredCreateFields<M>,
-> = R & Omit<GetModelUpdatableFields<M>, keyof R> // required create fields + updatable fields excluding the required ones
+export type GetModelCreatableFields<M extends Model, R = GetModelRequiredCreateFields<M>> = R &
+  Omit<GetModelUpdatableFields<M>, keyof R> // required create fields + updatable fields excluding the required ones
 
 /**
  * Data for creating or batch updating a model.
@@ -89,10 +81,6 @@ export type ModelCreateOrUpdateData<M extends Model> =
     ? // Meta is a Meta object?
       M["object"]["meta"] extends Metadata<infer T>
       ? // Create object or an array of create/update objects
-          | GetModelCreatableFields<M>
-          | Array<
-              | GetModelCreatableFields<M>
-              | (GetModelUpdatableFields<M> & UpdateMeta<T>)
-            >
+          GetModelCreatableFields<M> | Array<GetModelCreatableFields<M> | (GetModelUpdatableFields<M> & UpdateMeta<T>)>
       : never
     : never

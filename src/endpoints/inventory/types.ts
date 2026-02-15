@@ -24,9 +24,7 @@ import type { EnterModel } from "../enter"
 import type { GroupModel } from "../group"
 import type { OrganizationModel } from "../organization"
 
-export interface InventoryPosition
-  extends Idable,
-    Meta<Entity.InventoryPosition> {
+export interface InventoryPosition extends Idable, Meta<Entity.InventoryPosition> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -169,16 +167,7 @@ export interface InventoryModel extends Model {
     updated: DateTimeFilter
     isDeleted: BooleanFilter
   }
-  orderableFields:
-    | "id"
-    | "syncId"
-    | "updated"
-    | "name"
-    | "description"
-    | "externalCode"
-    | "moment"
-    | "sum"
-    | "created"
+  orderableFields: "id" | "syncId" | "updated" | "name" | "description" | "externalCode" | "moment" | "sum" | "created"
   requiredCreateFields: "organization" | "store"
 }
 

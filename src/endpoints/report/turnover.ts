@@ -232,9 +232,7 @@ export interface TurnoverByOperationReportListOptions {
 
 export interface ReportTurnoverEndpoint {
   /** Обороты по товарам */
-  all: (
-    options?: TurnoverReportListOptions,
-  ) => Promise<ListResponse<TurnoverReport, Entity.TurnoverAll>>
+  all: (options?: TurnoverReportListOptions) => Promise<ListResponse<TurnoverReport, Entity.TurnoverAll>>
 
   /** Обороты по товару с детализацией по складам */
   byStore: (
@@ -244,7 +242,5 @@ export interface ReportTurnoverEndpoint {
   /** Обороты по товару с детализацией по документам */
   byOperation: (
     options: TurnoverByOperationReportListOptions,
-  ) => Promise<
-    ListResponse<TurnoverByOperationReport, Entity.TurnoverByOperation>
-  >
+  ) => Promise<ListResponse<TurnoverByOperationReport, Entity.TurnoverByOperation>>
 }

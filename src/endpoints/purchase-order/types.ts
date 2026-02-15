@@ -29,9 +29,7 @@ import type { OrganizationModel } from "../organization"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-pokupatelq-zakazy-pokupatelqm-pozicii-zakaza-pokupatelq
  */
-export interface PurchaseOrderPosition
-  extends Idable,
-    Meta<Entity.PurchaseOrderPosition> {
+export interface PurchaseOrderPosition extends Idable, Meta<Entity.PurchaseOrderPosition> {
   /** ID учетной записи */
   readonly accountId: string
   /** Метаданные товара/услуги/серии/модификации, которую представляет собой позиция */
@@ -220,11 +218,5 @@ export interface CreatePurchaseOrderOptions {
   expand?: ExpandOptions<PurchaseOrderModel>
 }
 
-export type FirstPurchaseOrderOptions = Omit<
-  ListPurchaseOrdersOptions,
-  "pagination"
->
-export type AllPurchaseOrdersOptions = Omit<
-  ListPurchaseOrdersOptions,
-  "pagination"
->
+export type FirstPurchaseOrderOptions = Omit<ListPurchaseOrdersOptions, "pagination">
+export type AllPurchaseOrdersOptions = Omit<ListPurchaseOrdersOptions, "pagination">

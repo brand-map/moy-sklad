@@ -1,36 +1,23 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
 import { endpointPaths } from "../../endpoint-paths"
-import type {
-    AssortmentModel,
-    BatchGetResult,
-    Entity,
-    ListResponse
-} from "../../types"
+import type { AssortmentModel, BatchGetResult, Entity, ListResponse } from "../../types"
 import { buildSearchParams } from "../../utils/search-params-handlers"
-import {
-    type AllAssortmentOptions,
-    type FirstAssortmentOptions,
-    type ListAssortmentOptions
-} from "./assortment"
-
+import { type AllAssortmentOptions, type FirstAssortmentOptions, type ListAssortmentOptions } from "./assortment"
 
 /**
  * Helper function to fetch assortment from API and parse JSON response.
  */
 async function fetchAssortmentResponse(
-    client: ApiClient,
-    searchParameters: URLSearchParams,
+  client: ApiClient,
+  searchParameters: URLSearchParams,
 ): Promise<ListResponse<AssortmentModel["object"], Entity.Assortment>> {
-    const response = await client.get(endpointPaths.entity.assortment, {
-        searchParameters,
-    })
+  const response = await client.get(endpointPaths.entity.assortment, {
+    searchParameters,
+  })
 
-    return response.json() as Promise<
-        ListResponse<AssortmentModel["object"], Entity.Assortment>
-    >
+  return response.json() as Promise<ListResponse<AssortmentModel["object"], Entity.Assortment>>
 }
-
 
 /**
  * Gets list of assortment items (products, services, bundles, variants, consignments).
@@ -50,17 +37,17 @@ async function fetchAssortmentResponse(
  * ```
  */
 export async function listAssortment(
-    client: ApiClient,
-    options?: ListAssortmentOptions,
+  client: ApiClient,
+  options?: ListAssortmentOptions,
 ): Promise<ListResponse<AssortmentModel["object"], Entity.Assortment>> {
-    const searchParameters = composeSearchParameters({
-        pagination: options?.pagination,
-        filter: options?.filter,
-    })
+  const searchParameters = composeSearchParameters({
+    pagination: options?.pagination,
+    filter: options?.filter,
+  })
 
-    const finalSearchParams = buildSearchParams(searchParameters, options?.groupBy)
+  const finalSearchParams = buildSearchParams(searchParameters, options?.groupBy)
 
-    return fetchAssortmentResponse(client, finalSearchParams)
+  return fetchAssortmentResponse(client, finalSearchParams)
 }
 
 /**
@@ -80,25 +67,22 @@ export async function listAssortment(
  * ```
  */
 export async function allAssortment(
-    client: ApiClient,
-    options?: AllAssortmentOptions,
+  client: ApiClient,
+  options?: AllAssortmentOptions,
 ): Promise<BatchGetResult<AssortmentModel["object"], Entity.Assortment>> {
-    return client.batchGet(
-        async (limit, offset) => {
-            const searchParameters = composeSearchParameters({
-                pagination: { limit, offset },
-                filter: options?.filter,
-            })
+  return client.batchGet(
+    async (limit, offset) => {
+      const searchParameters = composeSearchParameters({
+        pagination: { limit, offset },
+        filter: options?.filter,
+      })
 
-            const finalSearchParams = buildSearchParams(
-                searchParameters,
-                options?.groupBy,
-            )
+      const finalSearchParams = buildSearchParams(searchParameters, options?.groupBy)
 
-            return fetchAssortmentResponse(client, finalSearchParams)
-        },
-        options?.filter ? Object.keys(options.filter).length > 0 : false,
-    )
+      return fetchAssortmentResponse(client, finalSearchParams)
+    },
+    options?.filter ? Object.keys(options.filter).length > 0 : false,
+  )
 }
 
 /**
@@ -118,17 +102,15 @@ export async function allAssortment(
  * ```
  */
 export async function firstAssortment(
-    client: ApiClient,
-    options?: FirstAssortmentOptions,
+  client: ApiClient,
+  options?: FirstAssortmentOptions,
 ): Promise<ListResponse<AssortmentModel["object"], Entity.Assortment>> {
-    const searchParameters = composeSearchParameters({
-        pagination: { limit: 1 },
-        filter: options?.filter,
-    })
+  const searchParameters = composeSearchParameters({
+    pagination: { limit: 1 },
+    filter: options?.filter,
+  })
 
-    const finalSearchParams = buildSearchParams(searchParameters, options?.groupBy)
+  const finalSearchParams = buildSearchParams(searchParameters, options?.groupBy)
 
-    return fetchAssortmentResponse(client, finalSearchParams)
+  return fetchAssortmentResponse(client, finalSearchParams)
 }
-
-

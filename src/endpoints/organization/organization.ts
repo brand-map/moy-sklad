@@ -43,12 +43,7 @@ export interface OrganizationEndpoint {
    */
   list<T extends ListOrganizationsOptions = Record<string, unknown>>(
     options?: Subset<T, ListOrganizationsOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<OrganizationModel, T["expand"]>,
-      Entity.Organization
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<OrganizationModel, T["expand"]>, Entity.Organization>>
 
   /**
    * Получить все юрлица.
@@ -65,12 +60,7 @@ export interface OrganizationEndpoint {
    */
   all<T extends AllOrganizationsOptions = Record<string, unknown>>(
     options?: Subset<T, AllOrganizationsOptions>,
-  ): Promise<
-    BatchGetResult<
-      GetFindResult<OrganizationModel, T["expand"]>,
-      Entity.Organization
-    >
-  >
+  ): Promise<BatchGetResult<GetFindResult<OrganizationModel, T["expand"]>, Entity.Organization>>
 
   /**
    * Получить юрлицо по id.
@@ -130,12 +120,7 @@ export interface OrganizationEndpoint {
    */
   first<T extends FirstOrganizationOptions = Record<string, unknown>>(
     options?: Subset<T, FirstOrganizationOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<OrganizationModel, T["expand"]>,
-      Entity.Organization
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<OrganizationModel, T["expand"]>, Entity.Organization>>
 
   /**
    * Получить количество юрлиц.
@@ -149,9 +134,7 @@ export interface OrganizationEndpoint {
    * const count = await moysklad.organization.size();
    * ```
    */
-  size(
-    options?: AllOrganizationsOptions,
-  ): Promise<ListMeta<Entity.Organization>>
+  size(options?: AllOrganizationsOptions): Promise<ListMeta<Entity.Organization>>
 
   /**
    * Удалить юрлицо по id.
@@ -194,9 +177,7 @@ export interface OrganizationEndpoint {
   >(
     data: TData,
     options?: Subset<TOptions, UpsertOrganizationOptions>,
-  ): Promise<
-    MatchArrayType<TData, GetFindResult<OrganizationModel, TOptions["expand"]>>
-  >
+  ): Promise<MatchArrayType<TData, GetFindResult<OrganizationModel, TOptions["expand"]>>>
 
   /**
    * Получить список счетов юрлица.

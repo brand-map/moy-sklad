@@ -317,10 +317,7 @@ export interface UpsertSalesReturnsOptions {
 /**
  * Опции для получения первого Возврата покупателя из списка
  */
-export type FirstSalesReturnOptions = Omit<
-  ListSalesReturnsOptions,
-  "pagination"
->
+export type FirstSalesReturnOptions = Omit<ListSalesReturnsOptions, "pagination">
 
 /**
  * Опции для получения всех Возвратов покупателей

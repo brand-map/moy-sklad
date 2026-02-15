@@ -1,10 +1,4 @@
-import type {
-  BundleModel,
-  ConsignmentModel,
-  ProductModel,
-  ServiceModel,
-  VariantModel,
-} from "../endpoints"
+import type { BundleModel, ConsignmentModel, ProductModel, ServiceModel, VariantModel } from "../endpoints"
 
 export enum Entity {
   Assortment = "assortment",
@@ -97,12 +91,7 @@ export enum Entity {
   Webhook = "webhook",
 }
 
-export type AssortmentEntity =
-  | Entity.Product
-  | Entity.Service
-  | Entity.Bundle
-  | Entity.Variant
-  | Entity.Consignment
+export type AssortmentEntity = Entity.Product | Entity.Service | Entity.Bundle | Entity.Variant | Entity.Consignment
 
 type AssortmentFields = {
   /** Остаток */

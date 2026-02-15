@@ -30,9 +30,7 @@ import type { OrganizationModel } from "../organization"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-pokupatelu-pozicii-scheta-pokupatelu
  */
-export interface InvoiceOutPosition
-  extends Idable,
-    Meta<Entity.InvoicePosition> {
+export interface InvoiceOutPosition extends Idable, Meta<Entity.InvoicePosition> {
   /** ID учетной записи */
   readonly accountId: string
   /** Метаданные товара/услуги/серии/модификации/комплекта, которую представляет собой позиция */

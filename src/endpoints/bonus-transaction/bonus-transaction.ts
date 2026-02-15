@@ -42,12 +42,7 @@ export interface BonusTransactionEndpoint {
    */
   list<T extends ListBonusTransactionsOptions = Record<string, unknown>>(
     options?: Subset<T, ListBonusTransactionsOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<BonusTransactionModel, T["expand"]>,
-      Entity.BonusTransaction
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<BonusTransactionModel, T["expand"]>, Entity.BonusTransaction>>
 
   /**
    * Получить все бонусные операции
@@ -62,12 +57,7 @@ export interface BonusTransactionEndpoint {
    */
   all<T extends ListBonusTransactionsOptions = Record<string, unknown>>(
     options?: Subset<T, ListBonusTransactionsOptions>,
-  ): Promise<
-    BatchGetResult<
-      GetFindResult<BonusTransactionModel, T["expand"]>,
-      Entity.BonusTransaction
-    >
-  >
+  ): Promise<BatchGetResult<GetFindResult<BonusTransactionModel, T["expand"]>, Entity.BonusTransaction>>
 
   /**
    * Получить количество бонусных операций.
@@ -80,9 +70,7 @@ export interface BonusTransactionEndpoint {
    * const count = await moysklad.bonusTransaction.size();
    * ```
    */
-  size(
-    options?: AllBonusTransactionsOptions,
-  ): Promise<ListMeta<Entity.BonusTransaction>>
+  size(options?: AllBonusTransactionsOptions): Promise<ListMeta<Entity.BonusTransaction>>
 
   /**
    * Получить первую бонусную операцию, соответствующую фильтру
@@ -208,12 +196,7 @@ export interface BonusTransactionEndpoint {
   >(
     data: TData,
     options?: Subset<TOptions, UpsertBonusTransactionOptions>,
-  ): Promise<
-    MatchArrayType<
-      TData,
-      GetFindResult<BonusTransactionModel, TOptions["expand"]>
-    >
-  >
+  ): Promise<MatchArrayType<TData, GetFindResult<BonusTransactionModel, TOptions["expand"]>>>
 
   /**
    * Удалить бонусную операцию

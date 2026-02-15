@@ -1,25 +1,9 @@
 import { ApiClient } from "./api-client"
 import type { ApiClientOptions } from "./api-client"
-import {
-  allAssortment,
-  firstAssortment,
-  listAssortment,
-} from "./endpoints/assortment"
-import type {
-  AllAssortmentOptions,
-  FirstAssortmentOptions,
-  ListAssortmentOptions,
-} from "./endpoints/assortment"
-import {
-  allProducts,
-  firstProduct,
-  listProducts,
-} from "./endpoints/product"
-import type {
-  AllProductsOptions,
-  FirstProductOptions,
-  ListProductsOptions,
-} from "./endpoints/product"
+import { allAssortment, firstAssortment, listAssortment } from "./endpoints/assortment"
+import type { AllAssortmentOptions, FirstAssortmentOptions, ListAssortmentOptions } from "./endpoints/assortment"
+import { allProducts, firstProduct, listProducts } from "./endpoints/product"
+import type { AllProductsOptions, FirstProductOptions, ListProductsOptions } from "./endpoints/product"
 import type { Subset } from "./types"
 
 /**
@@ -45,37 +29,25 @@ export function createMoysklad(options: ApiClientOptions) {
     client,
 
     assortment: {
-      list(
-        opts?: ListAssortmentOptions,
-      ) {
+      list(opts?: ListAssortmentOptions) {
         return listAssortment(client, opts)
       },
-      all(
-        opts?: AllAssortmentOptions,
-      ) {
+      all(opts?: AllAssortmentOptions) {
         return allAssortment(client, opts)
       },
-      first(
-        opts?: FirstAssortmentOptions,
-      ) {
+      first(opts?: FirstAssortmentOptions) {
         return firstAssortment(client, opts)
       },
     },
 
     product: {
-      list(
-        opts?: ListProductsOptions,
-      ) {
+      list(opts?: ListProductsOptions) {
         return listProducts(client, opts)
       },
-      all(
-        opts?: AllProductsOptions,
-      ) {
+      all(opts?: AllProductsOptions) {
         return allProducts(client, opts)
       },
-      first(
-        opts?: FirstProductOptions,
-      ) {
+      first(opts?: FirstProductOptions) {
         return firstProduct(client, opts)
       },
     },

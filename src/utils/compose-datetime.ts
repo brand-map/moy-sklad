@@ -17,10 +17,7 @@ function leftPad2(value: number) {
  * @param shouldIncludeMs - Whether to include milliseconds in the string.
  * @returns The composed datetime string.
  */
-export function composeDateTime(
-  date: Date | number,
-  shouldIncludeMs = false,
-): DateTime {
+export function composeDateTime(date: Date | number, shouldIncludeMs = false): DateTime {
   const moscowTime = new Date(+date + MOSCOW_TIMEZONE_MS)
 
   // 2000-01-01 01:00:00.123

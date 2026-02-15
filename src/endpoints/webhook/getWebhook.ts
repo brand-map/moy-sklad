@@ -1,15 +1,7 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
 import { endpointPaths } from "../../endpoint-paths"
-import type {
-  BatchDeleteResult,
-  BatchGetResult,
-  Entity,
-  GetFindResult,
-  ListResponse,
-  Meta,
-  Subset,
-} from "../../types"
+import type { BatchDeleteResult, BatchGetResult, Entity, GetFindResult, ListResponse, Meta, Subset } from "../../types"
 import type {
   AllWebhooksOptions,
   CreateWebhookData,
@@ -40,9 +32,7 @@ async function fetchWebhooksResponse(
  * @param options - Опции: пагинация, сортировка, фильтры
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#/dictionaries/webhook#3-poluchit-spisok-vebhukov
  */
-export async function listWebhooks<
-  T extends ListWebhooksOptions,
->(
+export async function listWebhooks<T extends ListWebhooksOptions>(
   client: ApiClient,
   options?: Subset<T, ListWebhooksOptions>,
 ): Promise<ListResponse<GetFindResult<WebhookModel, undefined>, Entity.Webhook>> {
@@ -57,9 +47,7 @@ export async function listWebhooks<
 /**
  * Получить все вебхуки с учётом пагинации.
  */
-export async function allWebhooks<
-  T extends AllWebhooksOptions,
->(
+export async function allWebhooks<T extends AllWebhooksOptions>(
   client: ApiClient,
   options?: Subset<T, AllWebhooksOptions>,
 ): Promise<BatchGetResult<Webhook, Entity.Webhook>> {
@@ -76,9 +64,7 @@ export async function allWebhooks<
 /**
  * Получить первый вебхук из списка.
  */
-export async function firstWebhook<
-  T extends FirstWebhookOptions,
->(
+export async function firstWebhook<T extends FirstWebhookOptions>(
   client: ApiClient,
   options?: Subset<T, FirstWebhookOptions>,
 ): Promise<ListResponse<Webhook, Entity.Webhook>> {
@@ -97,10 +83,7 @@ export async function firstWebhook<
  * @param id - UUID вебхука
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#/dictionaries/webhook#3-poluchit-otdelnyj-vebhuk
  */
-export async function getWebhook(
-  client: ApiClient,
-  id: string,
-): Promise<Webhook> {
+export async function getWebhook(client: ApiClient, id: string): Promise<Webhook> {
   const response = await client.get(`${webhookPath}/${id}`)
   return response.json() as Promise<Webhook>
 }
@@ -113,10 +96,7 @@ export async function getWebhook(
  * @param data - Данные вебхука: url, action, entityType [, diffType для UPDATE]
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#/dictionaries/webhook#3-sozdat-vebhuk
  */
-export async function createWebhook(
-  client: ApiClient,
-  data: CreateWebhookData,
-): Promise<Webhook> {
+export async function createWebhook(client: ApiClient, data: CreateWebhookData): Promise<Webhook> {
   const response = await client.post(webhookPath, { body: data })
   return response.json() as Promise<Webhook>
 }
@@ -129,11 +109,7 @@ export async function createWebhook(
  * @param data - Поля для обновления: url, action, enabled, diffType
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#/dictionaries/webhook#3-izmenit-vebhuk
  */
-export async function updateWebhook(
-  client: ApiClient,
-  id: string,
-  data: UpdateWebhookData,
-): Promise<Webhook> {
+export async function updateWebhook(client: ApiClient, id: string, data: UpdateWebhookData): Promise<Webhook> {
   const response = await client.put(`${webhookPath}/${id}`, { body: data })
   return response.json() as Promise<Webhook>
 }
@@ -145,10 +121,7 @@ export async function updateWebhook(
  * @param id - UUID вебхука
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#/dictionaries/webhook#3-udalit-vebhuk
  */
-export async function deleteWebhook(
-  client: ApiClient,
-  id: string,
-): Promise<void> {
+export async function deleteWebhook(client: ApiClient, id: string): Promise<void> {
   await client.delete(`${webhookPath}/${id}`)
 }
 
@@ -167,11 +140,7 @@ export async function batchCreateOrUpdateWebhooks(
   items: WebhookCreateOrUpdateItem[],
   urlId?: string,
 ): Promise<Webhook[]> {
-  const id =
-    urlId ??
-    (items[0] && "meta" in items[0]
-      ? items[0].meta.href.split("/").pop()
-      : "") // TODO: проверить будет ли работать с ""
+  const id = urlId ?? (items[0] && "meta" in items[0] ? items[0].meta.href.split("/").pop() : "") // TODO: проверить будет ли работать с ""
   const response = await client.post(`${webhookPath}/${id}`, {
     body: items,
   })

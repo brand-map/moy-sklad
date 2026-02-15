@@ -63,13 +63,7 @@ export interface RegionModel extends Model {
     /** Момент последнего обновления сущности */
     updated: DateTimeFilter
   }
-  orderableFields:
-    | "id"
-    | "code"
-    | "externalCode"
-    | "name"
-    | "updated"
-    | "version"
+  orderableFields: "id" | "code" | "externalCode" | "name" | "updated" | "version"
   requiredCreateFields: never // Read-only entity
 }
 

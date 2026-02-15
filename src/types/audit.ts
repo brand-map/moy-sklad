@@ -1,12 +1,4 @@
-import type {
-  DateTime,
-  Entity,
-  GreaterOrEqualsFilter,
-  IdFilter,
-  LessOrEqualsFilter,
-  Meta,
-  PaginationOptions,
-} from "."
+import type { DateTime, Entity, GreaterOrEqualsFilter, IdFilter, LessOrEqualsFilter, Meta, PaginationOptions } from "."
 
 /**
  * Действие события аудита
@@ -251,9 +243,7 @@ export type AuditEvent =
       readonly diff?: RegistrationAuditDiff
     })
   | (BaseAuditEvent & {
-      readonly eventType:
-        | AuditEventType.OpenPublication
-        | AuditEventType.ClosePublication
+      readonly eventType: AuditEventType.OpenPublication | AuditEventType.ClosePublication
       readonly diff?: PublicationAuditDiff
     })
   | (BaseAuditEvent & {
@@ -284,9 +274,7 @@ export type AuditEvent =
 
 export interface GetAuditByEntityOptions {
   filter?: {
-    moment?: Partial<
-      GreaterOrEqualsFilter<DateTime> & LessOrEqualsFilter<DateTime>
-    >
+    moment?: Partial<GreaterOrEqualsFilter<DateTime> & LessOrEqualsFilter<DateTime>>
     /**
      * В качестве значения должен быть передан href сущности сотрудника. В отфильтрованную выборку попадут все сущности аудита, автором изменений которых является данный пользователь.
      */

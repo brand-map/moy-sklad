@@ -45,17 +45,10 @@ interface MoyskladApiErrorObject {
 }
 
 function isErrorObject(data: unknown): data is MoyskladApiErrorObject {
-  return Boolean(
-    typeof data === "object" &&
-    data &&
-    "error" in data &&
-    typeof data.error === "string",
-  )
+  return Boolean(typeof data === "object" && data && "error" in data && typeof data.error === "string")
 }
 
-function isErrorsObject(
-  data: unknown,
-): data is { errors: MoyskladApiErrorObject[] } {
+function isErrorsObject(data: unknown): data is { errors: MoyskladApiErrorObject[] } {
   return Boolean(
     typeof data === "object" &&
     data &&
@@ -65,15 +58,9 @@ function isErrorsObject(
   )
 }
 
-function processErrorsObject(
-  { errors: [error] }: { errors: MoyskladApiErrorObject[] },
-  response: Response,
-): void {
+function processErrorsObject({ errors: [error] }: { errors: MoyskladApiErrorObject[] }, response: Response): void {
   if (!error) {
-    throw new MoyskladError(
-      "No errors in errors array",
-      response,
-    )
+    throw new MoyskladError("No errors in errors array", response)
   }
   throw new MoyskladApiError(error.error, response, error.code, error.moreInfo)
 }
@@ -84,10 +71,7 @@ export async function handleError(response: Response): Promise<never> {
   }
 
   if (!response.headers.get("Content-Type")?.includes("application/json")) {
-    throw new MoyskladError(
-      "Response Content-Type is not application/json",
-      response,
-    )
+    throw new MoyskladError("Response Content-Type is not application/json", response)
   }
 
   const text = await response.clone().text()
@@ -102,10 +86,7 @@ export async function handleError(response: Response): Promise<never> {
     const errorsObject = data.find((error) => isErrorsObject(error))
 
     if (!errorsObject) {
-      throw new MoyskladError(
-        `HTTP ${response.status} ${response.statusText} (${JSON.stringify(data)})`,
-        response,
-      )
+      throw new MoyskladError(`HTTP ${response.status} ${response.statusText} (${JSON.stringify(data)})`, response)
     }
 
     processErrorsObject(errorsObject, response)
@@ -113,8 +94,5 @@ export async function handleError(response: Response): Promise<never> {
     processErrorsObject(data, response)
   }
 
-  throw new MoyskladError(
-    `HTTP ${response.status} ${response.statusText}`,
-    response,
-  )
+  throw new MoyskladError(`HTTP ${response.status} ${response.statusText}`, response)
 }

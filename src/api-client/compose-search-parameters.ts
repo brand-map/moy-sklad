@@ -13,10 +13,7 @@ function traverseExpand(expand: Record<string, unknown>, depth = 0) {
     }
 
     if (typeof value === "object" && Object.keys(value).length > 0) {
-      const subFields = traverseExpand(
-        value as Record<string, unknown>,
-        depth + 1,
-      )
+      const subFields = traverseExpand(value as Record<string, unknown>, depth + 1)
       for (const subField of subFields) {
         fields.push(`${key}.${subField}`)
       }
@@ -57,11 +54,7 @@ function traverseFilter(field: string, filter: Filter | undefined) {
     return filters
   }
 
-  if (
-    typeof filter === "string" ||
-    typeof filter === "number" ||
-    typeof filter === "boolean"
-  ) {
+  if (typeof filter === "string" || typeof filter === "number" || typeof filter === "boolean") {
     filters.push(`${field}=${filter}`)
     return filters
   }
@@ -74,11 +67,7 @@ function traverseFilter(field: string, filter: Filter | undefined) {
   for (const [operator, condition] of Object.entries(filter)) {
     if (operator === "eq" || operator === "ne") {
       if (Array.isArray(condition)) {
-        filters.push(
-          ...condition.map(
-            (v) => `${field}${operator === "eq" ? "=" : "!="}${v}`,
-          ),
-        )
+        filters.push(...condition.map((v) => `${field}${operator === "eq" ? "=" : "!="}${v}`))
         continue
       }
 

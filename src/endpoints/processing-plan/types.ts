@@ -30,9 +30,7 @@ export enum ProcessingPlanCostDistributionType {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-jetapy-tehkarty
  */
-export interface ProcessingPlanStage
-  extends Idable,
-    Meta<Entity.ProcessingPlanStages> {
+export interface ProcessingPlanStage extends Idable, Meta<Entity.ProcessingPlanStages> {
   /** Стоимость производства, на определенном этапе */
   cost: number
 
@@ -55,9 +53,7 @@ export interface ProcessingPlanStageModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-materialy-tehkarty
  */
-export interface ProcessingPlanMaterial
-  extends Idable,
-    Meta<Entity.ProcessingPlanMaterial> {
+export interface ProcessingPlanMaterial extends Idable, Meta<Entity.ProcessingPlanMaterial> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -93,9 +89,7 @@ export interface ProcessingPlanMaterialModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-produkty-tehkarty
  */
-export interface ProcessingPlanProduct
-  extends Idable,
-    Meta<Entity.ProcessingPlanResult> {
+export interface ProcessingPlanProduct extends Idable, Meta<Entity.ProcessingPlanResult> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -202,15 +196,9 @@ export interface ListProcessingPlansOptions {
   filter?: FilterOptions<ProcessingPlanModel>
 }
 
-export type AllProcessingPlansOptions = Omit<
-  ListProcessingPlansOptions,
-  "pagination"
->
+export type AllProcessingPlansOptions = Omit<ListProcessingPlansOptions, "pagination">
 
-export type FirstProcessingPlanOptions = Omit<
-  ListProcessingPlansOptions,
-  "pagination"
->
+export type FirstProcessingPlanOptions = Omit<ListProcessingPlansOptions, "pagination">
 
 export interface GetProcessingPlanOptions {
   expand?: ExpandOptions<ProcessingPlanModel>

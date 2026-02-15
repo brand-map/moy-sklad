@@ -1,19 +1,8 @@
 import { ApiClient } from "../../api-client"
 import { composeSearchParameters } from "../../api-client/compose-search-parameters"
 import { endpointPaths } from "../../endpoint-paths"
-import type {
-  BatchGetResult,
-  Entity,
-  GetFindResult,
-  ListResponse,
-  Subset,
-} from "../../types"
-import type {
-  AllBundleOptions,
-  BundleModel,
-  FirstBundleOptions,
-  ListBundleOptions,
-} from "./types"
+import type { BatchGetResult, Entity, GetFindResult, ListResponse, Subset } from "../../types"
+import type { AllBundleOptions, BundleModel, FirstBundleOptions, ListBundleOptions } from "./types"
 
 /**
  * Fetches bundles from API and parses JSON response.
@@ -26,9 +15,7 @@ async function fetchBundlesResponse<T>(
     searchParameters: searchParameters ?? undefined,
   })
 
-  return response.json() as Promise<
-    ListResponse<GetFindResult<BundleModel, T>, Entity.Bundle>
-  >
+  return response.json() as Promise<ListResponse<GetFindResult<BundleModel, T>, Entity.Bundle>>
 }
 
 /**
@@ -37,14 +24,10 @@ async function fetchBundlesResponse<T>(
  * @param client - API client instance
  * @param options - List options including filters, pagination, expand, order, search
  */
-export async function listBundles<
-  T extends ListBundleOptions = ListBundleOptions,
->(
+export async function listBundles<T extends ListBundleOptions = ListBundleOptions>(
   client: ApiClient,
   options?: Subset<T, ListBundleOptions>,
-): Promise<
-  ListResponse<GetFindResult<BundleModel, T["expand"]>, Entity.Bundle>
-> {
+): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, Entity.Bundle>> {
   const searchParameters = composeSearchParameters({
     pagination: options?.pagination,
     expand: options?.expand,
@@ -62,14 +45,10 @@ export async function listBundles<
  * @param client - API client instance
  * @param options - Options including filters, expand, order, search
  */
-export async function allBundles<
-  T extends AllBundleOptions = AllBundleOptions,
->(
+export async function allBundles<T extends AllBundleOptions = AllBundleOptions>(
   client: ApiClient,
   options?: Subset<T, AllBundleOptions>,
-): Promise<
-  BatchGetResult<GetFindResult<BundleModel, T["expand"]>, Entity.Bundle>
-> {
+): Promise<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, Entity.Bundle>> {
   return client.batchGet(
     async (limit, offset) => {
       const searchParameters = composeSearchParameters({
@@ -92,14 +71,10 @@ export async function allBundles<
  * @param client - API client instance
  * @param options - Options including filters, expand, order, search
  */
-export async function firstBundle<
-  T extends FirstBundleOptions = FirstBundleOptions,
->(
+export async function firstBundle<T extends FirstBundleOptions = FirstBundleOptions>(
   client: ApiClient,
   options?: Subset<T, FirstBundleOptions>,
-): Promise<
-  ListResponse<GetFindResult<BundleModel, T["expand"]>, Entity.Bundle>
-> {
+): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, Entity.Bundle>> {
   const searchParameters = composeSearchParameters({
     pagination: { limit: 1 },
     expand: options?.expand,
@@ -111,10 +86,7 @@ export async function firstBundle<
   return fetchBundlesResponse<T["expand"]>(client, searchParameters)
 }
 
-export async function bundleById(
-  client: ApiClient,
-  id: string,
-): Promise<BundleModel> {
+export async function bundleById(client: ApiClient, id: string): Promise<BundleModel> {
   const response = await client.get(`${endpointPaths.entity.bundle}/${id}`)
 
   return response.json() as Promise<BundleModel>

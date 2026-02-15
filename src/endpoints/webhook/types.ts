@@ -1,12 +1,4 @@
-import type {
-  BooleanFilter,
-  Entity,
-  Idable,
-  IdFilter,
-  Meta,
-  Model,
-  StringFilter,
-} from "../../types"
+import type { BooleanFilter, Entity, Idable, IdFilter, Meta, Model, StringFilter } from "../../types"
 
 /**
  * Действие, которое отслеживается вебхуком.
@@ -125,9 +117,7 @@ export interface UpdateWebhookData {
 }
 
 /** Элемент массива для массового создания/обновления: новый вебхук или обновление по meta */
-export type WebhookCreateOrUpdateItem =
-  | CreateWebhookData
-  | (UpdateWebhookData & Meta<Entity.Webhook>)
+export type WebhookCreateOrUpdateItem = CreateWebhookData | (UpdateWebhookData & Meta<Entity.Webhook>)
 
 export interface ListWebhooksOptions {
   pagination?: import("../../types").PaginationOptions

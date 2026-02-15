@@ -36,9 +36,7 @@ export interface InventoryEndpoint {
    */
   list<T extends ListInventoryOptions = Record<string, unknown>>(
     options?: Subset<T, ListInventoryOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<InventoryModel, T["expand"]>, Entity.Inventory>
-  >
+  ): Promise<ListResponse<GetFindResult<InventoryModel, T["expand"]>, Entity.Inventory>>
 
   /**
    * Получить все инвентаризации.
@@ -48,9 +46,7 @@ export interface InventoryEndpoint {
    */
   all<T extends AllInventoryOptions = Record<string, unknown>>(
     options?: Subset<T, AllInventoryOptions>,
-  ): Promise<
-    BatchGetResult<GetFindResult<InventoryModel, T["expand"]>, Entity.Inventory>
-  >
+  ): Promise<BatchGetResult<GetFindResult<InventoryModel, T["expand"]>, Entity.Inventory>>
 
   /**
    * Получить количество инвентаризаций.
@@ -73,9 +69,7 @@ export interface InventoryEndpoint {
    */
   first<T extends FirstInventoryOptions = Record<string, unknown>>(
     options?: Subset<T, FirstInventoryOptions>,
-  ): Promise<
-    ListResponse<GetFindResult<InventoryModel, T["expand"]>, Entity.Inventory>
-  >
+  ): Promise<ListResponse<GetFindResult<InventoryModel, T["expand"]>, Entity.Inventory>>
 
   /**
    * Получить инвентаризацию по id.

@@ -40,12 +40,7 @@ export interface ProductFolderEndpoint {
    */
   list<T extends ListProductFoldersOptions = Record<string, unknown>>(
     options?: Subset<T, ListProductFoldersOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<ProductFolderModel, T["expand"]>,
-      Entity.ProductFolder
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<ProductFolderModel, T["expand"]>, Entity.ProductFolder>>
 
   /**
    * Получить все группы товаров
@@ -60,12 +55,7 @@ export interface ProductFolderEndpoint {
    */
   all<T extends ListProductFoldersOptions = Record<string, unknown>>(
     options?: Subset<T, ListProductFoldersOptions>,
-  ): Promise<
-    BatchGetResult<
-      GetFindResult<ProductFolderModel, T["expand"]>,
-      Entity.ProductFolder
-    >
-  >
+  ): Promise<BatchGetResult<GetFindResult<ProductFolderModel, T["expand"]>, Entity.ProductFolder>>
 
   /**
    * Получить первую группу товаров, соответствующую фильтру
@@ -192,9 +182,7 @@ export interface ProductFolderEndpoint {
   >(
     data: TData,
     options?: Subset<TOptions, UpsertProductFolderOptions>,
-  ): Promise<
-    MatchArrayType<TData, GetFindResult<ProductFolderModel, TOptions["expand"]>>
-  >
+  ): Promise<MatchArrayType<TData, GetFindResult<ProductFolderModel, TOptions["expand"]>>>
 
   /**
    * Удалить группу товаров

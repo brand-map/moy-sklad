@@ -38,9 +38,7 @@ import type { OrganizationModel } from "../organization"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-pokupatelq-zakazy-pokupatelej
  */
-export interface CustomerOrderPosition
-  extends Idable,
-    Meta<Entity.CustomerOrderPosition> {
+export interface CustomerOrderPosition extends Idable, Meta<Entity.CustomerOrderPosition> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -237,14 +235,8 @@ export interface GetCustomerOrderOptions {
   expand?: ExpandOptions<CustomerOrderModel>
 }
 
-export type FirstCustomerOrderOptions = Omit<
-  ListCustomerOrdersOptions,
-  "pagination"
->
-export type AllCustomerOrdersOptions = Omit<
-  ListCustomerOrdersOptions,
-  "pagination"
->
+export type FirstCustomerOrderOptions = Omit<ListCustomerOrdersOptions, "pagination">
+export type AllCustomerOrdersOptions = Omit<ListCustomerOrdersOptions, "pagination">
 
 /**
  * Метаданные заказов покупателей.

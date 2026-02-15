@@ -288,10 +288,7 @@ export interface IndividualOrganization extends BaseOrganization {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-jurlico-jurlica
  */
-export type Organization =
-  | LegalOrganization
-  | EntrepreneurOrganization
-  | IndividualOrganization
+export type Organization = LegalOrganization | EntrepreneurOrganization | IndividualOrganization
 
 export interface OrganizationModel extends Model {
   /** Основная сущность юрлица {@linkcode Organization} */
@@ -429,14 +426,8 @@ export interface ListOrganizationsOptions {
   filter?: FilterOptions<OrganizationModel>
 }
 
-export type AllOrganizationsOptions = Omit<
-  ListOrganizationsOptions,
-  "pagination"
->
-export type FirstOrganizationOptions = Omit<
-  ListOrganizationsOptions,
-  "pagination"
->
+export type AllOrganizationsOptions = Omit<ListOrganizationsOptions, "pagination">
+export type FirstOrganizationOptions = Omit<ListOrganizationsOptions, "pagination">
 
 export interface GetOrganizationOptions {
   /**

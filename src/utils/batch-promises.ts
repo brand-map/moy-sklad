@@ -4,10 +4,7 @@
  * @param concurrencyLimit The maximum number of tasks to execute concurrently.
  * @returns An async generator that yields the results of each batch of promises.
  */
-export async function* batchPromises(
-  tasks: (() => Promise<unknown>)[],
-  concurrencyLimit: number,
-) {
+export async function* batchPromises(tasks: (() => Promise<unknown>)[], concurrencyLimit: number) {
   if (tasks.length === 0) {
     return []
   }

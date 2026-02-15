@@ -62,9 +62,7 @@ export interface ProductionRowModel extends Model {
  *
  * {@linkcode ProductionTask}
  */
-export interface ProductionTaskResult
-  extends Idable,
-    Meta<Entity.ProductionTaskResult> {
+export interface ProductionTaskResult extends Idable, Meta<Entity.ProductionTaskResult> {
   /** ID учётной записи */
   readonly accountId: string
 
@@ -313,15 +311,9 @@ export interface ListProductionTasksOptions {
   filter?: FilterOptions<ProductionTaskModel>
 }
 
-export type AllProductionTasksOptions = Omit<
-  ListProductionTasksOptions,
-  "pagination"
->
+export type AllProductionTasksOptions = Omit<ListProductionTasksOptions, "pagination">
 
-export type FirstProductionTaskOptions = Omit<
-  ListProductionTasksOptions,
-  "pagination"
->
+export type FirstProductionTaskOptions = Omit<ListProductionTasksOptions, "pagination">
 
 export interface GetProductionTaskOptions {
   /**

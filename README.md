@@ -15,53 +15,58 @@ yarn install
 ## Quick Start
 
 ```typescript
-import { ApiClient, listProducts, allProducts } from 'moy-sklad'
+import { ApiClient, listProducts, allProducts } from "moy-sklad"
 
 // Create API client
 const client = new ApiClient({
   auth: {
-    token: 'your-auth-token'
-  }
+    token: "your-auth-token",
+  },
 })
 
 // Get list of products
 const products = await listProducts(client, {
-  pagination: { limit: 50, offset: 0 }
+  pagination: { limit: 50, offset: 0 },
 })
 
 // Get all products with auto pagination
 const allItems = await allProducts(client, {
-  expand: ['images', 'variants']
+  expand: ["images", "variants"],
 })
 ```
 
 ## Supported Endpoints
 
 ### Products
+
 - `listProducts()` - Get list of products
 - `allProducts()` - Get all products (with auto pagination)
 - `firstProduct()` - Get first product matching filter
 - `productById()` - Get specific product by ID
 
 ### Services
+
 - `listServices()` - Get list of services
 - `allServices()` - Get all services
 - `firstService()` - Get first service
 - `serviceById()` - Get specific service by ID
 
 ### Bundles
+
 - `listBundles()` - Get list of bundles
 - `allBundles()` - Get all bundles
 - `firstBundle()` - Get first bundle
 - `bundleById()` - Get specific bundle by ID
 
 ### Variants
+
 - `listVariants()` - Get list of variants
 - `allVariants()` - Get all variants
 - `firstVariant()` - Get first variant
 - `variantById()` - Get specific variant by ID
 
 ### Webhooks
+
 - `listWebhooks()` - Get list of webhooks
 - `createWebhook()` - Create new webhook
 - `updateWebhook()` - Update webhook
@@ -71,6 +76,7 @@ const allItems = await allProducts(client, {
 - `batchDeleteWebhooks()` - Batch delete
 
 ### Assortment
+
 - `listAssortment()` - Get list of assortment items
 - `allAssortment()` - Get all assortment items
 - `firstAssortment()` - Get first assortment item
@@ -82,8 +88,8 @@ const allItems = await allProducts(client, {
 ```typescript
 const products = await listProducts(client, {
   pagination: { limit: 25, offset: 50 },
-  filter: { name: 'Widget' },
-  order: 'name'
+  filter: { name: "Widget" },
+  order: "name",
 })
 ```
 
@@ -91,9 +97,9 @@ const products = await listProducts(client, {
 
 ```typescript
 const webhook = await createWebhook(client, {
-  url: 'https://example.com/webhook',
-  action: 'create',
-  entityType: 'product'
+  url: "https://example.com/webhook",
+  action: "create",
+  entityType: "product",
 })
 ```
 
@@ -102,9 +108,9 @@ const webhook = await createWebhook(client, {
 All operations are fully typed for excellent IDE support:
 
 ```typescript
-import type { Product, Webhook, Service } from 'moy-sklad'
+import type { Product, Webhook, Service } from "moy-sklad"
 
-const product: Product = await productById(client, 'id')
+const product: Product = await productById(client, "id")
 ```
 
 ## Authentication
@@ -114,10 +120,10 @@ const product: Product = await productById(client, 'id')
 ```typescript
 const client = new ApiClient({
   auth: {
-    token: 'your-auth-token'
+    token: "your-auth-token",
   },
   // Optional: customize rate limiting
-  tolerateTimeout: 5000
+  tolerateTimeout: 5000,
 })
 ```
 
@@ -126,15 +132,16 @@ const client = new ApiClient({
 ```typescript
 const client = new ApiClient({
   auth: {
-    login: 'username',
-    password: 'password'
-  }
+    login: "username",
+    password: "password",
+  },
 })
 ```
 
 ## Rate Limiting
 
 The library automatically handles Moysklad API rate limiting with a token bucket strategy. Rate limits are calculated based on:
+
 - Authentication type (token vs user credentials)
 - Request time during peak hours
 
@@ -143,24 +150,19 @@ The library automatically handles Moysklad API rate limiting with a token bucket
 The library includes helpful utilities:
 
 ```typescript
-import { 
-  parseDateTime, 
-  composeDateTime, 
-  extractIdFromMetaHref,
-  isAssortmentOfType 
-} from 'moy-sklad'
+import { parseDateTime, composeDateTime, extractIdFromMetaHref, isAssortmentOfType } from "moy-sklad"
 
 // Parse API datetime format
-const date = parseDateTime('2024-02-15T10:30:00.000')
+const date = parseDateTime("2024-02-15T10:30:00.000")
 
 // Compose datetime for API
 const isoString = composeDateTime(new Date())
 
 // Extract ID from meta href
-const id = extractIdFromMetaHref('https://api.moysklad.ru/api/remap/1.2/entity/product/xyz')
+const id = extractIdFromMetaHref("https://api.moysklad.ru/api/remap/1.2/entity/product/xyz")
 
 // Check assortment type
-const isProduct = isAssortmentOfType('product', assortmentItem)
+const isProduct = isAssortmentOfType("product", assortmentItem)
 ```
 
 ## Development
@@ -179,4 +181,3 @@ This project is a derivative work of moysklad-ts by [Andrei MonsterDeveloper](ht
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 The full license text is available in the [LICENSE](LICENSE) file.
-

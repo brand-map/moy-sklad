@@ -1,8 +1,7 @@
 import type { DateTime } from "../types"
 
 // https://regex101.com/r/Bxq7dZ/2
-const MOYSKLAD_DATE_TIME_REGEX =
-  /^(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?$/
+const MOYSKLAD_DATE_TIME_REGEX = /^(\d{4})-(\d{2})-(\d{2})\s(\d{2}):(\d{2}):(\d{2})(?:\.(\d{1,3}))?$/
 
 function rightPad2(value: string) {
   return `${value}00`.slice(0, 3)

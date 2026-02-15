@@ -1,9 +1,4 @@
-import type {
-  HasOptionalKeys,
-  IsEmptyObject,
-  OptionalKeysOf,
-  SetOptional,
-} from "./type-utils"
+import type { HasOptionalKeys, IsEmptyObject, OptionalKeysOf, SetOptional } from "./type-utils"
 import type { Model } from "./model"
 
 /**

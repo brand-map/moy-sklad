@@ -40,12 +40,7 @@ export interface FactureOutEndpoint {
    */
   list<T extends ListFactureOutsOptions = Record<string, unknown>>(
     options?: Subset<T, ListFactureOutsOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<FactureOutModel, T["expand"], T["fields"]>,
-      Entity.FactureOut
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<FactureOutModel, T["expand"], T["fields"]>, Entity.FactureOut>>
 
   /**
    * Получить все счета-фактуры выданные с учетом пагинации.
@@ -62,12 +57,7 @@ export interface FactureOutEndpoint {
    */
   all<T extends AllFactureOutsOptions = Record<string, unknown>>(
     options?: Subset<T, AllFactureOutsOptions>,
-  ): Promise<
-    BatchGetResult<
-      GetFindResult<FactureOutModel, T["expand"], T["fields"]>,
-      Entity.FactureOut
-    >
-  >
+  ): Promise<BatchGetResult<GetFindResult<FactureOutModel, T["expand"], T["fields"]>, Entity.FactureOut>>
 
   /**
    * Получить счет-фактуру выданный по ID.
@@ -101,12 +91,7 @@ export interface FactureOutEndpoint {
    */
   first<T extends FirstFactureOutOptions = Record<string, unknown>>(
     options?: Subset<T, FirstFactureOutOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<FactureOutModel, T["expand"], T["fields"]>,
-      Entity.FactureOut
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<FactureOutModel, T["expand"], T["fields"]>, Entity.FactureOut>>
 
   /**
    * Получить количество счетов-фактур выданных.
@@ -194,9 +179,7 @@ export interface FactureOutEndpoint {
   >(
     data: TData,
     options?: Subset<TOptions, UpsertFactureOutsOptions>,
-  ): Promise<
-    MatchArrayType<TData, GetFindResult<FactureOutModel, TOptions["expand"]>>
-  >
+  ): Promise<MatchArrayType<TData, GetFindResult<FactureOutModel, TOptions["expand"]>>>
 
   /**
    * Получить шаблон счета-фактуры выданного на основе отгрузки, возврата поставщику или входящего платежа.
@@ -221,7 +204,5 @@ export interface FactureOutEndpoint {
    * });
    * ```
    */
-  template(
-    data: FactureOutTemplateData,
-  ): Promise<GetFindResult<FactureOutModel, undefined>>
+  template(data: FactureOutTemplateData): Promise<GetFindResult<FactureOutModel, undefined>>
 }

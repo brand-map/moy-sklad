@@ -62,12 +62,7 @@ export interface ProductionTaskEndpoint {
    */
   list<T extends ListProductionTasksOptions = Record<string, unknown>>(
     options?: Subset<T, ListProductionTasksOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<ProductionTaskModel, T["expand"]>,
-      Entity.ProductionTask
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<ProductionTaskModel, T["expand"]>, Entity.ProductionTask>>
 
   /**
    * Получить все производственные задания.
@@ -84,12 +79,7 @@ export interface ProductionTaskEndpoint {
    */
   all<T extends AllProductionTasksOptions = Record<string, unknown>>(
     options?: Subset<T, AllProductionTasksOptions>,
-  ): Promise<
-    BatchGetResult<
-      GetFindResult<ProductionTaskModel, T["expand"]>,
-      Entity.ProductionTask
-    >
-  >
+  ): Promise<BatchGetResult<GetFindResult<ProductionTaskModel, T["expand"]>, Entity.ProductionTask>>
 
   /**
    * Получить производственное задание по id.
@@ -219,8 +209,7 @@ export interface ProductionTaskEndpoint {
   upsert<T extends CreateProductionTaskOptions = Record<string, unknown>>(
     data: (
       | GetModelCreatableFields<ProductionTaskModel>
-      | (GetModelUpdatableFields<ProductionTaskModel> &
-          UpdateMeta<Entity.ProductionTask>)
+      | (GetModelUpdatableFields<ProductionTaskModel> & UpdateMeta<Entity.ProductionTask>)
     )[],
     options?: Subset<T, CreateProductionTaskOptions>,
   ): Promise<GetFindResult<ProductionTaskModel, T["expand"]>[]>
@@ -243,20 +232,13 @@ export interface ProductionTaskEndpoint {
    */
   first<T extends FirstProductionTaskOptions = Record<string, unknown>>(
     options?: Subset<T, FirstProductionTaskOptions>,
-  ): Promise<
-    ListResponse<
-      GetFindResult<ProductionTaskModel, T["expand"]>,
-      Entity.ProductionTask
-    >
-  >
+  ): Promise<ListResponse<GetFindResult<ProductionTaskModel, T["expand"]>, Entity.ProductionTask>>
 
   /**
    * Получить общее количество производственных заданий.
    * @returns Общее количество производственных заданий
    */
-  size(
-    options?: AllProductionTasksOptions,
-  ): Promise<ListMeta<Entity.ProductionTask>>
+  size(options?: AllProductionTasksOptions): Promise<ListMeta<Entity.ProductionTask>>
 
   /**
    * Удалить производственное задание по id.

@@ -1,17 +1,17 @@
 /**
  * Moysklad API Client Library
- * 
+ *
  * A fully typed TypeScript client for the Moysklad API with comprehensive
  * support for products, services, bundles, variants, webhooks, and more.
- * 
+ *
  * @example
  * ```typescript
  * import { ApiClient, listProducts } from 'moy-sklad'
- * 
+ *
  * const client = new ApiClient({
  *   auth: { token: 'your-token' }
  * })
- * 
+ *
  * const products = await listProducts(client)
  * ```
  */
@@ -21,12 +21,7 @@
 // ============================================================================
 
 export { ApiClient } from "./api-client"
-export type {
-  ApiClientOptions,
-  Auth,
-  BasicAuth,
-  TokenAuth,
-} from "./api-client"
+export type { ApiClientOptions, Auth, BasicAuth, TokenAuth } from "./api-client"
 
 // ============================================================================
 // ERROR HANDLING
@@ -49,7 +44,7 @@ export * from "./types"
 
 /**
  * Product endpoint functions
- * 
+ *
  * @example
  * ```typescript
  * const products = await listProducts(client, {
@@ -59,12 +54,7 @@ export * from "./types"
  * const product = await productById(client, 'product-id')
  * ```
  */
-export {
-  listProducts,
-  allProducts,
-  firstProduct,
-  productById
-} from './endpoints/product'
+export { listProducts, allProducts, firstProduct, productById } from "./endpoints/product"
 
 // ============================================================================
 // ENDPOINT FUNCTIONS - Services
@@ -73,12 +63,7 @@ export {
 /**
  * Service endpoint functions
  */
-export {
-  listServices,
-  allServices,
-  firstService,
-  serviceById
-} from './endpoints/service'
+export { listServices, allServices, firstService, serviceById } from "./endpoints/service"
 
 // ============================================================================
 // ENDPOINT FUNCTIONS - Bundles
@@ -87,12 +72,7 @@ export {
 /**
  * Bundle endpoint functions
  */
-export {
-  listBundles,
-  allBundles,
-  firstBundle,
-  bundleById
-} from './endpoints/bundle'
+export { listBundles, allBundles, firstBundle, bundleById } from "./endpoints/bundle"
 
 // ============================================================================
 // ENDPOINT FUNCTIONS - Variants
@@ -101,12 +81,7 @@ export {
 /**
  * Variant endpoint functions
  */
-export {
-  listVariants,
-  allVariants,
-  firstVariant,
-  variantById
-} from './endpoints/variant'
+export { listVariants, allVariants, firstVariant, variantById } from "./endpoints/variant"
 
 // ============================================================================
 // ENDPOINT FUNCTIONS - Webhooks
@@ -114,7 +89,7 @@ export {
 
 /**
  * Webhook management functions
- * 
+ *
  * @example
  * ```typescript
  * const webhooks = await listWebhooks(client)
@@ -135,8 +110,8 @@ export {
   updateWebhook,
   deleteWebhook,
   batchCreateOrUpdateWebhooks,
-  batchDeleteWebhooks
-} from './endpoints/webhook'
+  batchDeleteWebhooks,
+} from "./endpoints/webhook"
 
 // ============================================================================
 // ENDPOINT FUNCTIONS - Assortment
@@ -146,11 +121,7 @@ export {
  * Assortment functions for working with mixed product types
  * (products, services, bundles, variants, consignments)
  */
-export {
-  listAssortment,
-  allAssortment,
-  firstAssortment
-} from './endpoints/assortment'
+export { listAssortment, allAssortment, firstAssortment } from "./endpoints/assortment"
 
 // ============================================================================
 // ALL ENDPOINTS TYPES
@@ -167,19 +138,13 @@ export * from "./endpoints"
 
 /**
  * Helper utilities for working with API data
- * 
+ *
  * @example
  * ```typescript
  * import { parseDateTime, extractIdFromMetaHref } from 'moy-sklad'
- * 
+ *
  * const date = parseDateTime('2024-02-15T10:30:00.000')
  * const id = extractIdFromMetaHref('https://api.moysklad.ru/api/remap/1.2/entity/product/xyz')
  * ```
  */
-export {
-  composeDateTime,
-  extractIdFromMetaHref,
-  isAssortmentOfType,
-  parseDateTime,
-} from "./utils"
-
+export { composeDateTime, extractIdFromMetaHref, isAssortmentOfType, parseDateTime } from "./utils"

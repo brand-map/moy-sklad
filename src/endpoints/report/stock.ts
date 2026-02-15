@@ -100,14 +100,7 @@ export interface StockAllModel extends Model {
      *
      * @default `nonEmpty`
      */
-    quantityMode: EnumFilter<
-      | "nonEmpty"
-      | "all"
-      | "positiveOnly"
-      | "negativeOnly"
-      | "empty"
-      | "underMinimum"
-    >
+    quantityMode: EnumFilter<"nonEmpty" | "all" | "positiveOnly" | "negativeOnly" | "empty" | "underMinimum">
     /** параметр для фильтрации по значению резерва. Если передать `true`, в выборку попадут только товары с резервом. */
     reserveOnly: BooleanFilter
     /** специальный параметр текстового поиска. Поиск осуществляется по вхождению подстроки в названия товаров, модификаций, серий. */
@@ -131,14 +124,7 @@ export interface StockAllModel extends Model {
      *
      * @default `all`
      */
-    stockMode: EnumFilter<
-      | "all"
-      | "positiveOnly"
-      | "negativeOnly"
-      | "empty"
-      | "nonEmpty"
-      | "underMinimum"
-    >
+    stockMode: EnumFilter<"all" | "positiveOnly" | "negativeOnly" | "empty" | "nonEmpty" | "underMinimum">
 
     /** параметр для фильтрации по нескольким складам. Значение параметра - ссылка на склад, который должен быть учтен в выборке или исключен из нее. Можно передать несколько значений. */
     store: IdFilter
@@ -234,8 +220,7 @@ export type StockAllCurrentRow<T extends StockAllCurrentStockType> = {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety-otchet-ostatki-kratkij-otchet-ob-ostatkah
  */
-export type StockAllCurrent<T extends StockAllCurrentStockType> =
-  StockAllCurrentRow<T>[]
+export type StockAllCurrent<T extends StockAllCurrentStockType> = StockAllCurrentRow<T>[]
 
 export interface StockAllCurrentOptions<T extends StockAllCurrentStockType> {
   /** Фильтры отчёта Текущие Остатки */
@@ -295,9 +280,9 @@ export interface ReportStockEndpoint {
    * @param options Параметры запроса
    * @returns Краткий отчёт об остатках
    */
-  allCurrent<
-    T extends StockAllCurrentStockType = StockAllCurrentStockType.Stock,
-  >(options?: StockAllCurrentOptions<T>): Promise<StockAllCurrent<T>>
+  allCurrent<T extends StockAllCurrentStockType = StockAllCurrentStockType.Stock>(
+    options?: StockAllCurrentOptions<T>,
+  ): Promise<StockAllCurrent<T>>
 
   /**
    * Получить отчёт Остатки по складам.
@@ -309,9 +294,7 @@ export interface ReportStockEndpoint {
    * @param options Параметры запроса
    * @returns Отчёт Остатки по складам
    */
-  byStore(
-    options?: StockByStoreOptions,
-  ): Promise<ListResponse<StockByStore, Entity.StockByStore>>
+  byStore(options?: StockByStoreOptions): Promise<ListResponse<StockByStore, Entity.StockByStore>>
 }
 
 /**
@@ -351,14 +334,7 @@ export interface StockByStoreOptions {
     /** параметр для фильтрации по признаку весового товара */
     soldByWeight?: BooleanFilter
     /** параметр для фильтрации по значению остатка */
-    stockMode?: EnumFilter<
-      | "all"
-      | "positiveOnly"
-      | "negativeOnly"
-      | "empty"
-      | "nonEmpty"
-      | "underMinimum"
-    >
+    stockMode?: EnumFilter<"all" | "positiveOnly" | "negativeOnly" | "empty" | "nonEmpty" | "underMinimum">
     /** ссылка на склад, для которого нужно построить отчет */
     store?: IdFilter
     /** параметр для фильтрации по поставщику */
@@ -366,9 +342,7 @@ export interface StockByStoreOptions {
     /** ссылка на модификация, по которой нужно произвести фильтрацию */
     variant?: IdFilter
   }
-  order?: OrderOption<
-    "pathName" | "name" | "code" | "productCode" | "stockOnAllStores"
-  >
+  order?: OrderOption<"pathName" | "name" | "code" | "productCode" | "stockOnAllStores">
   /**
    * Тип, по которому нужно сгруппировать выдачу.
    *
