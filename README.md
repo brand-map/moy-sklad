@@ -171,6 +171,14 @@ const isProduct = isAssortmentOfType("product", assortmentItem)
 bun run src/test.ts
 ```
 
-## License
+## License and Copyright
 
-MIT
+This project is a derivative work of moysklad-ts by [Andrei MonsterDeveloper](https://github.com/MonsterDeveloper/moysklad-ts), used under the terms of the GNU General Public License v3.0.
+
+- Original code: Copyright (c) 2023 Andrei MonsterDeveloper
+- Modifications and new code: Copyright (c) 2026 Brand Map
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+The full license text is available in the [LICENSE](LICENSE) file.
+
