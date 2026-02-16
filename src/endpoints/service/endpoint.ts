@@ -18,12 +18,12 @@ export class ServiceEndpoint {
    */
   private async fetchServicesResponse<T>(
     searchParameters?: URLSearchParams,
-  ): Promise<ListResponse<GetFindResult<ServiceModel, T>, Entity.Service>> {
+  ): Promise<ListResponse<GetFindResult<ServiceModel, T>, 'service'>> {
     const response = await this.client.get(this.endpointPath, {
       searchParameters: searchParameters ?? undefined,
     })
 
-    return response.json() as Promise<ListResponse<GetFindResult<ServiceModel, T>, Entity.Service>>
+    return response.json() as Promise<ListResponse<GetFindResult<ServiceModel, T>, 'service'>>
   }
 
   /**
@@ -33,7 +33,7 @@ export class ServiceEndpoint {
    */
   async list<T extends ListServicesOptions = ListServicesOptions>(
     options?: Subset<T, ListServicesOptions>,
-  ): Promise<ListResponse<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>> {
+  ): Promise<ListResponse<GetFindResult<ServiceModel, T["expand"]>, 'service'>> {
     const searchParameters = composeSearchParameters({
       pagination: options?.pagination,
       expand: options?.expand,
@@ -52,7 +52,7 @@ export class ServiceEndpoint {
    */
   async all<T extends AllServiceOptions = AllServiceOptions>(
     options?: Subset<T, AllServiceOptions>,
-  ): Promise<BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>> {
+  ): Promise<BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, 'service'>> {
     return this.client.batchGet(
       async (limit, offset) => {
         const searchParameters = composeSearchParameters({
@@ -76,7 +76,7 @@ export class ServiceEndpoint {
    */
   async first<T extends FirstServiceOptions = FirstServiceOptions>(
     options?: Subset<T, FirstServiceOptions>,
-  ): Promise<ListResponse<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>> {
+  ): Promise<ListResponse<GetFindResult<ServiceModel, T["expand"]>, 'service'>> {
     const searchParameters = composeSearchParameters({
       pagination: { limit: 1 },
       expand: options?.expand,

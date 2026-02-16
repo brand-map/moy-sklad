@@ -18,12 +18,12 @@ export class VariantEndpoint {
    */
   private async fetchVariantsResponse<T>(
     searchParameters?: URLSearchParams,
-  ): Promise<ListResponse<GetFindResult<VariantModel, T>, Entity.Variant>> {
+  ): Promise<ListResponse<GetFindResult<VariantModel, T>, 'variant'>> {
     const response = await this.client.get(this.endpointPath, {
       searchParameters: searchParameters ?? undefined,
     })
 
-    return response.json() as Promise<ListResponse<GetFindResult<VariantModel, T>, Entity.Variant>>
+    return response.json() as Promise<ListResponse<GetFindResult<VariantModel, T>, 'variant'>>
   }
 
   /**
@@ -33,7 +33,7 @@ export class VariantEndpoint {
    */
   async list<T extends ListVariantsOptions = ListVariantsOptions>(
     options?: Subset<T, ListVariantsOptions>,
-  ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>> {
+  ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, 'variant'>> {
     const searchParameters = composeSearchParameters({
       pagination: options?.pagination,
       expand: options?.expand,
@@ -52,7 +52,7 @@ export class VariantEndpoint {
    */
   async all<T extends AllVariantsOptions = AllVariantsOptions>(
     options?: Subset<T, AllVariantsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>> {
+  ): Promise<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, 'variant'>> {
     return this.client.batchGet(
       async (limit, offset) => {
         const searchParameters = composeSearchParameters({
@@ -76,7 +76,7 @@ export class VariantEndpoint {
    */
   async first<T extends FirstVariantOptions = FirstVariantOptions>(
     options?: Subset<T, FirstVariantOptions>,
-  ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>> {
+  ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, 'variant'>> {
     const searchParameters = composeSearchParameters({
       pagination: { limit: 1 },
       expand: options?.expand,

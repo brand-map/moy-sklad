@@ -27,11 +27,11 @@ export class WebhookEndpoint {
      */
     private async fetchWebhooksResponse(
         searchParameters?: URLSearchParams,
-    ): Promise<ListResponse<Webhook, Entity.Webhook>> {
+    ): Promise<ListResponse<Webhook, 'webhook'>> {
         const response = await this.client.get(this.endpointPath, {
             searchParameters: searchParameters ?? undefined,
         })
-        return response.json() as Promise<ListResponse<Webhook, Entity.Webhook>>
+        return response.json() as Promise<ListResponse<Webhook, 'webhook'>>
     }
 
     /**
@@ -42,7 +42,7 @@ export class WebhookEndpoint {
      */
     async list<T extends ListWebhooksOptions>(
         options?: Subset<T, ListWebhooksOptions>,
-    ): Promise<ListResponse<GetFindResult<WebhookModel, undefined>, Entity.Webhook>> {
+    ): Promise<ListResponse<GetFindResult<WebhookModel, undefined>, 'webhook'>> {
         const searchParameters = composeSearchParameters({
             pagination: options?.pagination,
             order: options?.order,
@@ -56,7 +56,7 @@ export class WebhookEndpoint {
      */
     async all<T extends AllWebhooksOptions>(
         options?: Subset<T, AllWebhooksOptions>,
-    ): Promise<BatchGetResult<Webhook, Entity.Webhook>> {
+    ): Promise<BatchGetResult<Webhook, 'webhook'>> {
         return this.client.batchGet(
             async (limit, offset) => {
                 const searchParameters = composeSearchParameters({
@@ -75,7 +75,7 @@ export class WebhookEndpoint {
      */
     async first<T extends FirstWebhookOptions>(
         options?: Subset<T, FirstWebhookOptions>,
-    ): Promise<ListResponse<Webhook, Entity.Webhook>> {
+    ): Promise<ListResponse<Webhook, 'webhook'>> {
         const searchParameters = composeSearchParameters({
             pagination: { limit: 1 },
             order: options?.order,
@@ -154,7 +154,7 @@ export class WebhookEndpoint {
      * @param metaList - Массив метаданных вебхуков для удаления
      * @see https://dev.moysklad.ru/doc/api/remap/1.2/#/dictionaries/webhook#3-massovoe-udalenie-vebhukov
      */
-    async batchDelete(metaList: Meta<Entity.Webhook>[]): Promise<BatchDeleteResult[]> {
+    async batchDelete(metaList: Meta<'webhook'>[]): Promise<BatchDeleteResult[]> {
         const response = await this.client.post(`${this.endpointPath}/delete`, {
             body: metaList,
         })

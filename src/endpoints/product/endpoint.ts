@@ -18,12 +18,12 @@ export class ProductEndpoint {
    */
   private async fetchProductsResponse<T>(
     searchParameters: URLSearchParams | undefined,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T>, Entity.Product>> {
+  ): Promise<ListResponse<GetFindResult<ProductModel, T>, 'product'>> {
     const response = await this.client.get(this.endpointPath, {
       searchParameters: searchParameters ?? undefined,
     })
 
-    return response.json() as Promise<ListResponse<GetFindResult<ProductModel, T>, Entity.Product>>
+    return response.json() as Promise<ListResponse<GetFindResult<ProductModel, T>, 'product'>>
   }
 
   /**
@@ -44,7 +44,7 @@ export class ProductEndpoint {
    */
   async list<T extends ListProductsOptions>(
     options?: ListProductsOptions,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>> {
+  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, 'product'>> {
     const searchParameters = composeSearchParameters({
       pagination: options?.pagination,
       expand: options?.expand,
@@ -73,7 +73,7 @@ export class ProductEndpoint {
    */
   async all<T extends AllProductsOptions>(
     options?: AllProductsOptions,
-  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, Entity.Product>> {
+  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, 'product'>> {
     return this.client.batchGet(
       async (limit, offset) => {
         const searchParameters = composeSearchParameters({
@@ -107,7 +107,7 @@ export class ProductEndpoint {
    */
   async first<T extends FirstProductOptions>(
     options?: FirstProductOptions,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>> {
+  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, 'product'>> {
     const searchParameters = composeSearchParameters({
       pagination: { limit: 1 },
       expand: options?.expand,
