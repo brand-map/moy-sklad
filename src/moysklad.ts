@@ -1,7 +1,7 @@
 import { ApiClient } from "./api-client"
 import type { ApiClientOptions } from "./api-client"
 
-import { AssortmentEndpoint } from "./endpoints/assortment/endpoint"
+import { AssortmentEndpoint } from "./endpoints/assortment"
 
 /**
  * High-level Moysklad API wrapper.
@@ -19,9 +19,19 @@ import { AssortmentEndpoint } from "./endpoints/assortment/endpoint"
  * const { rows } = await moysklad.assortment.list({ pagination: { limit: 10 } });
  * ```
  */
-export class Moysklad implements MoyskladInterface {
+export class Moysklad {
+  /**
+   * API клиент
+   *
+   * {@linkcode ApiClient}
+   */
   public readonly client: ApiClient
 
+  /**
+   * Ассортимент
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-assortiment
+   */
   readonly assortment: AssortmentEndpoint
 
   public constructor(options: ApiClientOptions) {
@@ -31,207 +41,207 @@ export class Moysklad implements MoyskladInterface {
   }
 }
 
-/**
- * Root interface for the class-based Moysklad client.
- *
- * Describes the public shape implemented by `Moysklad`.
- */
-interface MoyskladInterface {
-  /**
-   * API клиент
-   *
-   * {@linkcode ApiClient}
-   */
-  client: ApiClient
+// /**
+//  * Root interface for the class-based Moysklad client.
+//  *
+//  * Describes the public shape implemented by `Moysklad`.
+//  */
+// interface MoyskladInterface {
+//   /**
+//    * API клиент
+//    *
+//    * {@linkcode ApiClient}
+//    */
+//   client: ApiClient
 
-  /**
-   * Ассортимент
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-assortiment
-   */
-  assortment: AssortmentEndpoint
+//   /**
+//    * Ассортимент
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-assortiment
+//    */
+//   assortment: AssortmentEndpoint
 
-  // /**
-  //  * Бонусные операции
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-bonusnaq-operaciq
-  //  */
-  // bonusTransaction: BonusTransactionEndpoint
+//   // /**
+//   //  * Бонусные операции
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-bonusnaq-operaciq
+//   //  */
+//   // bonusTransaction: BonusTransactionEndpoint
 
-  // /**
-  //  * Безопасность (токены)
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#mojsklad-json-api-obschie-swedeniq-autentifikaciq
-  //  */
-  // security: SecurityEndpoint
+//   // /**
+//   //  * Безопасность (токены)
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#mojsklad-json-api-obschie-swedeniq-autentifikaciq
+//   //  */
+//   // security: SecurityEndpoint
 
-  // /**
-  //  * Контрагенты
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-kontragent
-  //  */
-  // counterparty: CounterpartyEndpoint
+//   // /**
+//   //  * Контрагенты
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-kontragent
+//   //  */
+//   // counterparty: CounterpartyEndpoint
 
-  // /**
-  //  * Юрлица
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-jurlico
-  //  */
-  // organization: OrganizationEndpoint
+//   // /**
+//   //  * Юрлица
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-jurlico
+//   //  */
+//   // organization: OrganizationEndpoint
 
-  // /**
-  //  * Пользовательские справочники
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-pol-zowatel-skij-sprawochnik
-  //  */
-  // customEntity: CustomEntityEndpoint
+//   // /**
+//   //  * Пользовательские справочники
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-pol-zowatel-skij-sprawochnik
+//   //  */
+//   // customEntity: CustomEntityEndpoint
 
-  // /**
-  //  * Заказы покупателей
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-pokupatelq
-  //  */
-  // customerOrder: CustomerOrderEndpoint
+//   // /**
+//   //  * Заказы покупателей
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-pokupatelq
+//   //  */
+//   // customerOrder: CustomerOrderEndpoint
 
-  // /**
-  //  * Отгрузки
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-otgruzka
-  //  */
-  // demand: DemandEndpoint
+//   // /**
+//   //  * Отгрузки
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-otgruzka
+//   //  */
+//   // demand: DemandEndpoint
 
-  // /**
-  //  * Счета-фактуры выданные
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-faktura-wydannyj
-  //  */
-  // factureOut: FactureOutEndpoint
+//   // /**
+//   //  * Счета-фактуры выданные
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-faktura-wydannyj
+//   //  */
+//   // factureOut: FactureOutEndpoint
 
-  // /**
-  //  * Приёмки
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-priemka-priemki
-  //  */
-  // supply: SupplyEndpoint
+//   // /**
+//   //  * Приёмки
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-priemka-priemki
+//   //  */
+//   // supply: SupplyEndpoint
 
-  // /**
-  //  * Оприходования
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-oprihodowanie
-  //  */
-  // enter: EnterEndpoint
+//   // /**
+//   //  * Оприходования
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-oprihodowanie
+//   //  */
+//   // enter: EnterEndpoint
 
-  // /**
-  //  * Товары
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
-  //  */
-  // product: ProductEndpoint
+//   // /**
+//   //  * Товары
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
+//   //  */
+//   // product: ProductEndpoint
 
-  // /**
-  //  * Группы товаров
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-gruppa-towarow
-  //  */
-  // productFolder: ProductFolderEndpoint
+//   // /**
+//   //  * Группы товаров
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-gruppa-towarow
+//   //  */
+//   // productFolder: ProductFolderEndpoint
 
-  // /**
-  //  * Техкарты
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-tehkarty
-  //  */
-  // processingPlan: ProcessingPlanEndpoint
+//   // /**
+//   //  * Техкарты
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-tehkarty
+//   //  */
+//   // processingPlan: ProcessingPlanEndpoint
 
-  // /**
-  //  * Входящие платежи
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vhodqschij-platezh
-  //  */
-  // paymentIn: PaymentInEndpoint
+//   // /**
+//   //  * Входящие платежи
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vhodqschij-platezh
+//   //  */
+//   // paymentIn: PaymentInEndpoint
 
-  // /**
-  //  * Исходящие платежи
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-ishodqschij-platezh-ishodqschie-platezhi
-  //  */
-  // paymentOut: PaymentOutEndpoint
+//   // /**
+//   //  * Исходящие платежи
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-ishodqschij-platezh-ishodqschie-platezhi
+//   //  */
+//   // paymentOut: PaymentOutEndpoint
 
-  // /**
-  //  * Счета покупателям
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-pokupatelu-scheta-pokupatelqm
-  //  */
-  // invoiceOut: InvoiceOutEndpoint
+//   // /**
+//   //  * Счета покупателям
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-pokupatelu-scheta-pokupatelqm
+//   //  */
+//   // invoiceOut: InvoiceOutEndpoint
 
-  // /**
-  //  * Автозаполнение
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-awtozapolnenie
-  //  */
-  // wizard: WizardEndpoint
+//   // /**
+//   //  * Автозаполнение
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-awtozapolnenie
+//   //  */
+//   // wizard: WizardEndpoint
 
-  // /**
-  //  * Отчёты
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety
-  //  */
-  // report: ReportEndpoint
+//   // /**
+//   //  * Отчёты
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety
+//   //  */
+//   // report: ReportEndpoint
 
-  // /**
-  //  * Заказ поставщику
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-postawschiku
-  //  */
-  // purchaseOrder: PurchaseOrderEndpoint
+//   // /**
+//   //  * Заказ поставщику
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-postawschiku
+//   //  */
+//   // purchaseOrder: PurchaseOrderEndpoint
 
-  // /**
-  //  * Регионы
-  //  *
-  //  * Справочник регионов России. Данный справочник предназначен только для чтения.
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-region
-  //  */
-  // region: RegionEndpoint
+//   // /**
+//   //  * Регионы
+//   //  *
+//   //  * Справочник регионов России. Данный справочник предназначен только для чтения.
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-region
+//   //  */
+//   // region: RegionEndpoint
 
-  // /**
-  //  * Производственные этапы
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie-proizwodstwennye-atapy
-  //  */
-  // productionStage: ProductionStageEndpoint
+//   // /**
+//   //  * Производственные этапы
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie-proizwodstwennye-atapy
+//   //  */
+//   // productionStage: ProductionStageEndpoint
 
-  // /**
-  //  * Выполнения этапов производства
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vypolnenie-atapa-proizwodstwa
-  //  */
-  // productionStageCompletion: ProductionStageCompletionEndpoint
+//   // /**
+//   //  * Выполнения этапов производства
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vypolnenie-atapa-proizwodstwa
+//   //  */
+//   // productionStageCompletion: ProductionStageCompletionEndpoint
 
-  // /**
-  //  * Инвентаризации
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-inwentarizaciq
-  //  */
-  // inventory: InventoryEndpoint
+//   // /**
+//   //  * Инвентаризации
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-inwentarizaciq
+//   //  */
+//   // inventory: InventoryEndpoint
 
-  // /**
-  //  * Производственные задания
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie
-  //  */
-  // productionTask: ProductionTaskEndpoint
+//   // /**
+//   //  * Производственные задания
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie
+//   //  */
+//   // productionTask: ProductionTaskEndpoint
 
-  // /**
-  //  * Модификации
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-modifikaciq
-  //  */
-  // variant: VariantEndpoint
+//   // /**
+//   //  * Модификации
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-modifikaciq
+//   //  */
+//   // variant: VariantEndpoint
 
-  // /**
-  //  * Возвраты покупателей
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vozwrat-pokupatelq
-  //  */
-  // salesReturn: SalesReturnEndpoint
-}
+//   // /**
+//   //  * Возвраты покупателей
+//   //  *
+//   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vozwrat-pokupatelq
+//   //  */
+//   // salesReturn: SalesReturnEndpoint
+// }
