@@ -55,7 +55,7 @@ export * from "./types"
  * const product = await productById(client, 'product-id')
  * ```
  */
-export { listProducts, allProducts, firstProduct, productById } from "./endpoints/product"
+export { ProductEndpoint } from "./endpoints/product/endpoint"
 
 // ============================================================================
 // ENDPOINT FUNCTIONS - Services
