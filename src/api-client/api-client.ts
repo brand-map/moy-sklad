@@ -509,13 +509,13 @@ export class ApiClient {
     let context: BatchGetResult<T, E>["context"] | undefined
     const allRows: T[] = []
 
-    for await (const chunk of this.batchGetGenerator(fetcher, hasExpand)) {
+    for await (const chunk of this.getChunks(fetcher, hasExpand)) {
       context = chunk.context
       allRows.push(...chunk.rows)
     }
 
     if (context == null) {
-      throw new Error("batchGetGenerator returned no chunks")
+      throw new Error("getChunks returned no chunks")
     }
 
     return { context, rows: allRows }
@@ -530,7 +530,7 @@ export class ApiClient {
    *
    * @yields Объект чанка с `rows` и `context`
    */
-  async *batchGetGenerator<T, E extends Entity>(
+  async *getChunks<T, E extends Entity>(
     fetcher: (limit: number, offset: number) => Promise<ListResponse<T, E>>,
     hasExpand?: boolean,
   ): AsyncGenerator<BatchGetResult<T, E>, void, void> {
