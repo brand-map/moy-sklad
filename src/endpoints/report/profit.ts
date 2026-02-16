@@ -2,15 +2,14 @@ import type {
   AssortmentEntity,
   BooleanFilter,
   DateTime,
-  Entity,
   EqualityFilter,
   FilterOptions,
   IdFilter,
   ListResponse,
   Metadata,
   Model,
-  PaginationOptions,
 } from "../../types"
+import type { PaginationOptions } from "../../types/common"
 
 /**
  * Прибыльность по модификациям

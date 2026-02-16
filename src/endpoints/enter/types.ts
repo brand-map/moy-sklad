@@ -3,22 +3,18 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  DocumentRate,
-  Entity,
   ExpandOptions,
   FilterOptions,
-  Gtd,
-  Idable,
   IdFilter,
   ListMeta,
   Meta,
   Model,
   NumberFilter,
   OrderOptions,
-  PaginationOptions,
   StateModel,
   StringFilter,
 } from "../../types"
+import type { DocumentRate, Gtd, Idable, PaginationOptions } from "../../types/common"
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
 import type { OrganizationModel } from "../organization"
@@ -218,17 +214,17 @@ export interface EnterModel extends Model {
     updated: DateTimeFilter
   }
   orderableFields:
-    | "id"
-    | "syncId"
-    | "updated"
-    | "updatedBy"
-    | "name"
-    | "description"
-    | "externalCode"
-    | "moment"
-    | "applicable"
-    | "sum"
-    | "created"
+  | "id"
+  | "syncId"
+  | "updated"
+  | "updatedBy"
+  | "name"
+  | "description"
+  | "externalCode"
+  | "moment"
+  | "applicable"
+  | "sum"
+  | "created"
   requiredCreateFields: "organization" | "store"
 }
 

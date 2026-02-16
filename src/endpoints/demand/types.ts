@@ -6,18 +6,14 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  DocumentRate,
-  Entity,
   ExpandOptions,
   FilterOptions,
-  Idable,
   IdFilter,
   ListMeta,
   Meta,
   Model,
   NumberFilter,
   OrderOptions,
-  PaginationOptions,
   PositionFields,
   ProjectModel,
   StateModel,
@@ -25,6 +21,7 @@ import type {
   StringFilter,
   UpdateMeta,
 } from "../../types"
+import type { DocumentRate, Idable, PaginationOptions } from "../../types/common"
 import type { CounterpartyModel } from "../counterparty"
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
@@ -196,17 +193,17 @@ export interface DemandModel extends Model {
     isDeleted: BooleanFilter
   }
   orderableFields:
-    | "id"
-    | "syncId"
-    | "updated"
-    | "updatedBy"
-    | "name"
-    | "description"
-    | "externalCode"
-    | "moment"
-    | "applicable"
-    | "sum"
-    | "created"
+  | "id"
+  | "syncId"
+  | "updated"
+  | "updatedBy"
+  | "name"
+  | "description"
+  | "externalCode"
+  | "moment"
+  | "applicable"
+  | "sum"
+  | "created"
   requiredCreateFields: "agent" | "organization" | "store"
 }
 

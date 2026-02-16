@@ -2,6 +2,10 @@ import { ApiClient } from "./api-client"
 import type { ApiClientOptions } from "./api-client"
 
 import { AssortmentEndpoint } from "./endpoints/assortment"
+import { BundleEndpoint } from "./endpoints/bundle"
+import { ProductEndpoint } from "./endpoints/product"
+import { ServiceEndpoint } from "./endpoints/service"
+import { VariantEndpoint } from "./endpoints/variant"
 
 /**
  * High-level Moysklad API wrapper.
@@ -33,6 +37,10 @@ export class Moysklad {
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-assortiment
    */
   readonly assortment: AssortmentEndpoint
+  readonly product: ProductEndpoint
+  readonly service: ServiceEndpoint
+  readonly variant: VariantEndpoint
+  readonly bundle: BundleEndpoint
 
   //  /**
   //  * Бонусные операции
@@ -110,7 +118,6 @@ export class Moysklad {
   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
   //  */
   // product: ProductEndpoint
-
   // /**
   //  * Группы товаров
   //  *
@@ -220,7 +227,10 @@ export class Moysklad {
 
   public constructor(options: ApiClientOptions) {
     this.client = new ApiClient(options)
-
+    this.product = new ProductEndpoint(this.client)
     this.assortment = new AssortmentEndpoint(this.client)
+    this.service = new ServiceEndpoint(this.client)
+    this.variant = new VariantEndpoint(this.client)
+    this.bundle = new BundleEndpoint(this.client)
   }
 }

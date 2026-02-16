@@ -10,9 +10,9 @@ import type {
   EqualityFilter,
   IdFilter,
   NumberFilter,
-  PaginationOptions,
   StringFilter,
 } from "../types"
+import type { PaginationOptions } from "../types/common"
 
 /**
  * Ассортимент
@@ -22,7 +22,7 @@ import type {
 export class AssortmentEndpoint {
   private endpointPath = "entity/assortment"
 
-  constructor(private client: ApiClient) {}
+  constructor(private client: ApiClient) { }
 
   /**
    * Gets list of assortment items (products, services, bundles, variants, consignments).

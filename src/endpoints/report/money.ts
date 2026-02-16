@@ -1,4 +1,4 @@
-import type { DateTime, Entity, EqualsFilter, Meta } from "../../types"
+import type { DateTime, EqualsFilter, Meta } from "../../types"
 
 export interface GetCashFlowOptions {
   filter?: {

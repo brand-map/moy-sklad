@@ -45,7 +45,7 @@ export * from "./types"
 
 /**
  * Product endpoint functions
- *
+ *export { listServices, allServices, firstService, serviceById } from "./endpoints/service"
  * @example
  * ```typescript
  * const products = await listProducts(client, {
@@ -55,7 +55,7 @@ export * from "./types"
  * const product = await productById(client, 'product-id')
  * ```
  */
-export { ProductEndpoint } from "./endpoints/product/endpoint"
+export { ProductEndpoint } from "./endpoints/product"
 
 // ============================================================================
 // ENDPOINT FUNCTIONS - Services
@@ -64,7 +64,7 @@ export { ProductEndpoint } from "./endpoints/product/endpoint"
 /**
  * Service endpoint functions
  */
-export { listServices, allServices, firstService, serviceById } from "./endpoints/service"
+export { ServiceEndpoint } from "./endpoints/service"
 
 // ============================================================================
 // ENDPOINT FUNCTIONS - Bundles
@@ -73,7 +73,7 @@ export { listServices, allServices, firstService, serviceById } from "./endpoint
 /**
  * Bundle endpoint functions
  */
-export { listBundles, allBundles, firstBundle, bundleById } from "./endpoints/bundle"
+export { BundleEndpoint } from "./endpoints/bundle"
 
 // ============================================================================
 // ENDPOINT FUNCTIONS - Variants
@@ -82,7 +82,7 @@ export { listBundles, allBundles, firstBundle, bundleById } from "./endpoints/bu
 /**
  * Variant endpoint functions
  */
-export { listVariants, allVariants, firstVariant, variantById } from "./endpoints/variant"
+export { VariantEndpoint } from "./endpoints/variant"
 
 // ============================================================================
 // ENDPOINT FUNCTIONS - Webhooks
@@ -103,15 +103,7 @@ export { listVariants, allVariants, firstVariant, variantById } from "./endpoint
  * ```
  */
 export {
-  listWebhooks,
-  allWebhooks,
-  firstWebhook,
-  getWebhook,
-  createWebhook,
-  updateWebhook,
-  deleteWebhook,
-  batchCreateOrUpdateWebhooks,
-  batchDeleteWebhooks,
+  WebhookEndpoint
 } from "./endpoints/webhook"
 
 // // ============================================================================
@@ -122,7 +114,7 @@ export {
 //  * Assortment functions for working with mixed product types
 //  * (products, services, bundles, variants, consignments)
 //  */
-// export { listAssortment, allAssortment, firstAssortment } from "./endpoints/assortment/endpoint"
+export { AssortmentEndpoint } from "./endpoints/assortment"
 
 // // ============================================================================
 // // ALL ENDPOINTS TYPES

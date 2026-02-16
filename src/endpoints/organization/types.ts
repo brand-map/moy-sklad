@@ -5,19 +5,17 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  Entity,
   EnumFilter,
   ExpandOptions,
   FilterOptions,
-  Idable,
   IdFilter,
   ListMeta,
   Meta,
   Model,
   OrderOptions,
-  PaginationOptions,
   StringFilter,
 } from "../../types"
+import type { Idable, PaginationOptions } from "../../types/common"
 import type { BonusProgramModel } from "../bonus-program"
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
@@ -223,7 +221,7 @@ interface BaseOrganization extends Idable, Meta<"organization"> {
 
 /** Юрлицо с типом "Юридическое лицо" */
 export interface LegalOrganization extends BaseOrganization {
-  companyType: OrganizationCompanyType.Legal
+  companyType: 'legal'
   /** Полное наименование юрлица */
   legalTitle?: string
   /** ИНН */
@@ -238,7 +236,7 @@ export interface LegalOrganization extends BaseOrganization {
 
 /** Юрлицо с типом "Индивидуальный предприниматель" */
 export interface EntrepreneurOrganization extends BaseOrganization {
-  companyType: OrganizationCompanyType.Entrepreneur
+  companyType: 'entrepreneur'
   /** Дата свидетельства */
   certificateDate?: DateTime
   /** Номер свидетельства */
@@ -265,7 +263,7 @@ export interface EntrepreneurOrganization extends BaseOrganization {
 
 /** Юрлицо с типом "Физическое лицо" */
 export interface IndividualOrganization extends BaseOrganization {
-  companyType: OrganizationCompanyType.Individual
+  companyType: 'individual'
   /** ИНН */
   inn?: string
   /** Имя для Юрлица типа `[Индивидуальный предприниматель, Физическое лицо]` */
@@ -326,17 +324,17 @@ export interface OrganizationModel extends Model {
   }
 
   orderableFields:
-    | "id"
-    | "name"
-    | "code"
-    | "externalCode"
-    | "archived"
-    | "created"
-    | "updated"
-    | "description"
-    | "email"
-    | "phone"
-    | "fax"
+  | "id"
+  | "name"
+  | "code"
+  | "externalCode"
+  | "archived"
+  | "created"
+  | "updated"
+  | "description"
+  | "email"
+  | "phone"
+  | "fax"
 
   requiredCreateFields: "name"
 }

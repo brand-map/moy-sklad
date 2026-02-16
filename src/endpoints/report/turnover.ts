@@ -9,8 +9,8 @@ import type {
   ListResponse,
   Metadata,
   Model,
-  PaginationOptions,
 } from "../../types"
+import type { PaginationOptions } from "../../types/common"
 
 /**
  * Показатели оборотов (начало/конец периода, приход/расход)
@@ -151,17 +151,17 @@ export interface TurnoverReportModel extends Model {
     supplier: IdFilter
     /** тип документа */
     type:
-      | "supply"
-      | "purchasereturn"
-      | "demand"
-      | "salesreturn"
-      | "loss"
-      | "enter"
-      | "move"
-      | "processing"
-      | "retaildemand"
-      | "retailsalesreturn"
-      | "productionstagecompletion"
+    | "supply"
+    | "purchasereturn"
+    | "demand"
+    | "salesreturn"
+    | "loss"
+    | "enter"
+    | "move"
+    | "processing"
+    | "retaildemand"
+    | "retailsalesreturn"
+    | "productionstagecompletion"
 
     /** ссылка на модификацию, по которой нужно произвести фильтрацию */
     variant: IdFilter
@@ -232,7 +232,7 @@ export interface TurnoverByOperationReportListOptions {
 
 export interface ReportTurnoverEndpoint {
   /** Обороты по товарам */
-  all: (options?: TurnoverReportListOptions) => Promise<ListResponse<TurnoverReport, "turnoverall">>
+  all: (options?: TurnoverReportListOptions) => Promise<ListResponse<TurnoverReport, "turnover">>
 
   /** Обороты по товару с детализацией по складам */
   byStore: (

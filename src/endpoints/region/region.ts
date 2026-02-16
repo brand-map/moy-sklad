@@ -1,4 +1,4 @@
-import type { BatchGetResult, Entity, GetFindResult, ListMeta, ListResponse, Subset } from "../../types"
+import type { BatchGetResult, GetFindResult, ListMeta, ListResponse, Subset } from "../../types"
 import type { AllRegionsOptions, FirstRegionOptions, GetRegionOptions, ListRegionsOptions, RegionModel } from "./types"
 
 /**

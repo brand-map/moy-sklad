@@ -2,7 +2,6 @@ import type {
   AccountModel,
   BatchDeleteResult,
   BatchGetResult,
-  Entity,
   GetFindResult,
   GetModelCreatableFields,
   GetModelUpdatableFields,

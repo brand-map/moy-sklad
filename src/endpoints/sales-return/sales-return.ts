@@ -1,7 +1,6 @@
 import type {
   BatchDeleteResult,
   BatchGetResult,
-  Entity,
   GetFindResult,
   ListMeta,
   ListResponse,

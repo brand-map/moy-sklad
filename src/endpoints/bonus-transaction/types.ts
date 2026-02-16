@@ -2,18 +2,16 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  Entity,
   ExpandOptions,
   FilterOptions,
-  Idable,
   IdFilter,
   Meta,
   Model,
   NumberFilter,
   OrderOptions,
-  PaginationOptions,
   StringFilter,
 } from "../../types"
+import type { Idable, PaginationOptions } from "../../types/common"
 import type { BonusProgramModel } from "../bonus-program"
 import type { CounterpartyModel } from "../counterparty"
 import type { EmployeeModel } from "../employee"
@@ -124,17 +122,17 @@ export interface BonusTransactionModel extends Model {
   }
 
   orderableFields:
-    | "id"
-    | "applicable"
-    | "bonusValue"
-    | "code"
-    | "created"
-    | "executionDate"
-    | "externalCode"
-    | "moment"
-    | "name"
-    | "shared"
-    | "updated"
+  | "id"
+  | "applicable"
+  | "bonusValue"
+  | "code"
+  | "created"
+  | "executionDate"
+  | "externalCode"
+  | "moment"
+  | "name"
+  | "shared"
+  | "updated"
 
   requiredCreateFields: "agent" | "transactionType"
 

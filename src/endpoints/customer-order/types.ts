@@ -6,20 +6,15 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  DocumentRate,
-  Entity,
   ExpandOptions,
   FilterOptions,
-  Idable,
   IdFilter,
   ListMeta,
   ListMetadata,
-  MediaType,
   Meta,
   Model,
   NumberFilter,
   OrderOptions,
-  PaginationOptions,
   ProjectModel,
   State,
   StateModel,
@@ -27,6 +22,7 @@ import type {
   StringFilter,
   TaxSystem,
 } from "../../types"
+import type { DocumentRate, Idable, MediaType, PaginationOptions } from "../../types/common"
 import type { CounterpartyModel } from "../counterparty"
 import type { DemandModel } from "../demand"
 import type { EmployeeModel } from "../employee"
@@ -199,18 +195,18 @@ export interface CustomerOrderModel extends Model {
     isDeleted: BooleanFilter
   }
   orderableFields:
-    | "id"
-    | "syncId"
-    | "updated"
-    | "updatedBy"
-    | "name"
-    | "description"
-    | "externalCode"
-    | "moment"
-    | "applicable"
-    | "sum"
-    | "created"
-    | "deliveryPlannedMoment"
+  | "id"
+  | "syncId"
+  | "updated"
+  | "updatedBy"
+  | "name"
+  | "description"
+  | "externalCode"
+  | "moment"
+  | "applicable"
+  | "sum"
+  | "created"
+  | "deliveryPlannedMoment"
   requiredCreateFields: "agent" | "organization"
 }
 

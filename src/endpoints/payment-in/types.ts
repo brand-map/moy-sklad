@@ -3,21 +3,18 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  DocumentRate,
-  Entity,
   ExpandOptions,
   FilterOptions,
-  Idable,
   IdFilter,
   Meta,
   Model,
   NumberFilter,
   OrderOptions,
-  PaginationOptions,
   ProjectModel,
   StateModel,
   StringFilter,
 } from "../../types"
+import type { DocumentRate, Idable, PaginationOptions } from "../../types/common"
 import type { CounterpartyModel } from "../counterparty"
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
@@ -183,20 +180,20 @@ export interface PaymentInModel extends Model {
     updated: DateTimeFilter
   }
   orderableFields:
-    | "id"
-    | "syncId"
-    | "updated"
-    | "updatedBy"
-    | "name"
-    | "description"
-    | "externalCode"
-    | "moment"
-    | "applicable"
-    | "sum"
-    | "created"
-    | "paymentPurpose"
-    | "incomingDate"
-    | "incomingNumber"
+  | "id"
+  | "syncId"
+  | "updated"
+  | "updatedBy"
+  | "name"
+  | "description"
+  | "externalCode"
+  | "moment"
+  | "applicable"
+  | "sum"
+  | "created"
+  | "paymentPurpose"
+  | "incomingDate"
+  | "incomingNumber"
 
   requiredCreateFields: "agent" | "organization"
 }

@@ -5,20 +5,18 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  Entity,
   ExpandOptions,
   FilterOptions,
-  Idable,
   IdFilter,
   ListMeta,
   Meta,
   Model,
   OrderOptions,
-  PaginationOptions,
   StateModel,
   StoreModel,
   StringFilter,
 } from "../../types"
+import type { Idable, PaginationOptions } from "../../types/common"
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
 import type { OrganizationModel } from "../organization"

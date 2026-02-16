@@ -13,10 +13,9 @@ import type {
   NumberFilter,
   OrderOption,
   OrderOptions,
-  PaginationOptions,
   StringFilter,
 } from "../../types"
-import type { Entity } from "../../types/entity"
+import type { PaginationOptions } from "../../types/common"
 
 /**
  * Атрибуты объекта отчёта
@@ -154,19 +153,19 @@ export interface StockAllModel extends Model {
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety-otchet-ostatki-rasshirennyj-otchet-ob-ostatkah-atributy-dostupnye-dlq-sortirowki
    */
   orderableFields:
-    | "avgStockDays"
-    | "code"
-    | "inTransit"
-    | "minimumBalance"
-    | "name"
-    | "pathName"
-    | "price"
-    | "productCode"
-    | "quantity"
-    | "reserve"
-    | "salePrice"
-    | "stock"
-    | "sumTotal"
+  | "avgStockDays"
+  | "code"
+  | "inTransit"
+  | "minimumBalance"
+  | "name"
+  | "pathName"
+  | "price"
+  | "productCode"
+  | "quantity"
+  | "reserve"
+  | "salePrice"
+  | "stock"
+  | "sumTotal"
 }
 
 export interface StockAllOptions {
@@ -275,7 +274,7 @@ export interface ReportStockEndpoint {
    * @param options Параметры запроса
    * @returns Краткий отчёт об остатках
    */
-  allCurrent<T extends StockAllCurrentStockType = StockAllCurrentStockType.Stock>(
+  allCurrent<T extends StockAllCurrentStockType = 'stock'>(
     options?: StockAllCurrentOptions<T>,
   ): Promise<StockAllCurrent<T>>
 

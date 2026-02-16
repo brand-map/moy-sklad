@@ -1,8 +1,7 @@
-import type { ReadonlyKeysOf } from "./type-utils"
 import type { Attribute } from "./attribute"
-import type { Entity } from "./entity"
 import type { Filter } from "./filters"
 import type { ListMeta, Meta, Metadata, UpdateMeta } from "./metadata"
+import type { ReadonlyKeysOf } from "./type-utils"
 
 export interface Model<T extends object = object> {
   object: T
@@ -21,7 +20,7 @@ export interface Model<T extends object = object> {
  */
 export type GetModelUpdatableFields<M extends Model> = {
   // itarate over non-readonly fields in model's object, excluding some Moysklad-specific readonly fields
-  [Key in keyof M["object"] as Exclude<
+  [Key in keyof M["object"]as Exclude<
     Key,
     ReadonlyKeysOf<M["object"]> | "meta" | "id" | "accountId"
   >]?: M["object"][Key] extends ListMeta<infer T>
@@ -64,9 +63,9 @@ export type GetModelRequiredCreateFields<M extends Model> = {
     // value is a Meta object?
     infer T
   >
-    ? // replace it with UpdateMeta
-      UpdateMeta<T>
-    : NonNullable<M["object"][Key]>
+  ? // replace it with UpdateMeta
+  UpdateMeta<T>
+  : NonNullable<M["object"][Key]>
 }
 
 /**
@@ -81,9 +80,9 @@ export type GetModelCreatableFields<M extends Model, R = GetModelRequiredCreateF
 export type ModelCreateOrUpdateData<M extends Model> =
   // Object has a meta field?
   "meta" extends keyof M["object"]
-    ? // Meta is a Meta object?
-      M["object"]["meta"] extends Metadata<infer T>
-      ? // Create object or an array of create/update objects
-          GetModelCreatableFields<M> | Array<GetModelCreatableFields<M> | (GetModelUpdatableFields<M> & UpdateMeta<T>)>
-      : never
-    : never
+  ? // Meta is a Meta object?
+  M["object"]["meta"] extends Metadata<infer T>
+  ? // Create object or an array of create/update objects
+  GetModelCreatableFields<M> | Array<GetModelCreatableFields<M> | (GetModelUpdatableFields<M> & UpdateMeta<T>)>
+  : never
+  : never

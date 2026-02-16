@@ -3,17 +3,15 @@ import type {
   AssortmentModel,
   DateTime,
   DateTimeFilter,
-  Entity,
   ExpandOptions,
   FilterOptions,
-  Idable,
   IdFilter,
   ListMeta,
   Meta,
   Model,
   OrderOptions,
-  PaginationOptions,
 } from "../../types"
+import type { Idable, PaginationOptions } from "../../types/common"
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
 

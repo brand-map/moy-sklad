@@ -1,5 +1,5 @@
 import type { Entity } from "./entity"
-import type { MediaType } from "./media-type"
+import type { MediaType } from "./common"
 
 export interface Metadata<T extends Entity> {
   href: string

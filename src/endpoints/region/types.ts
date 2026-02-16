@@ -2,17 +2,15 @@ import type { EmptyObject } from "../../types"
 import type {
   DateTime,
   DateTimeFilter,
-  Entity,
   ExpandOptions,
   FilterOptions,
-  Idable,
   IdFilter,
   Meta,
   Model,
   OrderOptions,
-  PaginationOptions,
   StringFilter,
 } from "../../types"
+import type { Idable, PaginationOptions } from "../../types/common"
 
 /**
  * Регион

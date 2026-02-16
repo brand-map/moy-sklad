@@ -1,4 +1,5 @@
-import type { DateTime, Entity, GreaterOrEqualsFilter, IdFilter, LessOrEqualsFilter, Meta, PaginationOptions } from "."
+import type { DateTime, Entity, GreaterOrEqualsFilter, IdFilter, LessOrEqualsFilter, Meta } from "."
+import type { PaginationOptions } from "./common"
 
 /**
  * Действие события аудита
@@ -236,38 +237,38 @@ interface BaseAuditEvent {
  */
 export type AuditEvent =
   | (BaseAuditEvent & {
-      readonly eventType: AuditEventType.Registration
-      readonly diff?: RegistrationAuditDiff
-    })
+    readonly eventType: 'registration'
+    readonly diff?: RegistrationAuditDiff
+  })
   | (BaseAuditEvent & {
-      readonly eventType: AuditEventType.OpenPublication | AuditEventType.ClosePublication
-      readonly diff?: PublicationAuditDiff
-    })
+    readonly eventType: 'openpublication' | 'closepublication'
+    readonly diff?: PublicationAuditDiff
+  })
   | (BaseAuditEvent & {
-      readonly eventType: AuditEventType.SendEmailFromEntity
-      readonly diff?: EmailAuditDiff
-    })
+    readonly eventType: 'sendemailfromentity'
+    readonly diff?: EmailAuditDiff
+  })
   | (BaseAuditEvent & {
-      readonly eventType: AuditEventType.Delete
-      readonly diff?: DeleteAuditDiff
-    })
+    readonly eventType: 'delete'
+    readonly diff?: DeleteAuditDiff
+  })
   | (BaseAuditEvent & {
-      readonly eventType:
-        | AuditEventType.Update
-        | AuditEventType.PutToArchive
-        | AuditEventType.RestoreFromArchive
-        | AuditEventType.PutToRecycleBin
-        | AuditEventType.RestoreFromRecycleBin
-      readonly diff?: UpdateAuditDiff
-    })
+    readonly eventType:
+    | 'update'
+    | 'puttoarchive'
+    | 'restorefromarchive'
+    | 'puttorecyclebin'
+    | 'restorefromrecyclebin'
+    readonly diff?: UpdateAuditDiff
+  })
   | (BaseAuditEvent & {
-      readonly eventType:
-        | AuditEventType.BulkOperation
-        | AuditEventType.Create
-        | AuditEventType.Print
-        | AuditEventType.ReplaceToken
-      readonly diff?: AuditDiff
-    })
+    readonly eventType:
+    | 'bulkoperation'
+    | 'create'
+    | 'print'
+    | 'replacetoken'
+    readonly diff?: AuditDiff
+  })
 
 export interface GetAuditByEntityOptions {
   filter?: {

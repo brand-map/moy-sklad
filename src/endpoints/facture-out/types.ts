@@ -2,22 +2,19 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  DocumentRate,
-  Entity,
   ExpandOptions,
   FilterOptions,
-  Idable,
   IdFilter,
   Meta,
   Model,
   NumberFilter,
   OrderOptions,
-  PaginationOptions,
   PositionFields,
   StateModel,
   StringFilter,
   UpdateMeta,
 } from "../../types"
+import type { DocumentRate, Idable, PaginationOptions } from "../../types/common"
 import type { CounterpartyModel } from "../counterparty"
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
@@ -163,16 +160,16 @@ export interface FactureOutModel extends Model {
     isDeleted: BooleanFilter
   }
   orderableFields:
-    | "id"
-    | "syncId"
-    | "updated"
-    | "name"
-    | "description"
-    | "externalCode"
-    | "moment"
-    | "applicable"
-    | "sum"
-    | "created"
+  | "id"
+  | "syncId"
+  | "updated"
+  | "name"
+  | "description"
+  | "externalCode"
+  | "moment"
+  | "applicable"
+  | "sum"
+  | "created"
   requiredCreateFields: "organization"
 }
 

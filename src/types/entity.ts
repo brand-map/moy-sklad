@@ -1,4 +1,8 @@
-import type { BundleModel, ConsignmentModel, ProductModel, ServiceModel, VariantModel } from "../endpoints"
+import type { BundleModel } from "../endpoints/bundle"
+import type { ConsignmentModel } from "../endpoints/consignment"
+import type { ProductModel } from "../endpoints/product"
+import type { ServiceModel } from "../endpoints/service"
+import type { VariantModel } from "../endpoints/variant"
 
 export type Entity =
   | "assortment"

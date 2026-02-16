@@ -2,16 +2,14 @@ import type {
   AssortmentEntity,
   AssortmentModel,
   Attribute,
-  Barcodes,
   DateTime,
   DateTimeFilter,
-  Entity,
-  Idable,
   IdFilter,
   Meta,
   Model,
   StringFilter,
 } from "../../types"
+import type { Barcodes, Idable } from "../../types/common"
 
 /**
  * Серия

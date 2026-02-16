@@ -1,5 +1,5 @@
 import type { SetRequired } from "../../types"
-import { type AssortmentEntity, type DateTime, Entity, type Meta } from "../../types"
+import { type AssortmentEntity, type DateTime, type Meta } from "../../types"
 
 /**
  * Определяет какую информацию нужно заполнить: цены (`evaluate_price`), ндс (`evaluate_vat`), скидки (`evaluate_discount`) или себестоимость (`evaluate_cost`).
@@ -40,18 +40,18 @@ export const EntitiesActions = {
 export type WizardOptions<A extends WizardAction = WizardAction> = A extends "evaluate_price"
   ? SetRequired<Partial<BaseOptions<A>>, "action" | "agent">
   : A extends "evaluate_discount"
-    ? SetRequired<Partial<BaseOptions<A>>, "action" | "agent">
-    : A extends "evaluate_vat"
-      ? SetRequired<Partial<BaseOptions<A>>, "action" | "organization">
-      : SetRequired<Partial<BaseOptions<A>>, "action" | "store">
+  ? SetRequired<Partial<BaseOptions<A>>, "action" | "agent">
+  : A extends "evaluate_vat"
+  ? SetRequired<Partial<BaseOptions<A>>, "action" | "organization">
+  : SetRequired<Partial<BaseOptions<A>>, "action" | "store">
 
 export type WizardResult<A extends WizardAction> = A extends "evaluate_cost"
   ? {
-      positions: {
-        assortment: Meta<AssortmentEntity>
-        cost: number
-      }[]
-    }
+    positions: {
+      assortment: Meta<AssortmentEntity>
+      cost: number
+    }[]
+  }
   : never
 
 /**

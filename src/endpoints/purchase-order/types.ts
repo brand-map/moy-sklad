@@ -5,20 +5,17 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  DocumentRate,
-  Entity,
   ExpandOptions,
   FilterOptions,
-  Idable,
   IdFilter,
   ListMeta,
   Meta,
   Model,
   NumberFilter,
   OrderOptions,
-  PaginationOptions,
   StringFilter,
 } from "../../types"
+import type { DocumentRate, Idable, PaginationOptions } from "../../types/common"
 import type { CounterpartyModel } from "../counterparty"
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
@@ -185,16 +182,16 @@ export interface PurchaseOrderModel extends Model {
     updated: DateTimeFilter
   }
   orderableFields:
-    | "id"
-    | "syncId"
-    | "updated"
-    | "updatedBy"
-    | "name"
-    | "description"
-    | "externalCode"
-    | "moment"
-    | "applicable"
-    | "sum"
+  | "id"
+  | "syncId"
+  | "updated"
+  | "updatedBy"
+  | "name"
+  | "description"
+  | "externalCode"
+  | "moment"
+  | "applicable"
+  | "sum"
   requiredCreateFields: "agent" | "organization"
 }
 
