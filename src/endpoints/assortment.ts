@@ -91,6 +91,44 @@ export class AssortmentEndpoint {
   }
 
   /**
+   * Gets all assortment items as an async generator (chunk by chunk).
+   *
+   * @param options - Options including groupBy and filters
+   * @yields Batch chunk with context and rows
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-assortiment-poluchit-assortiment
+   *
+   * @example
+   * ```ts
+   * for await (const chunk of moysklad.assortment.allChunks({ filter: { archived: false } })) {
+   *   console.log(chunk.rows.length)
+   * }
+   * for await(const chunk of moysklad.assortment.allChunks()){
+   *   console.log(chunk)
+   * }
+   * ```
+   */
+  allChunks<T extends AllAssortmentOptions>(
+    options?: Subset<T, AllAssortmentOptions>,
+  ): AsyncGenerator<BatchGetResult<AssortmentModel["object"], "assortment">, void, void> {
+    return this.client.getChunks(
+      async (limit, offset) => {
+        const composedSearchParameters = composeSearchParameters({
+          pagination: {
+            limit,
+            offset,
+          },
+          filter: options?.filter,
+        })
+        const searchParameters = buildSearchParams(composedSearchParameters, options?.groupBy)
+
+        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
+      },
+      options?.filter ? Object.keys(options.filter).length > 0 : false,
+    )
+  }
+
+  /**
    * Gets the first assortment item.
    *
    * @param client - API client instance

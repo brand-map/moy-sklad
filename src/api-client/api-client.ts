@@ -506,40 +506,64 @@ export class ApiClient {
     fetcher: (limit: number, offset: number) => Promise<ListResponse<T, E>>,
     hasExpand?: boolean,
   ): Promise<BatchGetResult<T, E>> {
+    let context: BatchGetResult<T, E>["context"] | undefined
+    const allRows: T[] = []
+
+    for await (const chunk of this.getChunks(fetcher, hasExpand)) {
+      context = chunk.context
+      allRows.push(...chunk.rows)
+    }
+
+    if (context == null) {
+      throw new Error("getChunks returned no chunks")
+    }
+
+    return { context, rows: allRows }
+  }
+
+  /**
+   * Получать сущности из API чанками через async generator.
+   * Полезно, когда нужно обрабатывать длинный список постепенно, без накопления всех строк в памяти.
+   *
+   * @param fetcher - функция, которая делает запрос к API и возвращает список сущностей
+   * @param hasExpand - флаг, указывающий на наличие expand в запросе
+   *
+   * @yields Объект чанка с `rows` и `context`
+   */
+  async *getChunks<T, E extends Entity>(
+    fetcher: (limit: number, offset: number) => Promise<ListResponse<T, E>>,
+    hasExpand?: boolean,
+  ): AsyncGenerator<BatchGetResult<T, E>, void, void> {
     const limit = hasExpand ? this.batchGetOptions.expandLimit : this.batchGetOptions.limit
 
     const data = await fetcher(limit, 0)
     const { size } = data.meta
     const { context } = data
 
-    if (size <= limit) {
-      return { context, rows: data.rows }
-    }
+    yield { context, rows: data.rows }
 
-    const allRows: T[] = [...data.rows]
+    if (size <= limit) {
+      return
+    }
 
     // Calculate number of remaining batches needed
     const remainingBatches = Math.ceil((size - limit) / limit)
 
     // Process remaining batches with concurrency limit
     for (let i = 0; i < remainingBatches; i += this.batchGetOptions.concurrencyLimit) {
-      const batchEnd = Math.min(i + this.batchGetOptions.concurrencyLimit, remainingBatches)
+      const batchMax = Math.min(i + this.batchGetOptions.concurrencyLimit, remainingBatches)
 
-      const batchPromises: Promise<T[]>[] = []
+      const lazyBatchPromises = []
 
-      for (let j = i; j < batchEnd; j++) {
+      for (let j = i; j < batchMax; j++) {
         const offset = limit + j * limit
-        batchPromises.push(fetcher(limit, offset).then((response) => response.rows))
+        lazyBatchPromises.push(() => fetcher(limit, offset).then((response) => response.rows))
       }
 
-      const batchResults = await Promise.all(batchPromises)
+      const results = await Promise.all(lazyBatchPromises.map((promise) => promise()))
 
-      for (const rows of batchResults) {
-        allRows.push(...rows)
-      }
+      yield { context, rows: results.flat() }
     }
-
-    return { context, rows: allRows }
   }
 
   /**
