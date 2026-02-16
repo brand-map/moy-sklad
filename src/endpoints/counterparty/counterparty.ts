@@ -40,7 +40,7 @@ export interface CounterpartyEndpoint {
    */
   list<T extends ListCounterpartiesOptions = Record<string, unknown>>(
     options?: Subset<T, ListCounterpartiesOptions>,
-  ): Promise<ListResponse<GetFindResult<CounterpartyModel, T["expand"]>, Entity.Counterparty>>
+  ): Promise<ListResponse<GetFindResult<CounterpartyModel, T["expand"]>, "counterparty">>
 
   /**
    * Получить все контрагенты.
@@ -57,7 +57,7 @@ export interface CounterpartyEndpoint {
    */
   all<T extends AllCounterpartiesOptions = Record<string, unknown>>(
     options?: Subset<T, AllCounterpartiesOptions>,
-  ): Promise<BatchGetResult<GetFindResult<CounterpartyModel, T["expand"]>, Entity.Counterparty>>
+  ): Promise<BatchGetResult<GetFindResult<CounterpartyModel, T["expand"]>, "counterparty">>
 
   /**
    * Получить контрагента по id.
@@ -117,7 +117,7 @@ export interface CounterpartyEndpoint {
    */
   first<T extends FirstCounterpartyOptions = Record<string, unknown>>(
     options?: Subset<T, FirstCounterpartyOptions>,
-  ): Promise<ListResponse<GetFindResult<CounterpartyModel, T["expand"]>, Entity.Counterparty>>
+  ): Promise<ListResponse<GetFindResult<CounterpartyModel, T["expand"]>, "counterparty">>
 
   /**
    * Получить количество контрагентов.
@@ -131,7 +131,7 @@ export interface CounterpartyEndpoint {
    * const count = await moysklad.counterparty.size();
    * ```
    */
-  size(options?: AllCounterpartiesOptions): Promise<ListMeta<Entity.Counterparty>>
+  size(options?: AllCounterpartiesOptions): Promise<ListMeta<"counterparty">>
 
   /**
    * Создать или обновить контрагента.

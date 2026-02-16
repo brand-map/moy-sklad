@@ -41,7 +41,7 @@ export interface InvoiceOutEndpoint {
    */
   list<T extends ListInvoiceOutsOptions = Record<string, unknown>>(
     options?: Subset<T, ListInvoiceOutsOptions>,
-  ): Promise<ListResponse<GetFindResult<InvoiceOutModel, T["expand"]>, Entity.InvoiceOut>>
+  ): Promise<ListResponse<GetFindResult<InvoiceOutModel, T["expand"]>, "invoiceout">>
 
   /**
    * Получить все счета покупателям с пагинацией.
@@ -58,7 +58,7 @@ export interface InvoiceOutEndpoint {
    */
   all<T extends AllInvoiceOutsOptions = Record<string, unknown>>(
     options?: Subset<T, AllInvoiceOutsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<InvoiceOutModel, T["expand"]>, Entity.InvoiceOut>>
+  ): Promise<BatchGetResult<GetFindResult<InvoiceOutModel, T["expand"]>, "invoiceout">>
 
   /**
    * Получить счет покупателю по ID.
@@ -153,7 +153,7 @@ export interface InvoiceOutEndpoint {
   upsert<T extends CreateInvoiceOutOptions = Record<string, unknown>>(
     data: (
       | GetModelCreatableFields<InvoiceOutModel>
-      | (GetModelUpdatableFields<InvoiceOutModel> & UpdateMeta<Entity.InvoiceOut>)
+      | (GetModelUpdatableFields<InvoiceOutModel> & UpdateMeta<"invoiceout">)
     )[],
     options?: Subset<T, CreateInvoiceOutOptions>,
   ): Promise<GetFindResult<InvoiceOutModel, T["expand"]>[]>
@@ -174,7 +174,7 @@ export interface InvoiceOutEndpoint {
    */
   first<T extends FirstInvoiceOutOptions = Record<string, unknown>>(
     options?: Subset<T, FirstInvoiceOutOptions>,
-  ): Promise<ListResponse<GetFindResult<InvoiceOutModel, T["expand"]>, Entity.InvoiceOut>>
+  ): Promise<ListResponse<GetFindResult<InvoiceOutModel, T["expand"]>, "invoiceout">>
 
   /**
    * Получить размер списка счетов покупателям.
@@ -186,7 +186,7 @@ export interface InvoiceOutEndpoint {
    * const count = await moysklad.invoiceOut.size();
    * ```
    */
-  size(options?: AllInvoiceOutsOptions): Promise<ListMeta<Entity.InvoiceOut>>
+  size(options?: AllInvoiceOutsOptions): Promise<ListMeta<"invoiceout">>
 
   /**
    * Удалить счет покупателю.

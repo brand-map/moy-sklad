@@ -21,7 +21,7 @@ import type {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-region
  */
-export interface Region extends Idable, Meta<Entity.Region> {
+export interface Region extends Idable, Meta<"region"> {
   /** ID учетной записи */
   readonly accountId: string
 

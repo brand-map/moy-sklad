@@ -29,7 +29,7 @@ import type { OrganizationModel } from "../organization"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-pokupatelq-zakazy-pokupatelqm-pozicii-zakaza-pokupatelq
  */
-export interface PurchaseOrderPosition extends Idable, Meta<Entity.PurchaseOrderPosition> {
+export interface PurchaseOrderPosition extends Idable, Meta<"purchaseorderposition"> {
   /** ID учетной записи */
   readonly accountId: string
   /** Метаданные товара/услуги/серии/модификации, которую представляет собой позиция */
@@ -67,13 +67,13 @@ export interface PurchaseOrderPositionModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-pokupatelq
  */
-export interface PurchaseOrder extends Idable, Meta<Entity.PurchaseOrder> {
+export interface PurchaseOrder extends Idable, Meta<"purchaseorder"> {
   /** ID учетной записи */
   readonly accountId: string
   /** Метаданные контрагента */
-  agent: Meta<Entity.Counterparty>
+  agent: Meta<"counterparty">
   /** Метаданные счета контрагента */
-  agentAccount?: Meta<Entity.Account>
+  agentAccount?: Meta<"account">
   /** Отметка о проведении */
   applicable: boolean
   /** Коллекция метаданных доп. полей */
@@ -81,7 +81,7 @@ export interface PurchaseOrder extends Idable, Meta<Entity.PurchaseOrder> {
   /** Код Заказа поставщику */
   code?: string
   /** Метаданные договора */
-  contract?: Meta<Entity.Contract>
+  contract?: Meta<"contract">
   /** Дата создания */
   readonly created: DateTime
   /** Момент последнего удаления Заказа поставщику */
@@ -95,7 +95,7 @@ export interface PurchaseOrder extends Idable, Meta<Entity.PurchaseOrder> {
   /** Метаданные массива Файлов */
   files: unknown[] // TODO add files type
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
   /** Сумма счетов поставщику */
   readonly invoicedSum: number
   /** Дата документа */
@@ -103,19 +103,19 @@ export interface PurchaseOrder extends Idable, Meta<Entity.PurchaseOrder> {
   /** Наименование Заказа поставщику */
   name: string
   /** Метаданные юрлица */
-  organization: Meta<Entity.Organization>
+  organization: Meta<"organization">
   /** Метаданные счета юрлица */
-  organizationAccount?: Meta<Entity.Account>
+  organizationAccount?: Meta<"account">
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
   /** Сумма входящих платежей по Заказу */
   readonly payedSum: number
   /** Метаданные позиций Заказа поставщику */
-  positions: ListMeta<Entity.PurchaseOrderPosition>
+  positions: ListMeta<"purchaseorderposition">
   /** Напечатан ли документ */
   readonly printed: boolean
   /** Метаданные проекта */
-  project?: Meta<Entity.Project>
+  project?: Meta<"project">
   /** Опубликован ли документ */
   readonly published: boolean
   /** Валюта */
@@ -125,9 +125,9 @@ export interface PurchaseOrder extends Idable, Meta<Entity.PurchaseOrder> {
   /** Сумма принятого */
   readonly shippedSum: number
   /** Метаданные статуса заказа */
-  state?: Meta<Entity.State>
+  state?: Meta<"state">
   /** Метаданные склада */
-  store?: Meta<Entity.Store>
+  store?: Meta<"store">
   /** Сумма Заказа поставщику в установленной валюте */
   readonly sum: number
   /** ID синхронизации */

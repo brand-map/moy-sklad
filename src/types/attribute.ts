@@ -19,7 +19,7 @@ export type AttributeType =
   | "product"
   | "customentity"
 
-interface BaseAttribute extends Idable, Meta<Entity.AttributeMetadata> {
+interface BaseAttribute extends Idable, Meta<"attributemetadata"> {
   name: string
   type: AttributeType
   value:
@@ -73,39 +73,39 @@ export interface LongAttribute extends BaseAttribute {
 
 export interface ContractAttribute extends BaseAttribute {
   type: AttributeType.Contract
-  value: Meta<Entity.Contract> & { name: string }
+  value: Meta<"contract"> & { name: string }
 }
 
 export interface CounterpartyAttribute extends BaseAttribute {
   type: AttributeType.Counterparty
-  value: Meta<Entity.Counterparty> & { name: string }
+  value: Meta<"counterparty"> & { name: string }
 }
 
 export interface ProjectAttribute extends BaseAttribute {
   type: AttributeType.Project
-  value: Meta<Entity.Project> & { name: string }
+  value: Meta<"project"> & { name: string }
 }
 
 export interface StoreAttribute extends BaseAttribute {
   type: AttributeType.Store
-  value: Meta<Entity.Store> & { name: string }
+  value: Meta<"store"> & { name: string }
 }
 
 export interface EmployeeAttribute extends BaseAttribute {
   type: AttributeType.Employee
-  value: Meta<Entity.Employee> & { name: string }
+  value: Meta<"employee"> & { name: string }
 }
 
 export interface ProductAttribute extends BaseAttribute {
   type: AttributeType.Product
-  value: Meta<Entity.Product> & { name: string }
+  value: Meta<"product"> & { name: string }
 }
 
 export interface CustomEntityAttribute extends BaseAttribute {
   description?: string
   type: AttributeType.CustomEntity
-  customEntityMeta: Metadata<Entity.CustomEntityMetadata>
-  value: Meta<Entity.CustomEntityMetadata> & { name: string }
+  customEntityMeta: Metadata<"customentitymetadata">
+  value: Meta<"customentitymetadata"> & { name: string }
 }
 
 export type Attribute =

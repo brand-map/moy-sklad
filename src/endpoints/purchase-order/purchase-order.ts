@@ -62,7 +62,7 @@ export interface PurchaseOrderEndpoint {
    */
   list<T extends ListPurchaseOrdersOptions = Record<string, unknown>>(
     options?: Subset<T, ListPurchaseOrdersOptions>,
-  ): Promise<ListResponse<GetFindResult<PurchaseOrderModel, T["expand"]>, Entity.PurchaseOrder>>
+  ): Promise<ListResponse<GetFindResult<PurchaseOrderModel, T["expand"]>, "purchaseorder">>
 
   /**
    * Получить все заказы поставщикам.
@@ -79,7 +79,7 @@ export interface PurchaseOrderEndpoint {
    */
   all<T extends AllPurchaseOrdersOptions = Record<string, unknown>>(
     options?: Subset<T, AllPurchaseOrdersOptions>,
-  ): Promise<BatchGetResult<GetFindResult<PurchaseOrderModel, T["expand"]>, Entity.PurchaseOrder>>
+  ): Promise<BatchGetResult<GetFindResult<PurchaseOrderModel, T["expand"]>, "purchaseorder">>
 
   /**
    * Получить заказ поставщику по id.
@@ -139,14 +139,14 @@ export interface PurchaseOrderEndpoint {
    *   organization: {
    *     meta: {
    *       href: moysklad.client.buildUrl(["entity", "organization", "5427bc76-b95f-11eb-0a80-04bb000cd583"]),
-   *       type: Entity.Organization,
+   *       type: "organization",
    *       mediaType: MediaType.Json
    *     }
    *   },
    *   agent: {
    *     meta: {
    *       href: moysklad.client.buildUrl(["entity", "counterparty", "5427bc76-b95f-11eb-0a80-04bb000cd583"]),
-   *       type: Entity.Counterparty,
+   *       type: "counterparty",
    *       mediaType: MediaType.Json
    *     }
    *   }
@@ -175,14 +175,14 @@ export interface PurchaseOrderEndpoint {
    *     organization: {
    *       meta: {
    *         href: moysklad.client.buildUrl(["entity", "organization", "5427bc76-b95f-11eb-0a80-04bb000cd583"]),
-   *         type: Entity.Organization,
+   *         type: "organization",
    *         mediaType: MediaType.Json
    *       }
    *     },
    *     agent: {
    *       meta: {
    *         href: moysklad.client.buildUrl(["entity", "counterparty", "5427bc76-b95f-11eb-0a80-04bb000cd583"]),
-   *         type: Entity.Counterparty,
+   *         type: "counterparty",
    *         mediaType: MediaType.Json
    *       }
    *     }
@@ -191,7 +191,7 @@ export interface PurchaseOrderEndpoint {
    *   {
    *     meta: {
    *       href: moysklad.client.buildUrl(["entity", "purchaseorder", "5427bc76-b95f-11eb-0a80-04bb000cd583"]),
-   *       type: Entity.PurchaseOrder,
+   *       type: "purchaseorder",
    *       mediaType: MediaType.Json
    *     },
    *     name: "new name"
@@ -202,7 +202,7 @@ export interface PurchaseOrderEndpoint {
   upsert<T extends CreatePurchaseOrderOptions = Record<string, unknown>>(
     data: (
       | GetModelCreatableFields<PurchaseOrderModel>
-      | (GetModelUpdatableFields<PurchaseOrderModel> & UpdateMeta<Entity.PurchaseOrder>)
+      | (GetModelUpdatableFields<PurchaseOrderModel> & UpdateMeta<"purchaseorder">)
     )[],
     options?: Subset<T, CreatePurchaseOrderOptions>,
   ): Promise<GetFindResult<PurchaseOrderModel, T["expand"]>[]>
@@ -225,14 +225,14 @@ export interface PurchaseOrderEndpoint {
    */
   first<T extends FirstPurchaseOrderOptions = Record<string, unknown>>(
     options?: Subset<T, FirstPurchaseOrderOptions>,
-  ): Promise<ListResponse<GetFindResult<PurchaseOrderModel, T["expand"]>, Entity.PurchaseOrder>>
+  ): Promise<ListResponse<GetFindResult<PurchaseOrderModel, T["expand"]>, "purchaseorder">>
 
   /**
    * Получить общее количество заказов поставщикам.
    *
    * @returns Общее количество заказов поставщикам
    */
-  size(options?: AllPurchaseOrdersOptions): Promise<ListMeta<Entity.PurchaseOrder>>
+  size(options?: AllPurchaseOrdersOptions): Promise<ListMeta<"purchaseorder">>
 
   /**
    * Удалить заказ поставщику по id.

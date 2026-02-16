@@ -36,7 +36,7 @@ export interface PaymentInEndpoint {
    */
   list<T extends ListPaymentInsOptions = Record<string, unknown>>(
     options?: Subset<T, ListPaymentInsOptions>,
-  ): Promise<ListResponse<GetFindResult<PaymentInModel, T["expand"]>, Entity.PaymentIn>>
+  ): Promise<ListResponse<GetFindResult<PaymentInModel, T["expand"]>, "paymentin">>
 
   /**
    * Получить все входящие платежи
@@ -46,7 +46,7 @@ export interface PaymentInEndpoint {
    */
   all<T extends AllPaymentInsOptions = Record<string, unknown>>(
     options?: Subset<T, AllPaymentInsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<PaymentInModel, T["expand"]>, Entity.PaymentIn>>
+  ): Promise<BatchGetResult<GetFindResult<PaymentInModel, T["expand"]>, "paymentin">>
 
   /**
    * Получить входящий платеж по ID
@@ -102,7 +102,7 @@ export interface PaymentInEndpoint {
   upsert<T extends CreatePaymentInOptions = Record<string, unknown>>(
     data: (
       | GetModelCreatableFields<PaymentInModel>
-      | (GetModelUpdatableFields<PaymentInModel> & UpdateMeta<Entity.PaymentIn>)
+      | (GetModelUpdatableFields<PaymentInModel> & UpdateMeta<"paymentin">)
     )[],
     options?: Subset<T, CreatePaymentInOptions>,
   ): Promise<GetFindResult<PaymentInModel, T["expand"]>[]>
@@ -115,14 +115,14 @@ export interface PaymentInEndpoint {
    */
   first<T extends FirstPaymentInOptions = Record<string, unknown>>(
     options?: Subset<T, FirstPaymentInOptions>,
-  ): Promise<ListResponse<GetFindResult<PaymentInModel, T["expand"]>, Entity.PaymentIn>>
+  ): Promise<ListResponse<GetFindResult<PaymentInModel, T["expand"]>, "paymentin">>
 
   /**
    * Получить количество входящих платежей
    *
    * @returns Количество входящих платежей
    */
-  size(options?: AllPaymentInsOptions): Promise<ListMeta<Entity.PaymentIn>>
+  size(options?: AllPaymentInsOptions): Promise<ListMeta<"paymentin">>
 
   /**
    * Удалить входящий платеж

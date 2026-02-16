@@ -38,7 +38,7 @@ export interface ProductEndpoint {
    */
   list<T extends ListProductsOptions = Record<string, unknown>>(
     options?: Subset<T, ListProductsOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>>
+  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">>
 
   /**
    * Получить все товары.
@@ -50,7 +50,7 @@ export interface ProductEndpoint {
    */
   all<T extends AllProductsOptions = Record<string, unknown>>(
     options?: Subset<T, AllProductsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, Entity.Product>>
+  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">>
 
   /**
    * Получить первый товар из списка.
@@ -62,7 +62,7 @@ export interface ProductEndpoint {
    */
   first<T extends FirstProductOptions = Record<string, unknown>>(
     options?: Subset<T, FirstProductOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>>
+  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">>
 
   /**
    * Получить товар по ID.
@@ -83,7 +83,7 @@ export interface ProductEndpoint {
    *
    * @returns Количество товаров
    */
-  size(options?: AllProductsOptions): Promise<ListMeta<Entity.Product>>
+  size(options?: AllProductsOptions): Promise<ListMeta<"product">>
 
   /**
    * Удалить товар.
@@ -159,5 +159,5 @@ export interface ProductEndpoint {
    *
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/audit/#audit-audit-poluchit-sobytiq-po-suschnosti
    */
-  audit(id: string, options?: GetAuditByEntityOptions): Promise<ListResponse<AuditEvent, Entity.AuditEvent>>
+  audit(id: string, options?: GetAuditByEntityOptions): Promise<ListResponse<AuditEvent, "auditevent">>
 }

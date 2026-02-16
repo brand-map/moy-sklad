@@ -28,12 +28,12 @@ import type { OrganizationModel } from "../organization"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-faktura-wydannyj
  */
-export interface FactureOut extends Idable, Meta<Entity.FactureOut> {
+export interface FactureOut extends Idable, Meta<"factureout"> {
   /** ID учетной записи */
   readonly accountId: string
 
   /** Метаданные контрагента */
-  agent: Meta<Entity.Counterparty>
+  agent: Meta<"counterparty">
 
   /** Отметка о проведении */
   applicable: boolean
@@ -45,7 +45,7 @@ export interface FactureOut extends Idable, Meta<Entity.FactureOut> {
   code?: string
 
   /** Метаданные договора */
-  contract?: Meta<Entity.Contract> // TODO expand contract
+  contract?: Meta<"contract"> // TODO expand contract
 
   /** Дата создания */
   readonly created: DateTime
@@ -63,7 +63,7 @@ export interface FactureOut extends Idable, Meta<Entity.FactureOut> {
   files: unknown[] // TODO add files types & expand
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Дата документа */
   moment: DateTime
@@ -72,10 +72,10 @@ export interface FactureOut extends Idable, Meta<Entity.FactureOut> {
   name: string
 
   /** Метаданные юрлица */
-  organization: Meta<Entity.Organization>
+  organization: Meta<"organization">
 
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Напечатан ли документ */
   readonly printed: boolean
@@ -90,7 +90,7 @@ export interface FactureOut extends Idable, Meta<Entity.FactureOut> {
   shared: boolean
 
   /** Метаданные статуса выданного Счета-фактуры */
-  state?: Meta<Entity.State>
+  state?: Meta<"state">
 
   /** Идентификатор государственного контракта, договора (соглашения) */
   stateContractId?: string
@@ -106,17 +106,17 @@ export interface FactureOut extends Idable, Meta<Entity.FactureOut> {
 
   // Связи с другими документами
   /** Массив ссылок на связанные отгрузки */
-  demands?: Meta<Entity.Demand>[]
+  demands?: Meta<"demand">[]
 
   /** Массив ссылок на связанные входящие платежи */
-  payments?: Meta<Entity.PaymentIn>[]
+  payments?: Meta<"paymentin">[]
 
   /** Массив ссылок на связанные возвраты поставщикам */
-  // returns?: Meta<Entity.PurchaseReturn>[]; // TODO add PurchaseReturn entity when available
+  // returns?: Meta<"purchasereturn">[]; // TODO add PurchaseReturn entity when available
 
   // Другие поля
   /** Метаданные грузополучателя (контрагент или юрлицо) */
-  consignee?: Meta<Entity.Counterparty> | Meta<Entity.Organization>
+  consignee?: Meta<"counterparty"> | Meta<"organization">
 
   /** Название платежного документа */
   paymentNumber?: string
@@ -218,9 +218,9 @@ export type AllFactureOutsOptions = Omit<ListFactureOutsOptions, "pagination">
  */
 export interface FactureOutTemplateData {
   /** Массив ссылок на связанные отгрузки */
-  demands?: UpdateMeta<Entity.Demand>[]
+  demands?: UpdateMeta<"demand">[]
   /** Массив ссылок на связанные входящие платежи */
-  payments?: UpdateMeta<Entity.PaymentIn>[]
+  payments?: UpdateMeta<"paymentin">[]
   /** Массив ссылок на связанные возвраты поставщикам */
-  // returns?: UpdateMeta<Entity.PurchaseReturn>[]; // TODO add PurchaseReturn entity when available
+  // returns?: UpdateMeta<"purchasereturn">[]; // TODO add PurchaseReturn entity when available
 }

@@ -38,7 +38,7 @@ export interface ProductionStageEndpoint {
    */
   list<T extends ListProductionStagesOptions>(
     options: Subset<T, ListProductionStagesOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductionStageModel, T["expand"]>, Entity.ProductionStage>>
+  ): Promise<ListResponse<GetFindResult<ProductionStageModel, T["expand"]>, "productionstage">>
 
   /**
    * Получить все производственные этапы.
@@ -59,7 +59,7 @@ export interface ProductionStageEndpoint {
    */
   all<T extends AllProductionStagesOptions>(
     options: Subset<T, AllProductionStagesOptions>,
-  ): Promise<BatchGetResult<GetFindResult<ProductionStageModel, T["expand"]>, Entity.ProductionStage>>
+  ): Promise<BatchGetResult<GetFindResult<ProductionStageModel, T["expand"]>, "productionstage">>
 
   /**
    * Получить производственный этап по id.
@@ -123,7 +123,7 @@ export interface ProductionStageEndpoint {
    */
   first<T extends FirstProductionStageOptions>(
     options: Subset<T, FirstProductionStageOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductionStageModel, T["expand"]>, Entity.ProductionStage>>
+  ): Promise<ListResponse<GetFindResult<ProductionStageModel, T["expand"]>, "productionstage">>
 
   /**
    * Получить общее количество производственных этапов.

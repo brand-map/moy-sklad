@@ -24,7 +24,7 @@ export type CounterpartyCompanyType = "legal" | "entrepreneur" | "individual"
 
 export type IndividualCounterpartySex = "male" | "female"
 
-interface BaseCounterparty extends Idable, Meta<Entity.Counterparty> {
+interface BaseCounterparty extends Idable, Meta<"counterparty"> {
   readonly accountId: string
   // TODO expand accounts
   accounts: unknown
@@ -34,10 +34,10 @@ interface BaseCounterparty extends Idable, Meta<Entity.Counterparty> {
     apartment?: string
     city?: string
     comment?: string
-    country?: Meta<Entity.Country>
+    country?: Meta<"country">
     house?: string
     postalCode?: string
-    region?: Meta<Entity.Region>
+    region?: Meta<"region">
     street?: string
   }
   legalAddress?: string
@@ -46,10 +46,10 @@ interface BaseCounterparty extends Idable, Meta<Entity.Counterparty> {
     apartment?: string
     city?: string
     comment?: string
-    country?: Meta<Entity.Country>
+    country?: Meta<"country">
     house?: string
     postalCode?: string
-    region?: Meta<Entity.Region>
+    region?: Meta<"region">
     street?: string
   }
   archived: boolean
@@ -71,17 +71,17 @@ interface BaseCounterparty extends Idable, Meta<Entity.Counterparty> {
   fax?: string
   // TODO expand files
   files: unknown
-  group: Meta<Entity.Group>
+  group: Meta<"group">
   name: string
   // TODO expand notes
   notes?: unknown
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
   phone?: string
   // TODO add priceType
   priceType?: unknown
   readonly salesAmount: number
   shared: boolean
-  state?: Meta<Entity.State>
+  state?: Meta<"state">
   syncId?: string
   tags?: string[]
   readonly updated: DateTime

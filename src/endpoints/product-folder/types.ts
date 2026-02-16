@@ -23,7 +23,7 @@ import type { GroupModel } from "../group"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-gruppa-towarow
  */
-export interface ProductFolder extends Idable, Meta<Entity.ProductFolder> {
+export interface ProductFolder extends Idable, Meta<"productfolder"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -46,19 +46,19 @@ export interface ProductFolder extends Idable, Meta<Entity.ProductFolder> {
   externalCode: string
 
   /** Метаданные отдела сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Наименование Группы товаров */
   name: string
 
   /** Метаданные владельца (Сотрудника) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Наименование Группы товаров, в которую входит данная Группа товаров */
   readonly pathName: string
 
   /** Ссылка на Группу товаров, в которую входит данная Группа товаров, в формате Метаданных */
-  productFolder?: Meta<Entity.ProductFolder>
+  productFolder?: Meta<"productfolder">
 
   /** Общий доступ */
   shared: boolean

@@ -63,7 +63,7 @@ export interface CustomerOrderEndpoint {
    */
   list<T extends ListCustomerOrdersOptions = Record<string, unknown>>(
     options?: Subset<T, ListCustomerOrdersOptions>,
-  ): Promise<ListResponse<GetFindResult<CustomerOrderModel, T["expand"]>, Entity.CustomerOrder>>
+  ): Promise<ListResponse<GetFindResult<CustomerOrderModel, T["expand"]>, "customerorder">>
 
   /**
    * Получить все заказы покупателей.
@@ -80,7 +80,7 @@ export interface CustomerOrderEndpoint {
    */
   all<T extends AllCustomerOrdersOptions = Record<string, unknown>>(
     options?: Subset<T, AllCustomerOrdersOptions>,
-  ): Promise<BatchGetResult<GetFindResult<CustomerOrderModel, T["expand"]>, Entity.BonusTransaction>>
+  ): Promise<BatchGetResult<GetFindResult<CustomerOrderModel, T["expand"]>, "bonustransaction">>
 
   /**
    * Получить первый заказ покупателя.
@@ -100,7 +100,7 @@ export interface CustomerOrderEndpoint {
    */
   first<T extends FirstCustomerOrderOptions = Record<string, unknown>>(
     options?: Subset<T, FirstCustomerOrderOptions>,
-  ): Promise<ListResponse<GetFindResult<CustomerOrderModel, T["expand"]>, Entity.CustomerOrder>>
+  ): Promise<ListResponse<GetFindResult<CustomerOrderModel, T["expand"]>, "customerorder">>
 
   /**
    * Получить заказ покупателя по id.
@@ -126,7 +126,7 @@ export interface CustomerOrderEndpoint {
    *
    * @returns Общее количество заказов покупателей
    */
-  size(options?: AllCustomerOrdersOptions): Promise<ListMeta<Entity.CustomerOrder>>
+  size(options?: AllCustomerOrdersOptions): Promise<ListMeta<"customerorder">>
 
   /**
    * Удалить заказ покупателя по id.
@@ -175,14 +175,14 @@ export interface CustomerOrderEndpoint {
    *     meta: {
    *       href: moysklad.client.buildUrl(["entity", "organization", "5427bc76-b95f-11eb-0a80-04bb000cd583"]),
    *       mediaType: MediaType.Json,
-   *       type: Entity.Organization
+   *       type: "organization"
    *     }
    *   },
    *   agent: {
    *     meta: {
    *       href: moysklad.client.buildUrl(["entity", "counterparty", "5427bc76-b95f-11eb-0a80-04bb000cd583"]),
    *       mediaType: MediaType.Json,
-   *       type: Entity.Counterparty
+   *       type: "counterparty"
    *     }
    *   }
    * });
@@ -228,11 +228,11 @@ export interface CustomerOrderEndpoint {
    *   {
    *     agent: {
    *       meta: {
-   *         type: Entity.Counterparty,
+   *         type: "counterparty",
    *         href: moysklad.client
    *           .buildUrl([
    *             "entity",
-   *             Entity.Counterparty,
+   *             "counterparty",
    *             "b0e1f1d1-0b1d-11ec-80e9-0b5808000a0e",
    *           ])
    *           .toString(),
@@ -241,11 +241,11 @@ export interface CustomerOrderEndpoint {
    *     },
    *     organization: {
    *       meta: {
-   *         type: Entity.Organization,
+   *         type: "organization",
    *         href: moysklad.client
    *           .buildUrl([
    *             "entity",
-   *             Entity.Organization,
+   *             "organization",
    *             "b0e1f1d1-0b1d-11ec-80e9-0b5808000a0e",
    *           ])
    *           .toString(),
@@ -256,11 +256,11 @@ export interface CustomerOrderEndpoint {
    *   // обновить существующий заказ покупателя
    *   {
    *     meta: {
-   *       type: Entity.CustomerOrder,
+   *       type: "customerorder",
    *       href: moysklad.client
    *         .buildUrl([
    *           "entity",
-   *           Entity.CustomerOrder,
+   *           "customerorder",
    *           "b0e1f1d1-0b1d-11ec-80e9-0b5808000a0e",
    *         ])
    *         .toString(),
@@ -274,7 +274,7 @@ export interface CustomerOrderEndpoint {
   upsert<T extends CreateCustomerOrderOptions = Record<string, unknown>>(
     data: (
       | GetModelCreatableFields<CustomerOrderModel>
-      | (GetModelUpdatableFields<CustomerOrderModel> & UpdateMeta<Entity.CustomerOrder>)
+      | (GetModelUpdatableFields<CustomerOrderModel> & UpdateMeta<"customerorder">)
     )[],
     options?: Subset<T, CreateCustomerOrderOptions>,
   ): Promise<GetFindResult<CustomerOrderModel, T["expand"]>[]>

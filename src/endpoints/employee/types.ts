@@ -1,7 +1,7 @@
 import type { DateTime, Entity, Idable, Meta, Model } from "../../types"
 import type { GroupModel } from "../group"
 
-export interface Employee extends Idable, Meta<Entity.Employee> {
+export interface Employee extends Idable, Meta<"employee"> {
   readonly accountId: string
   archived: boolean
   // TODO add attributes
@@ -15,7 +15,7 @@ export interface Employee extends Idable, Meta<Entity.Employee> {
   externalCode: string
   firstName?: string
   readonly fullName?: string
-  group: Meta<Entity.Group>
+  group: Meta<"group">
   // TODO add image
   image?: unknown
   inn?: string

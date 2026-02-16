@@ -12,7 +12,7 @@ export type WelcomeBonusMode =
   /** Приветственные баллы начисляются участиникам бонусной программы после совершения первой покупки. */
   | "FIRST_PURCHASE"
 
-interface BaseBonusProgram extends Idable, Meta<Entity.BonusProgram> {
+interface BaseBonusProgram extends Idable, Meta<"bonusprogram"> {
   readonly accountId: string
   active: boolean
   agentTags: string[]

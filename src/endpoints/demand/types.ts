@@ -37,7 +37,7 @@ export interface DemandOverhead {
   distribution: DemandOverheadDistribution
 }
 
-export interface DemandPosition extends Idable, Meta<Entity.DemandPosition> {
+export interface DemandPosition extends Idable, Meta<"demandposition"> {
   /** ID учетной записи */
   readonly accountId: string
   /** Метаданные товара/услуги/серии/модификации/комплекта, которую представляет собой позиция */
@@ -60,7 +60,7 @@ export interface DemandPosition extends Idable, Meta<Entity.DemandPosition> {
    * Если позиция - товар, у которого включен учет по серийным номерам, то значение в этом поле всегда будет равно количеству серийных номеров для данной позиции в документе. */
   quantity: number
   /** Ячейка на складе. */
-  slot?: Meta<Entity.Slot>
+  slot?: Meta<"slot">
   /** Серийные номера. Значение данного атрибута игнорируется, если товар позиции не находится на серийном учете. В ином случае количество товаров в позиции будет равно количеству серийных номеров, переданных в значении атрибута. */
   things?: string[]
   /** Коды маркировки товаров и транспортных упаковок. */
@@ -86,33 +86,33 @@ export interface DemandPositionModel extends Model {
   }
 }
 
-export interface Demand extends Idable, Meta<Entity.Demand> {
+export interface Demand extends Idable, Meta<"demand"> {
   readonly accountId: string
-  agent: Meta<Entity.Counterparty>
-  agentAccount?: Meta<Entity.Account>
+  agent: Meta<"counterparty">
+  agentAccount?: Meta<"account">
   applicable: boolean
   attributes: unknown // TODO add attributes types & filters
   code?: string
-  contract?: Meta<Entity.Contract> // TODO expand contract
+  contract?: Meta<"contract"> // TODO expand contract
   readonly created: DateTime
   readonly deleted?: DateTime
   description?: string
   externalCode: string
   files: unknown[] // TODO add files types & expand
-  group: Meta<Entity.Group>
+  group: Meta<"group">
   moment: DateTime
   name: string
-  organization: Meta<Entity.Organization>
-  organizationAccount?: Meta<Entity.Account>
+  organization: Meta<"organization">
+  organizationAccount?: Meta<"account">
   overhead?: DemandOverhead
-  owner: Meta<Entity.Employee>
+  owner: Meta<"employee">
   readonly payedSum: number
-  positions: ListMeta<Entity.DemandPosition> // TODO add positions types & expand
+  positions: ListMeta<"demandposition"> // TODO add positions types & expand
   readonly printed: boolean
-  project?: Meta<Entity.Project>
+  project?: Meta<"project">
   readonly published: boolean
   rate: DocumentRate // TODO expand rate's currency
-  salesChannel?: Meta<Entity.SalesChannel> // TODO expand salesChannel
+  salesChannel?: Meta<"saleschannel"> // TODO expand salesChannel
   shared: boolean
   shipmentAddress?: string
   shipmentAddressFull?: {
@@ -120,14 +120,14 @@ export interface Demand extends Idable, Meta<Entity.Demand> {
     apartment?: string
     city?: string
     comment?: string
-    country?: Meta<Entity.Country>
+    country?: Meta<"country">
     house?: string
     postalCode?: string
-    region?: Meta<Entity.Region>
+    region?: Meta<"region">
     street?: string
   }
-  state?: Meta<Entity.State>
-  store: Meta<Entity.Store>
+  state?: Meta<"state">
+  store: Meta<"store">
   readonly sum: number
   syncId?: string
   readonly updated: DateTime
@@ -135,15 +135,15 @@ export interface Demand extends Idable, Meta<Entity.Demand> {
   vatIncluded?: boolean
   vatSum?: number
 
-  customerOrder?: Meta<Entity.CustomerOrder> // TODO expand customerOrder
-  factureOut?: Meta<Entity.FactureOut> // TODO expand factureOut
+  customerOrder?: Meta<"customerorder"> // TODO expand customerOrder
+  factureOut?: Meta<"factureout"> // TODO expand factureOut
   returns?: unknown[] // TODO expand returns
-  payments?: Meta<Entity.PaymentIn | Entity.PaymentOut>[] // TODO expand payments
-  invoicesOut?: Meta<Entity.InvoiceOut>[] // TODO expand invoicesOut
+  payments?: Meta<"paymentin" | "paymentout">[] // TODO expand payments
+  invoicesOut?: Meta<"invoiceout">[] // TODO expand invoicesOut
 
   cargoName?: string
-  carrier?: Meta<Entity.Counterparty> | Meta<Entity.Organization> // TODO expand carrier
-  consignee?: Meta<Entity.Counterparty> | Meta<Entity.Organization> // TODO expand consignee
+  carrier?: Meta<"counterparty"> | Meta<"organization"> // TODO expand carrier
+  consignee?: Meta<"counterparty"> | Meta<"organization"> // TODO expand consignee
   goodPackQuantity?: number
   shippingInstructions?: string
   stateContractId?: string
@@ -232,6 +232,6 @@ export type FirstDemandOptions = Omit<ListDemandsOptions, "pagination">
 export type AllDemandsOptions = Omit<ListDemandsOptions, "pagination">
 
 export type DemandTemplateData = RequireExactlyOne<{
-  customerOrder: UpdateMeta<Entity.CustomerOrder>
-  invoiceOut: UpdateMeta<Entity.InvoiceOut>
+  customerOrder: UpdateMeta<"customerorder">
+  invoiceOut: UpdateMeta<"invoiceout">
 }>

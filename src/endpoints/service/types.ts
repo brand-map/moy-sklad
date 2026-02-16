@@ -39,7 +39,7 @@ export type ServicePaymentItemType =
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-usluga-uslugi
  */
-export interface Service extends Idable, Meta<Entity.Service> {
+export interface Service extends Idable, Meta<"service"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -63,7 +63,7 @@ export interface Service extends Idable, Meta<Entity.Service> {
    */
   buyPrice?: {
     value: number
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
   }
 
   /** Код Услуги */
@@ -99,7 +99,7 @@ export interface Service extends Idable, Meta<Entity.Service> {
   files?: unknown[] // TODO add files types & expand
 
   /** Метаданные отдела сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /**
    * Минимальная цена.
@@ -108,14 +108,14 @@ export interface Service extends Idable, Meta<Entity.Service> {
    */
   minPrice?: {
     value: number
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
   }
 
   /** Наименование Услуги */
   name: string
 
   /** Метаданные владельца (Сотрудника) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /**
    * Наименование группы, в которую входит Услуга
@@ -128,7 +128,7 @@ export interface Service extends Idable, Meta<Entity.Service> {
   paymentItemType?: ServicePaymentItemType
 
   /** Метаданные группы */
-  productFolder?: Meta<Entity.ProductFolder> // TODO add product folder expand
+  productFolder?: Meta<"productfolder"> // TODO add product folder expand
 
   /**
    * Цены продажи
@@ -137,7 +137,7 @@ export interface Service extends Idable, Meta<Entity.Service> {
    */
   salePrices?: {
     value: number
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
     priceType: PriceType
   }[]
 
@@ -151,7 +151,7 @@ export interface Service extends Idable, Meta<Entity.Service> {
   taxSystem?: TaxSystem
 
   /** Единицы измерения */
-  uom?: Meta<Entity.Uom> // TODO add uom expand
+  uom?: Meta<"uom"> // TODO add uom expand
 
   /** Момент последнего обновления сущности */
   readonly updated: DateTime

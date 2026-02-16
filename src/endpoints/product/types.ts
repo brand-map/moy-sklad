@@ -73,7 +73,7 @@ export type PpeType =
   | "2400003496103"
   | "2400003675805"
 
-export interface Product extends Idable, Meta<Entity.Product> {
+export interface Product extends Idable, Meta<"product"> {
   readonly accountId: string
   alcoholic?: {
     excise?: number
@@ -87,46 +87,46 @@ export interface Product extends Idable, Meta<Entity.Product> {
   barcodes?: Barcodes
   buyPrice?: {
     value: number
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
   }
   code?: string
-  country?: Meta<Entity.Country>
+  country?: Meta<"country">
   description?: string
   discountProhibited: boolean
   readonly effectiveVat?: number
   readonly effectiveVatEnabled?: boolean
   externalCode: string
   files?: unknown[] // TODO add files types & expand
-  group: Meta<Entity.Group>
+  group: Meta<"group">
   images?: unknown[] // TODO add files types & expand
   isSerialTrackable?: boolean
   minimumBalance?: number
   name: string
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
   packs?: {
     barcodes?: Barcodes
     readonly id: string
     quantity: number
-    uom: Meta<Entity.Uom>
+    uom: Meta<"uom">
   }[]
   partialDisposal?: boolean
   readonly pathName: string
   paymentItemType?: ProductPaymentItemType
   ppeType?: PpeType
-  productFolder?: Meta<Entity.ProductFolder>
+  productFolder?: Meta<"productfolder">
   salePrices?: {
     value: number
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
     priceType: PriceType
   }[]
   shared: boolean
-  supplier?: Meta<Entity.Counterparty>
+  supplier?: Meta<"counterparty">
   readonly syncId?: string
   taxSystem?: TaxSystem
   things?: string[]
   tnved?: string
   trackingType?: TrackingType
-  uom?: Meta<Entity.Uom>
+  uom?: Meta<"uom">
   readonly updated: DateTime
   useParentVat: boolean
   readonly variantsCount: number

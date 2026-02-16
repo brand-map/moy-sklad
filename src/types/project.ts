@@ -11,7 +11,7 @@ import type { Model } from "./model"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-proekt
  */
-export interface Project extends Idable, Meta<Entity.Project> {
+export interface Project extends Idable, Meta<"project"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -31,13 +31,13 @@ export interface Project extends Idable, Meta<Entity.Project> {
   externalCode: string
 
   /** Метаданные отдела сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Наименование проекта */
   name: string
 
   /** Метаданные владельца (Сотрудника) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Общий доступ */
   shared: boolean

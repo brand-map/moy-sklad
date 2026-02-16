@@ -28,7 +28,7 @@ import type { OrganizationModel } from "../organization"
  *
  * {@linkcode ProductionTask}
  */
-export interface ProductionRow extends Idable, Meta<Entity.ProductionRow> {
+export interface ProductionRow extends Idable, Meta<"productionrow"> {
   /** ID учётной записи */
   readonly accountId: string
 
@@ -39,7 +39,7 @@ export interface ProductionRow extends Idable, Meta<Entity.ProductionRow> {
   name?: string
 
   /** Метаданные техкарты */
-  processingPlan: Meta<Entity.ProcessingPlan>
+  processingPlan: Meta<"processingplan">
 
   /** Объём производства */
   productionVolume: number
@@ -62,7 +62,7 @@ export interface ProductionRowModel extends Model {
  *
  * {@linkcode ProductionTask}
  */
-export interface ProductionTaskResult extends Idable, Meta<Entity.ProductionTaskResult> {
+export interface ProductionTaskResult extends Idable, Meta<"productiontaskresult"> {
   /** ID учётной записи */
   readonly accountId: string
 
@@ -73,7 +73,7 @@ export interface ProductionTaskResult extends Idable, Meta<Entity.ProductionTask
   planQuantity: number
 
   /** Метаданные Позиции производственного задания */
-  readonly productionRow: Meta<Entity.ProductionRow>
+  readonly productionRow: Meta<"productionrow">
 }
 
 /**
@@ -95,7 +95,7 @@ export interface ProductionTaskResultModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie
  */
-export interface ProductionTask extends Idable, Meta<Entity.ProductionTask> {
+export interface ProductionTask extends Idable, Meta<"productiontask"> {
   /** ID учётной записи */
   readonly accountId: string
 
@@ -127,13 +127,13 @@ export interface ProductionTask extends Idable, Meta<Entity.ProductionTask> {
   externalCode: string
 
   /** Метаданные массива Файлов (Максимальное количество файлов - 100) */
-  files: ListMeta<Entity.Files> // TODO add files expand
+  files: ListMeta<"files"> // TODO add files expand
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Метаданные склада материалов */
-  materialsStore?: Meta<Entity.Store>
+  materialsStore?: Meta<"store">
 
   /** Дата документа */
   moment: DateTime
@@ -142,10 +142,10 @@ export interface ProductionTask extends Idable, Meta<Entity.ProductionTask> {
   name: string
 
   /** Метаданные юрлица */
-  organization: Meta<Entity.Organization>
+  organization: Meta<"organization">
 
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Напечатан ли документ */
   readonly printed: boolean
@@ -155,7 +155,7 @@ export interface ProductionTask extends Idable, Meta<Entity.ProductionTask> {
    *
    * Для поля `productionRows` недоступен `expand` вложенных полей.
    */
-  productionRows: ListMeta<Entity.ProductionRow>
+  productionRows: ListMeta<"productionrow">
 
   /** Дата окончания производства */
   readonly productionEnd?: DateTime
@@ -164,10 +164,10 @@ export interface ProductionTask extends Idable, Meta<Entity.ProductionTask> {
   productionStart?: DateTime
 
   /** Метаданные производимой продукции */
-  products: ListMeta<Entity.ProductionTaskResult>
+  products: ListMeta<"productiontaskresult">
 
   /** Метаданные склада продукции */
-  productsStore?: Meta<Entity.Store>
+  productsStore?: Meta<"store">
 
   /** Опубликован ли документ */
   readonly published: boolean
@@ -179,13 +179,13 @@ export interface ProductionTask extends Idable, Meta<Entity.ProductionTask> {
   shared: boolean
 
   /** Метаданные статуса Производственного задания */
-  state?: Meta<Entity.State>
+  state?: Meta<"state">
 
   /** Момент последнего обновления Производственного задания */
   readonly updated: DateTime
 
   /** Массив ссылок на связанные заказы покупателей в формате Метаданных */
-  customerOrders?: Meta<Entity.CustomerOrder>[]
+  customerOrders?: Meta<"customerorder">[]
 }
 
 /**

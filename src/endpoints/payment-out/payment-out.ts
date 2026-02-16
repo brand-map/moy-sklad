@@ -40,7 +40,7 @@ export interface PaymentOutEndpoint {
    */
   list<T extends ListPaymentOutsOptions = Record<string, unknown>>(
     options?: Subset<T, ListPaymentOutsOptions>,
-  ): Promise<ListResponse<GetFindResult<PaymentOutModel, T["expand"]>, Entity.Product>>
+  ): Promise<ListResponse<GetFindResult<PaymentOutModel, T["expand"]>, "product">>
 
   /**
    * Получить все исходящие платежи с пагинацией.
@@ -57,7 +57,7 @@ export interface PaymentOutEndpoint {
    */
   all<T extends AllPaymentOutsOptions = Record<string, unknown>>(
     options?: Subset<T, AllPaymentOutsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<PaymentOutModel, T["expand"]>, Entity.BonusTransaction>>
+  ): Promise<BatchGetResult<GetFindResult<PaymentOutModel, T["expand"]>, "bonustransaction">>
 
   /**
    * Получить первый исходящий платеж.
@@ -74,7 +74,7 @@ export interface PaymentOutEndpoint {
    */
   first<T extends FirstPaymentOutOptions = Record<string, unknown>>(
     options?: Subset<T, FirstPaymentOutOptions>,
-  ): Promise<ListResponse<GetFindResult<PaymentOutModel, T["expand"]>, Entity.Product>>
+  ): Promise<ListResponse<GetFindResult<PaymentOutModel, T["expand"]>, "product">>
 
   /**
    * Получить исходящий платеж по ID.
@@ -105,7 +105,7 @@ export interface PaymentOutEndpoint {
    * const size = await moysklad.paymentOut.size();
    * ```
    */
-  size(options?: AllPaymentOutsOptions): Promise<ListMeta<Entity.PaymentOut>>
+  size(options?: AllPaymentOutsOptions): Promise<ListMeta<"paymentout">>
 
   /**
    * Удалить исходящий платеж.

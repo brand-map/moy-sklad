@@ -34,18 +34,18 @@ export type BonusTransactionType = "EARNING" | "SPENDING"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-bonusnaq-operaciq-bonusnye-operacii
  */
-export interface BonusTransaction extends Idable, Meta<Entity.BonusTransaction> {
+export interface BonusTransaction extends Idable, Meta<"bonustransaction"> {
   /** ID учетной записи */
   readonly accountId: string
 
   /** Метаданные Контрагента, связанного с бонусной операцией */
-  agent: Meta<Entity.Counterparty>
+  agent: Meta<"counterparty">
 
   /** Отметка о проведении */
   applicable: boolean
 
   /** Метаданные бонусной программы */
-  bonusProgram?: Meta<Entity.BonusProgram>
+  bonusProgram?: Meta<"bonusprogram">
 
   /** Количество бонусных баллов */
   bonusValue?: number
@@ -75,7 +75,7 @@ export interface BonusTransaction extends Idable, Meta<Entity.BonusTransaction> 
   externalCode: string
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
   /** Время проведения бонусной операции */
   moment?: DateTime
 
@@ -83,10 +83,10 @@ export interface BonusTransaction extends Idable, Meta<Entity.BonusTransaction> 
   name?: string
 
   /** Метаданные юрлица */
-  organization?: Meta<Entity.Organization>
+  organization?: Meta<"organization">
 
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Метаданные связанного документа бонусной операции */
   parentDocument?: Meta<never>

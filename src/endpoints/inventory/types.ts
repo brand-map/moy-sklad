@@ -24,7 +24,7 @@ import type { EnterModel } from "../enter"
 import type { GroupModel } from "../group"
 import type { OrganizationModel } from "../organization"
 
-export interface InventoryPosition extends Idable, Meta<Entity.InventoryPosition> {
+export interface InventoryPosition extends Idable, Meta<"inventoryposition"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -60,7 +60,7 @@ export interface InventoryPositionModel extends Model {
   }
 }
 
-export interface Inventory extends Idable, Meta<Entity.Inventory> {
+export interface Inventory extends Idable, Meta<"inventory"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -86,7 +86,7 @@ export interface Inventory extends Idable, Meta<Entity.Inventory> {
   files: unknown[] // TODO: add files type
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Дата документа */
   moment: DateTime
@@ -95,13 +95,13 @@ export interface Inventory extends Idable, Meta<Entity.Inventory> {
   name: string
 
   /** Метаданные юрлица */
-  organization: Meta<Entity.Organization>
+  organization: Meta<"organization">
 
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Метаданные позиций Инвентаризации */
-  positions: ListMeta<Entity.InventoryPosition>
+  positions: ListMeta<"inventoryposition">
 
   /** Напечатан ли документ */
   readonly printed: boolean
@@ -113,10 +113,10 @@ export interface Inventory extends Idable, Meta<Entity.Inventory> {
   shared: boolean
 
   /** Метаданные статуса Инвентаризации */
-  state?: Meta<Entity.State>
+  state?: Meta<"state">
 
   /** Метаданные склада */
-  store: Meta<Entity.Store>
+  store: Meta<"store">
 
   /** Сумма Инвентаризации в копейках */
   readonly sum: number
@@ -128,10 +128,10 @@ export interface Inventory extends Idable, Meta<Entity.Inventory> {
   readonly updated: DateTime
 
   /** Связанные оприходования */
-  enters?: Meta<Entity.Enter>[]
+  enters?: Meta<"enter">[]
 
   /** Связанные списания */
-  losses?: Meta<Entity.Loss>[] // TODO: add loss expand
+  losses?: Meta<"loss">[] // TODO: add loss expand
 }
 
 export interface InventoryModel extends Model {

@@ -35,14 +35,14 @@ export interface StockAll extends Meta<AssortmentEntity> {
    *
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety-otchet-ostatki-rasshirennyj-otchet-ob-ostatkah-gruppa
    */
-  readonly folder: Meta<Entity.ProductFolder> & {
+  readonly folder: Meta<"productfolder"> & {
     /** Наименование группы */
     readonly name: string
     /** Наименование родительской группы */
     readonly pathName: string
   }
   /** Метаданные изображения Товара/Модификации/Серии */
-  readonly image?: Meta<Entity.Image>
+  readonly image?: Meta<"image">
   /** Ожидание */
   readonly inTransit: number
   /** Наименование */
@@ -64,7 +64,7 @@ export interface StockAll extends Meta<AssortmentEntity> {
    *
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety-otchet-ostatki-rasshirennyj-otchet-ob-ostatkah-edinica-izmereniq
    */
-  readonly uom: Meta<Entity.Uom> & {
+  readonly uom: Meta<"uom"> & {
     /** Наименование единицы измерений */
     readonly name: string
   }
@@ -263,7 +263,7 @@ export interface StockAllCurrentOptions<T extends StockAllCurrentStockType> {
 }
 
 export interface ReportStockEndpoint {
-  all(options?: StockAllOptions): Promise<ListResponse<StockAll, Entity.Stock>>
+  all(options?: StockAllOptions): Promise<ListResponse<StockAll, "stock">>
 
   /**
    * Получить краткий отчёт об остатках.
@@ -289,7 +289,7 @@ export interface ReportStockEndpoint {
    * @param options Параметры запроса
    * @returns Отчёт Остатки по складам
    */
-  byStore(options?: StockByStoreOptions): Promise<ListResponse<StockByStore, Entity.StockByStore>>
+  byStore(options?: StockByStoreOptions): Promise<ListResponse<StockByStore, "stockbystore">>
 }
 
 /**
@@ -301,7 +301,7 @@ export interface StockByStore extends Meta<AssortmentEntity> {
   /** Остатки по складам */
   readonly stockByStore: Array<{
     /** Метаданные склада, по которому выводится Остаток */
-    readonly meta: Meta<Entity.Store>
+    readonly meta: Meta<"store">
     /** Наименование склада */
     readonly name: string
     /** Остаток */

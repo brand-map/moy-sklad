@@ -8,7 +8,7 @@ import type { ProcessingStageModel } from "../processing-stage"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehprocess-tehprocessy
  */
-export interface ProcessingProcess extends Idable, Meta<Entity.ProcessingProcess> {
+export interface ProcessingProcess extends Idable, Meta<"processingprocess"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -22,16 +22,16 @@ export interface ProcessingProcess extends Idable, Meta<Entity.ProcessingProcess
   externalCode: string
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Наименование Техпроцесса */
   name: string
 
   /** Владелец (Сотрудник) */
-  owner: Meta<Entity.Employee>
+  owner: Meta<"employee">
 
   /** Метаданные позиций Техпроцесса */
-  positions: ListMeta<Entity.ProcessingProcessPosition>
+  positions: ListMeta<"processingprocessposition">
 
   /** Общий доступ */
   shared: boolean
@@ -53,12 +53,12 @@ export interface ProcessingProcessModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehprocess-poluchit-pozicii-tehprocessa
  */
-export interface ProcessingProcessPosition extends Idable, Meta<Entity.ProcessingProcessPosition> {
+export interface ProcessingProcessPosition extends Idable, Meta<"processingprocessposition"> {
   /** ID учетной записи */
   readonly accountId: string
 
   /** Метаданные этапа, который представляет собой позиция */
-  processingstage: Meta<Entity.ProcessingStage>
+  processingstage: Meta<"processingstage">
 }
 
 export interface ProcessingProcessPositionModel extends Model {

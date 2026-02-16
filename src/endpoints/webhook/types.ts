@@ -38,7 +38,7 @@ export type WebhookMethod = "POST"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#webhuki
  */
-export interface Webhook extends Idable, Meta<Entity.Webhook> {
+export interface Webhook extends Idable, Meta<"webhook"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -115,7 +115,7 @@ export interface UpdateWebhookData {
 }
 
 /** Элемент массива для массового создания/обновления: новый вебхук или обновление по meta */
-export type WebhookCreateOrUpdateItem = CreateWebhookData | (UpdateWebhookData & Meta<Entity.Webhook>)
+export type WebhookCreateOrUpdateItem = CreateWebhookData | (UpdateWebhookData & Meta<"webhook">)
 
 export interface ListWebhooksOptions {
   pagination?: import("../../types").PaginationOptions

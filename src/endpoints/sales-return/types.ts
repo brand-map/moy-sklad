@@ -34,7 +34,7 @@ import type { OrganizationModel } from "../organization"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vozwrat-pokupatelq-pozicii-wozwrata-pokupatelq
  */
-export interface SalesReturnPosition extends Idable, Meta<Entity.SalesReturn> {
+export interface SalesReturnPosition extends Idable, Meta<"salesreturn"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -49,7 +49,7 @@ export interface SalesReturnPosition extends Idable, Meta<Entity.SalesReturn> {
   cost?: number
 
   /** Метаданные Страны */
-  country?: Meta<Entity.Country>
+  country?: Meta<"country">
 
   /** Процент скидки или наценки. Наценка указывается отрицательным числом, т.е. -10 создаст наценку в 10% */
   discount?: number
@@ -71,7 +71,7 @@ export interface SalesReturnPosition extends Idable, Meta<Entity.SalesReturn> {
   quantity: number
 
   /** Ячейка на складе */
-  slot?: Meta<Entity.Slot>
+  slot?: Meta<"slot">
 
   /**
    * Серийные номера.
@@ -105,15 +105,15 @@ export interface SalesReturnPositionModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vozwrat-pokupatelq
  */
-export interface SalesReturn extends Idable, Meta<Entity.SalesReturn> {
+export interface SalesReturn extends Idable, Meta<"salesreturn"> {
   /** ID учетной записи */
   readonly accountId: string
 
   /** Метаданные контрагента */
-  agent: Meta<Entity.Counterparty>
+  agent: Meta<"counterparty">
 
   /** Метаданные счета контрагента */
-  agentAccount?: Meta<Entity.Account>
+  agentAccount?: Meta<"account">
 
   /** Отметка о проведении */
   applicable: boolean
@@ -125,7 +125,7 @@ export interface SalesReturn extends Idable, Meta<Entity.SalesReturn> {
   code?: string
 
   /** Метаданные договора */
-  contract?: Meta<Entity.Contract> // TODO expand contract
+  contract?: Meta<"contract"> // TODO expand contract
 
   /** Дата создания */
   readonly created: DateTime
@@ -143,13 +143,13 @@ export interface SalesReturn extends Idable, Meta<Entity.SalesReturn> {
   files: unknown[] // TODO add files types & expand
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** ID Возврата Покупателя */
   readonly id: string
 
   /** Метаданные Возврата Покупателя */
-  readonly meta: Metadata<Entity.SalesReturn>
+  readonly meta: Metadata<"salesreturn">
 
   /** Дата документа */
   moment: DateTime
@@ -158,22 +158,22 @@ export interface SalesReturn extends Idable, Meta<Entity.SalesReturn> {
   name: string
 
   /** Метаданные юрлица */
-  organization: Meta<Entity.Organization>
+  organization: Meta<"organization">
 
   /** Метаданные счета юрлица */
-  organizationAccount?: Meta<Entity.Account>
+  organizationAccount?: Meta<"account">
 
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Метаданные позиций Возврата Покупателя */
-  positions: ListMeta<Entity.SalesReturn> // Using Entity.SalesReturn as a fallback
+  positions: ListMeta<"salesreturn"> // Using "salesreturn" as a fallback
 
   /** Напечатан ли документ */
   readonly printed: boolean
 
   /** Метаданные проекта */
-  project?: Meta<Entity.Project>
+  project?: Meta<"project">
 
   /** Опубликован ли документ */
   readonly published: boolean
@@ -182,16 +182,16 @@ export interface SalesReturn extends Idable, Meta<Entity.SalesReturn> {
   rate: DocumentRate
 
   /** Метаданные канала продаж */
-  salesChannel?: Meta<Entity.SalesChannel> // TODO expand salesChannel
+  salesChannel?: Meta<"saleschannel"> // TODO expand salesChannel
 
   /** Общий доступ */
   shared: boolean
 
   /** Метаданные статуса Возврата Покупателя */
-  state?: Meta<Entity.State>
+  state?: Meta<"state">
 
   /** Метаданные склада */
-  store: Meta<Entity.Store>
+  store: Meta<"store">
 
   /** Сумма Возврата Покупателя в копейках */
   readonly sum: number
@@ -212,19 +212,19 @@ export interface SalesReturn extends Idable, Meta<Entity.SalesReturn> {
   vatSum?: number
 
   /** Ссылка на отгрузку, по которой произошел возврат */
-  demand?: Meta<Entity.Demand>
+  demand?: Meta<"demand">
 
   /** Массив ссылок на связанные списания */
-  losses?: Meta<Entity.Loss>[]
+  losses?: Meta<"loss">[]
 
   /** Массив ссылок на связанные платежи */
-  payments?: Meta<Entity.PaymentIn | Entity.PaymentOut>[]
+  payments?: Meta<"paymentin" | "paymentout">[]
 
   /** Сумма исходящих платежей по возврату покупателя */
   readonly payedSum?: number
 
   /** Ссылка на Счет-фактуру выданный, с которым связан этот возврат */
-  factureOut?: Meta<Entity.FactureOut>
+  factureOut?: Meta<"factureout">
 }
 
 /**
@@ -328,5 +328,5 @@ export type AllSalesReturnsOptions = Omit<ListSalesReturnsOptions, "pagination">
  * Данные для создания Возврата покупателя на основе шаблона
  */
 export type SalesReturnTemplateData = {
-  demand: UpdateMeta<Entity.Demand>
+  demand: UpdateMeta<"demand">
 }

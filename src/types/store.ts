@@ -11,7 +11,7 @@ import type { Model } from "./model"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-sklad
  */
-export interface Store extends Idable, Meta<Entity.Store> {
+export interface Store extends Idable, Meta<"store"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -29,13 +29,13 @@ export interface Store extends Idable, Meta<Entity.Store> {
     /** Комментарий */
     comment?: string
     /** Метаданные страны */
-    country?: Meta<Entity.Country>
+    country?: Meta<"country">
     /** Дом */
     house?: string
     /** Почтовый индекс */
     postalCode?: string
     /** Метаданные региона */
-    region?: Meta<Entity.Region>
+    region?: Meta<"region">
     /** Улица */
     street?: string
   }
@@ -56,16 +56,16 @@ export interface Store extends Idable, Meta<Entity.Store> {
   externalCode: string
 
   /** Метаданные отдела сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Наименование склада */
   name: string
 
   /** Метаданные владельца (Сотрудника) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Метаданные родительского склада (Группы) */
-  parent?: Meta<Entity.Store>
+  parent?: Meta<"store">
 
   /** Группа склада */
   pathName: string

@@ -40,7 +40,7 @@ export interface SalesReturnEndpoint {
    */
   list<T extends ListSalesReturnsOptions = Record<string, unknown>>(
     options?: Subset<T, ListSalesReturnsOptions>,
-  ): Promise<ListResponse<GetFindResult<SalesReturnModel, T["expand"], T["fields"]>, Entity.SalesReturn>>
+  ): Promise<ListResponse<GetFindResult<SalesReturnModel, T["expand"], T["fields"]>, "salesreturn">>
 
   /**
    * Получить все возвраты покупателей с учетом пагинации.
@@ -57,7 +57,7 @@ export interface SalesReturnEndpoint {
    */
   all<T extends AllSalesReturnsOptions = Record<string, unknown>>(
     options?: Subset<T, AllSalesReturnsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<SalesReturnModel, T["expand"], T["fields"]>, Entity.SalesReturn>>
+  ): Promise<BatchGetResult<GetFindResult<SalesReturnModel, T["expand"], T["fields"]>, "salesreturn">>
 
   /**
    * Получить возврат покупателя по ID.
@@ -91,7 +91,7 @@ export interface SalesReturnEndpoint {
    */
   first<T extends FirstSalesReturnOptions = Record<string, unknown>>(
     options?: Subset<T, FirstSalesReturnOptions>,
-  ): Promise<ListResponse<GetFindResult<SalesReturnModel, T["expand"], T["fields"]>, Entity.SalesReturn>>
+  ): Promise<ListResponse<GetFindResult<SalesReturnModel, T["expand"], T["fields"]>, "salesreturn">>
 
   /**
    * Получить количество возвратов покупателей.
@@ -103,7 +103,7 @@ export interface SalesReturnEndpoint {
    * const count = await moysklad.salesReturn.size();
    * ```
    */
-  size(options?: AllSalesReturnsOptions): Promise<ListMeta<Entity.SalesReturn>>
+  size(options?: AllSalesReturnsOptions): Promise<ListMeta<"salesreturn">>
 
   /**
    * Удалить возврат покупателя.

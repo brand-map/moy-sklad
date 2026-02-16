@@ -40,7 +40,7 @@ export type BundlePaymentItemType =
  *
  * {@linkcode Bundle}
  */
-export interface BundleComponent extends Idable, Meta<Entity.BundleComponent> {
+export interface BundleComponent extends Idable, Meta<"bundlecomponent"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -69,7 +69,7 @@ export interface BundleComponentModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-komplekt
  */
-export interface Bundle extends Idable, Meta<Entity.Bundle> {
+export interface Bundle extends Idable, Meta<"bundle"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -93,10 +93,10 @@ export interface Bundle extends Idable, Meta<Entity.Bundle> {
   code?: string
 
   /** Массив компонентов Комплекта */
-  components: ListMeta<Entity.BundleComponent>
+  components: ListMeta<"bundlecomponent">
 
   /** Метаданные Страны */
-  country?: Meta<Entity.Country> // TODO add country expand
+  country?: Meta<"country"> // TODO add country expand
 
   /** Описание Комплекта */
   description?: string
@@ -122,7 +122,7 @@ export interface Bundle extends Idable, Meta<Entity.Bundle> {
   files?: unknown[] // TODO add files type & expand
 
   /** Метаданные отдела сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Массив метаданных Изображений */
   images?: unknown[] // TODO add images type & expand
@@ -134,7 +134,7 @@ export interface Bundle extends Idable, Meta<Entity.Bundle> {
    */
   minPrice?: {
     value: number
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
   }
 
   /** Наименование Комплекта */
@@ -147,11 +147,11 @@ export interface Bundle extends Idable, Meta<Entity.Bundle> {
    */
   overhead?: {
     value: number
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
   }
 
   /** Метаданные владельца (Сотрудника) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Управление состоянием частичного выбытия маркированного товара */
   partialDisposal?: boolean
@@ -167,13 +167,13 @@ export interface Bundle extends Idable, Meta<Entity.Bundle> {
   paymentItemType?: BundlePaymentItemType
 
   /** Метаданные группы Комплекта */
-  productFolder?: Meta<Entity.ProductFolder> // TODO add productFolder expand
+  productFolder?: Meta<"productfolder"> // TODO add productFolder expand
 
   /** Цены продажи */
   salePrices?: {
     value: number
-    currency: Meta<Entity.Currency>
-    priceType: Meta<Entity.PriceType>
+    currency: Meta<"currency">
+    priceType: Meta<"pricetype">
   }[]
 
   /** Общий доступ */
@@ -200,7 +200,7 @@ export interface Bundle extends Idable, Meta<Entity.Bundle> {
   trackingType?: TrackingType
 
   /** Единицы измерения */
-  uom?: Meta<Entity.Uom> // TODO add uom expand
+  uom?: Meta<"uom"> // TODO add uom expand
 
   /** Момент последнего обновления сущности */
   readonly updated: string

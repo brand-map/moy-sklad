@@ -30,7 +30,7 @@ import type { OrganizationModel } from "../organization"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-pokupatelu-pozicii-scheta-pokupatelu
  */
-export interface InvoiceOutPosition extends Idable, Meta<Entity.InvoicePosition> {
+export interface InvoiceOutPosition extends Idable, Meta<"invoiceposition"> {
   /** ID учетной записи */
   readonly accountId: string
   /** Метаданные товара/услуги/серии/модификации/комплекта, которую представляет собой позиция */
@@ -70,13 +70,13 @@ export interface InvoiceOutPositionModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-pokupatelu-scheta-pokupatelqm
  */
-export interface InvoiceOut extends Idable, Meta<Entity.InvoiceOut> {
+export interface InvoiceOut extends Idable, Meta<"invoiceout"> {
   /** ID учетной записи */
   readonly accountId: string
   /** Метаданные контрагента */
-  agent: Meta<Entity.Counterparty>
+  agent: Meta<"counterparty">
   /** Метаданные счета контрагента */
-  agentAccount?: Meta<Entity.Account>
+  agentAccount?: Meta<"account">
   /** Отметка о проведении */
   applicable: boolean
   /**
@@ -88,7 +88,7 @@ export interface InvoiceOut extends Idable, Meta<Entity.InvoiceOut> {
   /** Код Счета покупателю */
   code?: string
   /** Метаданные договора */
-  contract?: Meta<Entity.Contract>
+  contract?: Meta<"contract">
   /** Дата создания */
   readonly created: DateTime
   /** Момент последнего удаления Счета покупателю */
@@ -104,27 +104,27 @@ export interface InvoiceOut extends Idable, Meta<Entity.InvoiceOut> {
    */
   files: unknown[] // TODO add files
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
   /** Дата документа */
   moment: DateTime
   /** Наименование Счета покупателю */
   name: string
   /** Метаданные юрлица */
-  organization: Meta<Entity.Organization>
+  organization: Meta<"organization">
   /** Метаданные счета юрлица */
-  organizationAccount?: Meta<Entity.Account>
+  organizationAccount?: Meta<"account">
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
   /** Сумма входящих платежей по Счету покупателю */
   readonly payedSum: number
   /** Планируемая дата оплаты */
   paymentPlannedMoment?: DateTime
   /** Метаданные позиций Счета покупателю */
-  positions: ListMeta<Entity.InvoicePosition>
+  positions: ListMeta<"invoiceposition">
   /** Напечатан ли документ */
   readonly printed: boolean
   /** Метаданные проекта */
-  project?: Meta<Entity.Project>
+  project?: Meta<"project">
   /** Опубликован ли документ */
   readonly published: boolean
   /**
@@ -134,15 +134,15 @@ export interface InvoiceOut extends Idable, Meta<Entity.InvoiceOut> {
    */
   rate: DocumentRate // TODO expand rate currency
   /** Метаданные канала продаж */
-  salesChannel?: Meta<Entity.SalesChannel>
+  salesChannel?: Meta<"saleschannel">
   /** Общий доступ */
   shared: boolean
   /** Сумма отгруженного */
   readonly shippedSum: number
   /** Метаданные статуса счета */
-  state?: Meta<Entity.State>
+  state?: Meta<"state">
   /** Метаданные склада */
-  store?: Meta<Entity.Store>
+  store?: Meta<"store">
   /** Сумма Счета в установленной валюте */
   readonly sum: number
   /** ID синхронизации. После заполнения недоступен для изменения */
