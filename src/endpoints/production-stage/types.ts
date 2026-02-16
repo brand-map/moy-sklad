@@ -20,7 +20,7 @@ import type { ProductionRowModel } from "../production-task"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie-proizwodstwennye-atapy
  */
-export interface ProductionStage extends Idable, Meta<Entity.ProductionStage> {
+export interface ProductionStage extends Idable, Meta<"productionstage"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -32,7 +32,7 @@ export interface ProductionStage extends Idable, Meta<Entity.ProductionStage> {
     /** ID учетной записи */
     readonly accountId: string
     /** Метаданные товара/услуги/серии/модификации */
-    assortment: Meta<Entity.Assortment>
+    assortment: Meta<"assortment">
     /** ID позиции */
     readonly id: string
     /** Количество товаров/модификаций данного вида в позиции */
@@ -40,16 +40,16 @@ export interface ProductionStage extends Idable, Meta<Entity.ProductionStage> {
   }[]
 
   /** Метаданные склада материалов */
-  readonly materialStore?: Meta<Entity.Store>
+  readonly materialStore?: Meta<"store">
 
   /** Индекс Производственного этапа в Позиции производственного задания */
   readonly orderingPosition: number
 
   /** Метаданные Этапа производства */
-  readonly stage: Meta<Entity.ProcessingStage>
+  readonly stage: Meta<"processingstage">
 
   /** Метаданные Позиции производственного задания */
-  readonly productionRow: Meta<Entity.ProductionRow>
+  readonly productionRow: Meta<"productionrow">
 
   /** Объем Производственного этапа. Соответствует объему Позиции производственного задания */
   readonly totalQuantity?: number
@@ -142,12 +142,12 @@ export interface UpdateProductionStageOptions {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie-proizwodstwennye-atapy
  */
-export interface ProductionTaskMaterial extends Idable, Meta<Entity.ProductionTaskMaterial> {
+export interface ProductionTaskMaterial extends Idable, Meta<"productiontaskmaterial"> {
   /** ID учетной записи */
   readonly accountId: string
 
   /** Метаданные товара/услуги/серии/модификации */
-  assortment: Meta<Entity.Assortment>
+  assortment: Meta<"assortment">
 
   /** Количество товаров/модификаций данного вида в позиции */
   planQuantity: number

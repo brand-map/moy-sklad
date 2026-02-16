@@ -8,7 +8,7 @@ import type { Model } from "./model"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-statusy-dokumentow
  */
-export interface State extends Idable, Meta<Entity.State> {
+export interface State extends Idable, Meta<"state"> {
   /** ID учетной записи */
   readonly accountId: string
 

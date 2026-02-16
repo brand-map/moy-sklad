@@ -10,12 +10,12 @@ import type { AllProductsOptions, FirstProductOptions, ListProductsOptions, Prod
 async function fetchProductsResponse<T>(
   client: ApiClient,
   searchParameters: URLSearchParams | undefined,
-): Promise<ListResponse<GetFindResult<ProductModel, T>, Entity.Product>> {
+): Promise<ListResponse<GetFindResult<ProductModel, T>, "product">> {
   const response = await client.get(endpointPaths.entity.product, {
     searchParameters: searchParameters ?? undefined,
   })
 
-  return response.json() as Promise<ListResponse<GetFindResult<ProductModel, T>, Entity.Product>>
+  return response.json() as Promise<ListResponse<GetFindResult<ProductModel, T>, "product">>
 }
 
 /**
@@ -38,7 +38,7 @@ async function fetchProductsResponse<T>(
 export async function listProducts<T extends ListProductsOptions>(
   client: ApiClient,
   options?: ListProductsOptions,
-): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>> {
+): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">> {
   const searchParameters = composeSearchParameters({
     pagination: options?.pagination,
     expand: options?.expand,
@@ -69,7 +69,7 @@ export async function listProducts<T extends ListProductsOptions>(
 export async function allProducts<T extends AllProductsOptions>(
   client: ApiClient,
   options?: AllProductsOptions,
-): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, Entity.Product>> {
+): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">> {
   return client.batchGet(
     async (limit, offset) => {
       const searchParameters = composeSearchParameters({
@@ -105,7 +105,7 @@ export async function allProducts<T extends AllProductsOptions>(
 export async function firstProduct<T extends FirstProductOptions>(
   client: ApiClient,
   options?: FirstProductOptions,
-): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, Entity.Product>> {
+): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">> {
   const searchParameters = composeSearchParameters({
     pagination: { limit: 1 },
     expand: options?.expand,

@@ -61,7 +61,7 @@ export interface ProcessingPlanEndpoint {
    */
   list<T extends ListProcessingPlansOptions = Record<string, unknown>>(
     options?: Subset<T, ListProcessingPlansOptions>,
-  ): Promise<ListResponse<GetFindResult<ProcessingPlanModel, T["expand"]>, Entity.ProcessingPlan>>
+  ): Promise<ListResponse<GetFindResult<ProcessingPlanModel, T["expand"]>, "processingplan">>
 
   /**
    * Получить все техкарты.
@@ -78,7 +78,7 @@ export interface ProcessingPlanEndpoint {
    */
   all<T extends AllProcessingPlansOptions = Record<string, unknown>>(
     options?: Subset<T, AllProcessingPlansOptions>,
-  ): Promise<BatchGetResult<GetFindResult<ProcessingPlanModel, T["expand"]>, Entity.ProcessingPlan>>
+  ): Promise<BatchGetResult<GetFindResult<ProcessingPlanModel, T["expand"]>, "processingplan">>
 
   /**
    * Получить техкарту по id.
@@ -133,14 +133,14 @@ export interface ProcessingPlanEndpoint {
    */
   first<T extends FirstProcessingPlanOptions = Record<string, unknown>>(
     options?: Subset<T, FirstProcessingPlanOptions>,
-  ): Promise<ListResponse<GetFindResult<ProcessingPlanModel, T["expand"]>, Entity.ProcessingPlan>>
+  ): Promise<ListResponse<GetFindResult<ProcessingPlanModel, T["expand"]>, "processingplan">>
 
   /**
    * Получить общее количество техкарт.
    *
    * @returns Общее количество техкарт
    */
-  size(options?: AllProcessingPlansOptions): Promise<ListMeta<Entity.ProcessingPlan>>
+  size(options?: AllProcessingPlansOptions): Promise<ListMeta<"processingplan">>
 
   /**
    * Создать техкарту.
@@ -168,7 +168,7 @@ export interface ProcessingPlanEndpoint {
   upsert<T extends UpdateProcessingPlanOptions = Record<string, unknown>>(
     data: (
       | GetModelCreatableFields<ProcessingPlanModel>
-      | (GetModelUpdatableFields<ProcessingPlanModel> & UpdateMeta<Entity.ProcessingPlan>)
+      | (GetModelUpdatableFields<ProcessingPlanModel> & UpdateMeta<"processingplan">)
     )[],
     options?: Subset<T, UpdateProcessingPlanOptions>,
   ): Promise<GetFindResult<ProcessingPlanModel, T["expand"]>[]>

@@ -45,13 +45,13 @@ export interface EnterOverhead {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-oprihodowanie-pozicii-oprihodowanij
  */
-export interface EnterPosition extends Idable, Meta<Entity.EnterPosition> {
+export interface EnterPosition extends Idable, Meta<"enterposition"> {
   /** ID учетной записи */
   readonly accountId: string
   /** Метаданные товара/услуги/серии/модификации/комплекта, которую представляет собой позиция */
   assortment: Meta<AssortmentEntity>
   /** Метаданные страны */
-  country?: Meta<Entity.Country> // TODO add country expand
+  country?: Meta<"country"> // TODO add country expand
   /** Грузовая таможенная декларация (ГТД) */
   gtd?: Gtd
   /**
@@ -83,7 +83,7 @@ export interface EnterPosition extends Idable, Meta<Entity.EnterPosition> {
    *
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-sklad-yachejki-sklada
    */
-  slot?: Meta<Entity.Slot> // TODO add slot expand
+  slot?: Meta<"slot"> // TODO add slot expand
   /**
    * Серийные номера
    *
@@ -106,7 +106,7 @@ export interface EnterPositionModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-oprihodowanie
  */
-export interface Enter extends Idable, Meta<Entity.Enter> {
+export interface Enter extends Idable, Meta<"enter"> {
   /** ID учетной записи */
   readonly accountId: string
   /**
@@ -136,23 +136,23 @@ export interface Enter extends Idable, Meta<Entity.Enter> {
    */
   files: unknown[] // TODO add files
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
   /** Дата документа */
   moment: DateTime
   /** Номер оприходования */
   name: string
   /** Метаданные юрлица */
-  organization: Meta<Entity.Organization>
+  organization: Meta<"organization">
   /** Накладные расходы */
   overhead?: EnterOverhead
   /** Владелец-сотрудник */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
   /** Метаданные позиций */
-  positions: ListMeta<Entity.EnterPosition>
+  positions: ListMeta<"enterposition">
   /** Напечатан ли документ */
   readonly printed: boolean
   /** Метаданные проекта */
-  project?: Meta<Entity.Project>
+  project?: Meta<"project">
   /** Опубликован ли документ */
   readonly published: boolean
   /**
@@ -164,9 +164,9 @@ export interface Enter extends Idable, Meta<Entity.Enter> {
   /** Общий доступ */
   shared: boolean
   /** Метаданные статуса оприходования */
-  state?: Meta<Entity.State>
+  state?: Meta<"state">
   /** Метаданные склада */
-  store: Meta<Entity.Store>
+  store: Meta<"store">
   /** Сумма оприходования в копейках */
   readonly sum: number
   /**

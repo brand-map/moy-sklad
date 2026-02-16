@@ -42,7 +42,7 @@ export interface BonusTransactionEndpoint {
    */
   list<T extends ListBonusTransactionsOptions = Record<string, unknown>>(
     options?: Subset<T, ListBonusTransactionsOptions>,
-  ): Promise<ListResponse<GetFindResult<BonusTransactionModel, T["expand"]>, Entity.BonusTransaction>>
+  ): Promise<ListResponse<GetFindResult<BonusTransactionModel, T["expand"]>, "bonustransaction">>
 
   /**
    * Получить все бонусные операции
@@ -57,7 +57,7 @@ export interface BonusTransactionEndpoint {
    */
   all<T extends ListBonusTransactionsOptions = Record<string, unknown>>(
     options?: Subset<T, ListBonusTransactionsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<BonusTransactionModel, T["expand"]>, Entity.BonusTransaction>>
+  ): Promise<BatchGetResult<GetFindResult<BonusTransactionModel, T["expand"]>, "bonustransaction">>
 
   /**
    * Получить количество бонусных операций.
@@ -70,7 +70,7 @@ export interface BonusTransactionEndpoint {
    * const count = await moysklad.bonusTransaction.size();
    * ```
    */
-  size(options?: AllBonusTransactionsOptions): Promise<ListMeta<Entity.BonusTransaction>>
+  size(options?: AllBonusTransactionsOptions): Promise<ListMeta<"bonustransaction">>
 
   /**
    * Получить первую бонусную операцию, соответствующую фильтру
@@ -164,7 +164,7 @@ export interface BonusTransactionEndpoint {
    * const transaction = await moysklad.bonusTransaction.upsert({
    *   meta: {
    *     href: "https://api.moysklad.ru/api/remap/1.2/entity/bonustransaction/a7404397-83a7-11ed-0a80-0e9700500d7e",
-   *     type: Entity.BonusTransaction,
+   *     type: "bonustransaction",
    *     mediaType: MediaType.Json,
    *   },
    *   bonusValue: 300
@@ -182,7 +182,7 @@ export interface BonusTransactionEndpoint {
    *   {
    *     meta: {
    *       href: "https://api.moysklad.ru/api/remap/1.2/entity/bonustransaction/b8515408-94b8-12fe-1b91-1f8811600e8f",
-   *       type: Entity.BonusTransaction,
+   *       type: "bonustransaction",
    *       mediaType: MediaType.Json,
    *     },
    *     bonusValue: 200

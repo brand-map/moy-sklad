@@ -44,7 +44,7 @@ export type GetModelUpdatableFields<M extends Model> = {
           NonNullable<M["object"][Key]> extends Array<infer T>
           ? // value is an Attribute array?
             T extends Attribute
-            ? (UpdateMeta<Entity.AttributeMetadata> & Pick<Attribute, "value">)[]
+            ? (UpdateMeta<"attributemetadata"> & Pick<Attribute, "value">)[]
             : T extends Meta<infer U>
               ? UpdateMeta<U>[]
               : T[]

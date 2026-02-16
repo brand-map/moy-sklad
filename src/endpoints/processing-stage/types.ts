@@ -7,7 +7,7 @@ import type { GroupModel } from "../group"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-jetap-proizwodstwa
  */
-export interface ProcessingStage extends Idable, Meta<Entity.ProcessingStage> {
+export interface ProcessingStage extends Idable, Meta<"processingstage"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -24,19 +24,19 @@ export interface ProcessingStage extends Idable, Meta<Entity.ProcessingStage> {
   externalCode: string
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Метаданные склада материалов */
-  materialStore: Meta<Entity.Store>
+  materialStore: Meta<"store">
 
   /** Наименование Этапа */
   name: string
 
   /** Владелец (Сотрудник) */
-  owner: Meta<Entity.Employee>
+  owner: Meta<"employee">
 
   /** Метаданные возможных исполнителей */
-  performers: ListMeta<Entity.Employee>
+  performers: ListMeta<"employee">
 
   /** Общий доступ */
   shared: boolean

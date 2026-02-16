@@ -5,7 +5,7 @@ import type { Idable } from "./mixins"
 import type { Model } from "./model"
 
 /** Счёт юрлциа / контрагента */
-export interface Account extends Idable, Meta<Entity.Account> {
+export interface Account extends Idable, Meta<"account"> {
   /** ID учетной записи */
   readonly accountId: string
 

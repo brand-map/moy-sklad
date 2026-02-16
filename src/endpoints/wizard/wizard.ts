@@ -9,19 +9,19 @@ export type WizardAction = "evaluate_price" | "evaluate_discount" | "evaluate_va
 interface BaseOptions<A extends WizardAction> {
   action: A
   /** Ссылка на юрлицо в формате Метаданных. Обязателен со значением `evaluate_vat` параметра `action` */
-  organization: Meta<Entity.Organization>
+  organization: Meta<"organization">
   /** Ссылка на контрагента в формате Метаданных. Обязателен со значениями `evaluate_price`, `evaluate_discount` параметра `action` */
-  agent: Meta<Entity.Counterparty>
+  agent: Meta<"counterparty">
   /** Учитывается ли НДС */
   vatEnabled: boolean
   /** Включен ли НДС в цену */
   vatIncluded?: boolean
   /** Валюта. Если не передано, заполняется валютой учета */
   rate: {
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
   }
   /** Ссылка на склад в формате Метаданных. Обязателен со значением `evaluate_cost` параметра `action` */
-  store: Meta<Entity.Store>
+  store: Meta<"store">
   /** Дата проведения документа. Влияет на расчет себестоимости */
   moment: DateTime
   /** Позиции документа */
@@ -34,7 +34,7 @@ interface BaseOptions<A extends WizardAction> {
 }
 
 export const EntitiesActions = {
-  [Entity.SalesReturn]: "evaluate_cost",
+  ["salesreturn"]: "evaluate_cost",
 } as const
 
 export type WizardOptions<A extends WizardAction = WizardAction> = A extends "evaluate_price"

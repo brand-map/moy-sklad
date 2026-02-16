@@ -21,7 +21,7 @@ export interface GetCashFlowOptions {
   interval: "hour" | "day" | "month"
 }
 
-export interface GetCashFlowResponse extends Meta<Entity.MoneyPlotSeries> {
+export interface GetCashFlowResponse extends Meta<"moneyplotseries"> {
   /** Доход */
   credit: number
 
@@ -49,10 +49,10 @@ export interface GetCashFlowResponse extends Meta<Entity.MoneyPlotSeries> {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety-otchet-den-gi-ostatki-denezhnyh-sredstw
  * */
-export interface GetCashBalanceResponse extends Meta<Entity.MoneyReport> {
+export interface GetCashBalanceResponse extends Meta<"moneyreport"> {
   rows: {
     /** Юрлицо */
-    organization: Meta<Entity.Organization> & {
+    organization: Meta<"organization"> & {
       /** Наименование */
       name: string
     }
@@ -62,7 +62,7 @@ export interface GetCashBalanceResponse extends Meta<Entity.MoneyReport> {
      *
      * Не выводится для остатка кассы, так как касса одна на организацию.
      */
-    account?: Meta<Entity.Account> & {
+    account?: Meta<"account"> & {
       /** Номер счёта */
       name: string
     }

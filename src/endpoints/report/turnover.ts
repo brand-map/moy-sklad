@@ -42,12 +42,12 @@ export interface TurnoverAssortment {
   image?: unknown // TODO add image type
   /** Группа Товара или Модификации */
   productFolder?: {
-    meta: Metadata<Entity.ProductFolder>
+    meta: Metadata<"productfolder">
     name: string
   }
   /** Единица измерения */
   uom?: {
-    meta: Metadata<Entity.Uom>
+    meta: Metadata<"uom">
     name: string
   }
 }
@@ -82,7 +82,7 @@ export interface TurnoverByStoreReport {
   stockByStore: Array<{
     /** Склад */
     store: {
-      meta: Metadata<Entity.Store>
+      meta: Metadata<"store">
       name: string
     }
     /** Показатели на начало периода */
@@ -106,7 +106,7 @@ export interface TurnoverByOperationReport {
   assortment: TurnoverAssortment
   /** Склад */
   store: {
-    meta: Metadata<Entity.Store>
+    meta: Metadata<"store">
     name: string
   }
   /** Документ, связанный с Товаром */
@@ -116,7 +116,7 @@ export interface TurnoverByOperationReport {
     description?: string
     moment: DateTime
     agent?: {
-      meta: Metadata<Entity.Counterparty>
+      meta: Metadata<"counterparty">
       name: string
     }
   }
@@ -232,15 +232,15 @@ export interface TurnoverByOperationReportListOptions {
 
 export interface ReportTurnoverEndpoint {
   /** Обороты по товарам */
-  all: (options?: TurnoverReportListOptions) => Promise<ListResponse<TurnoverReport, Entity.TurnoverAll>>
+  all: (options?: TurnoverReportListOptions) => Promise<ListResponse<TurnoverReport, "turnoverall">>
 
   /** Обороты по товару с детализацией по складам */
   byStore: (
     options?: TurnoverByStoreReportListOptions,
-  ) => Promise<ListResponse<TurnoverByStoreReport, Entity.TurnoverByStore>>
+  ) => Promise<ListResponse<TurnoverByStoreReport, "turnoverbystore">>
 
   /** Обороты по товару с детализацией по документам */
   byOperation: (
     options: TurnoverByOperationReportListOptions,
-  ) => Promise<ListResponse<TurnoverByOperationReport, Entity.TurnoverByOperation>>
+  ) => Promise<ListResponse<TurnoverByOperationReport, "turnoverbyoperation">>
 }

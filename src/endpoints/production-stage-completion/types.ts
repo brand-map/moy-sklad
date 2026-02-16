@@ -22,7 +22,7 @@ import type { GroupModel } from "../group"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vypolnenie-atapa-proizwodstwa-vypolneniq-atapow-proizwodstwa
  */
-export interface ProductionStageCompletion extends Idable, Meta<Entity.ProductionStageCompletion> {
+export interface ProductionStageCompletion extends Idable, Meta<"productionstagecompletion"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -33,7 +33,7 @@ export interface ProductionStageCompletion extends Idable, Meta<Entity.Productio
   externalCode: string
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Оплата труда за единицу объема производства */
   labourUnitCost: number
@@ -51,16 +51,16 @@ export interface ProductionStageCompletion extends Idable, Meta<Entity.Productio
   name: string
 
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Исполнитель (Сотрудник) */
-  performer?: Meta<Entity.Employee>
+  performer?: Meta<"employee">
 
   /** Затраты на единицу объема производства */
   processingUnitCost: number
 
   /** Производственный этап */
-  readonly productionStage: Meta<Entity.ProductionStage>
+  readonly productionStage: Meta<"productionstage">
 
   /** Объем производства */
   productionVolume: number
@@ -119,7 +119,7 @@ export type AllProductionStageCompletionOptions = Omit<ListProductionStageComple
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vypolnenie-atapa-proizwodstwa-materialy-wypolneniq-atapa-proizwodstwa
  */
-export interface ProductionStageCompletionMaterial extends Idable, Meta<Entity.ProductionStageCompletionMaterial> {
+export interface ProductionStageCompletionMaterial extends Idable, Meta<"productionstagecompletionmaterial"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -167,7 +167,7 @@ export type AllProductionStageCompletionMaterialOptions = Omit<
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vypolnenie-atapa-proizwodstwa-produkty-wypolneniq-atapa-proizwodstwa
  */
-export interface ProductionStageCompletionResult extends Idable, Meta<Entity.ProductionStageCompletionResult> {
+export interface ProductionStageCompletionResult extends Idable, Meta<"productionstagecompletionresult"> {
   /** ID учетной записи */
   readonly accountId: string
 

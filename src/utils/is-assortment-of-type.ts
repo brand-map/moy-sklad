@@ -9,15 +9,15 @@
 //   VariantAssortmentModel,
 // } from "../types"
 
-// type GetAssortmentObject<T extends AssortmentEntity> = T extends Entity.Variant
+// type GetAssortmentObject<T extends AssortmentEntity> = T extends "variant"
 //   ? VariantAssortmentModel["object"]
-//   : T extends Entity.Product
+//   : T extends "product"
 //     ? ProductAssortmentModel["object"]
-//     : T extends Entity.Bundle
+//     : T extends "bundle"
 //       ? BundleAssortmentModel["object"]
-//       : T extends Entity.Consignment
+//       : T extends "consignment"
 //         ? ConsignmentAssortmentModel["object"]
-//         : T extends Entity.Service
+//         : T extends "service"
 //           ? ServiceAssortmentModel["object"]
 //           : never
 
@@ -32,7 +32,7 @@
 //  *
 //  * @example
 //  * ```ts
-//  * if (isAssortmentOfType(assortment, Entity.Service)) {
+//  * if (isAssortmentOfType(assortment, "service")) {
 //  *   // Теперь assortment имеет тип Service
 //  * }
 //  * ```

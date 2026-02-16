@@ -1,13 +1,13 @@
 import type { DateTime, Entity, Idable, Meta, Model } from "../../types"
 
-export interface CustomEntity extends Idable, Meta<Entity.CustomEntity> {
+export interface CustomEntity extends Idable, Meta<"customentity"> {
   readonly accountId: string
   readonly updated: DateTime
   name: string
   externalCode: string
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
   shared: boolean
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 }
 
 export interface CustomEntityModel extends Model {

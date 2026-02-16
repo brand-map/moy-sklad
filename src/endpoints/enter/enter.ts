@@ -41,7 +41,7 @@ export interface EnterEndpoint {
    */
   list<T extends ListEntersOptions = Record<string, unknown>>(
     options?: Subset<T, ListEntersOptions>,
-  ): Promise<ListResponse<GetFindResult<EnterModel, T["expand"]>, Entity.Enter>>
+  ): Promise<ListResponse<GetFindResult<EnterModel, T["expand"]>, "enter">>
 
   /**
    * Получить все оприходования с пагинацией.
@@ -58,7 +58,7 @@ export interface EnterEndpoint {
    */
   all<T extends AllEntersOptions = Record<string, unknown>>(
     options?: Subset<T, AllEntersOptions>,
-  ): Promise<BatchGetResult<GetFindResult<EnterModel, T["expand"]>, Entity.Enter>>
+  ): Promise<BatchGetResult<GetFindResult<EnterModel, T["expand"]>, "enter">>
 
   /**
    * Получить оприходование по ID.
@@ -145,7 +145,7 @@ export interface EnterEndpoint {
    * ```
    */
   upsert<T extends CreateEnterOptions = Record<string, unknown>>(
-    data: (GetModelCreatableFields<EnterModel> | (GetModelUpdatableFields<EnterModel> & UpdateMeta<Entity.Enter>))[],
+    data: (GetModelCreatableFields<EnterModel> | (GetModelUpdatableFields<EnterModel> & UpdateMeta<"enter">))[],
     options?: Subset<T, CreateEnterOptions>,
   ): Promise<GetFindResult<EnterModel, T["expand"]>[]>
 
@@ -165,7 +165,7 @@ export interface EnterEndpoint {
    */
   first<T extends FirstEnterOptions = Record<string, unknown>>(
     options?: Subset<T, FirstEnterOptions>,
-  ): Promise<ListResponse<GetFindResult<EnterModel, T["expand"]>, Entity.Enter>>
+  ): Promise<ListResponse<GetFindResult<EnterModel, T["expand"]>, "enter">>
 
   /**
    * Получить размер списка оприходований.
@@ -177,7 +177,7 @@ export interface EnterEndpoint {
    * const size = await moysklad.enter.size();
    * ```
    */
-  size(options?: AllEntersOptions): Promise<ListMeta<Entity.Enter>>
+  size(options?: AllEntersOptions): Promise<ListMeta<"enter">>
 
   /**
    * Удалить оприходование.

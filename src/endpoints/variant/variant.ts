@@ -48,7 +48,7 @@ export interface VariantEndpoint {
    */
   list<T extends ListVariantsOptions = Record<string, unknown>>(
     options?: Subset<T, ListVariantsOptions>,
-  ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>>
+  ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, "variant">>
 
   /**
    * Получить все модификации.
@@ -65,7 +65,7 @@ export interface VariantEndpoint {
    */
   all<T extends AllVariantsOptions = Record<string, unknown>>(
     options?: Subset<T, AllVariantsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>>
+  ): Promise<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, "variant">>
 
   /**
    * Получить первую модификацию.
@@ -82,7 +82,7 @@ export interface VariantEndpoint {
    */
   first<T extends FirstVariantOptions = Record<string, unknown>>(
     options?: Subset<T, FirstVariantOptions>,
-  ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>>
+  ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, "variant">>
 
   /**
    * Получить модификацию по id.
@@ -108,7 +108,7 @@ export interface VariantEndpoint {
    *
    * @returns Общее количество модификаций
    */
-  size(options?: AllVariantsOptions): Promise<ListMeta<Entity.Variant>>
+  size(options?: AllVariantsOptions): Promise<ListMeta<"variant">>
 
   /**
    * Удалить модификацию по id.
@@ -168,10 +168,7 @@ export interface VariantEndpoint {
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-modifikaciq-massowoe-sozdanie-i-obnowlenie-modifikacij
    */
   upsert<T extends CreateVariantOptions = Record<string, unknown>>(
-    data: (
-      | GetModelCreatableFields<VariantModel>
-      | (GetModelUpdatableFields<VariantModel> & UpdateMeta<Entity.Variant>)
-    )[],
+    data: (GetModelCreatableFields<VariantModel> | (GetModelUpdatableFields<VariantModel> & UpdateMeta<"variant">))[],
     options?: Subset<T, CreateVariantOptions>,
   ): Promise<GetFindResult<VariantModel, T["expand"]>[]>
 

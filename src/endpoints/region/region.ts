@@ -41,7 +41,7 @@ export interface RegionEndpoint {
    */
   list<T extends ListRegionsOptions = Record<string, unknown>>(
     options?: Subset<T, ListRegionsOptions>,
-  ): Promise<ListResponse<GetFindResult<RegionModel, T["expand"]>, Entity.Region>>
+  ): Promise<ListResponse<GetFindResult<RegionModel, T["expand"]>, "region">>
 
   /**
    * Получить все регионы.
@@ -70,7 +70,7 @@ export interface RegionEndpoint {
    */
   all<T extends AllRegionsOptions = Record<string, unknown>>(
     options?: Subset<T, AllRegionsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<RegionModel, T["expand"]>, Entity.Region>>
+  ): Promise<BatchGetResult<GetFindResult<RegionModel, T["expand"]>, "region">>
 
   /**
    * Получить первый регион из списка.
@@ -101,7 +101,7 @@ export interface RegionEndpoint {
    */
   first<T extends FirstRegionOptions = Record<string, unknown>>(
     options?: Subset<T, FirstRegionOptions>,
-  ): Promise<ListResponse<GetFindResult<RegionModel, T["expand"]>, Entity.Region>>
+  ): Promise<ListResponse<GetFindResult<RegionModel, T["expand"]>, "region">>
 
   /**
    * Получить регион по ID.
@@ -150,5 +150,5 @@ export interface RegionEndpoint {
    * console.log(`Количество областей: ${size}`);
    * ```
    */
-  size(options?: AllRegionsOptions): Promise<ListMeta<Entity.Region>>
+  size(options?: AllRegionsOptions): Promise<ListMeta<"region">>
 }

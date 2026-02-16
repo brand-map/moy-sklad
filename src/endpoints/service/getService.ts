@@ -10,12 +10,12 @@ import type { AllServiceOptions, FirstServiceOptions, ListServicesOptions, Servi
 async function fetchServicesResponse<T>(
   client: ApiClient,
   searchParameters?: URLSearchParams,
-): Promise<ListResponse<GetFindResult<ServiceModel, T>, Entity.Service>> {
+): Promise<ListResponse<GetFindResult<ServiceModel, T>, "service">> {
   const response = await client.get(endpointPaths.entity.service, {
     searchParameters: searchParameters ?? undefined,
   })
 
-  return response.json() as Promise<ListResponse<GetFindResult<ServiceModel, T>, Entity.Service>>
+  return response.json() as Promise<ListResponse<GetFindResult<ServiceModel, T>, "service">>
 }
 
 /**
@@ -27,7 +27,7 @@ async function fetchServicesResponse<T>(
 export async function listServices<T extends ListServicesOptions = ListServicesOptions>(
   client: ApiClient,
   options?: Subset<T, ListServicesOptions>,
-): Promise<ListResponse<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>> {
+): Promise<ListResponse<GetFindResult<ServiceModel, T["expand"]>, "service">> {
   const searchParameters = composeSearchParameters({
     pagination: options?.pagination,
     expand: options?.expand,
@@ -48,7 +48,7 @@ export async function listServices<T extends ListServicesOptions = ListServicesO
 export async function allServices<T extends AllServiceOptions = AllServiceOptions>(
   client: ApiClient,
   options?: Subset<T, AllServiceOptions>,
-): Promise<BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>> {
+): Promise<BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, "service">> {
   return client.batchGet(
     async (limit, offset) => {
       const searchParameters = composeSearchParameters({
@@ -74,7 +74,7 @@ export async function allServices<T extends AllServiceOptions = AllServiceOption
 export async function firstService<T extends FirstServiceOptions = FirstServiceOptions>(
   client: ApiClient,
   options?: Subset<T, FirstServiceOptions>,
-): Promise<ListResponse<GetFindResult<ServiceModel, T["expand"]>, Entity.Service>> {
+): Promise<ListResponse<GetFindResult<ServiceModel, T["expand"]>, "service">> {
   const searchParameters = composeSearchParameters({
     pagination: { limit: 1 },
     expand: options?.expand,

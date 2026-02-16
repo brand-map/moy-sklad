@@ -40,7 +40,7 @@ export interface DemandEndpoint {
    */
   list<T extends ListDemandsOptions = Record<string, unknown>>(
     options?: Subset<T, ListDemandsOptions>,
-  ): Promise<ListResponse<GetFindResult<DemandModel, T["expand"], T["fields"]>, Entity.Demand>>
+  ): Promise<ListResponse<GetFindResult<DemandModel, T["expand"], T["fields"]>, "demand">>
 
   /**
    * Получить все отгрузки с учетом пагинации.
@@ -57,7 +57,7 @@ export interface DemandEndpoint {
    */
   all<T extends AllDemandsOptions = Record<string, unknown>>(
     options?: Subset<T, AllDemandsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<DemandModel, T["expand"], T["fields"]>, Entity.Demand>>
+  ): Promise<BatchGetResult<GetFindResult<DemandModel, T["expand"], T["fields"]>, "demand">>
 
   /**
    * Получить отгрузку по ID.
@@ -91,7 +91,7 @@ export interface DemandEndpoint {
    */
   first<T extends FirstDemandOptions = Record<string, unknown>>(
     options?: Subset<T, FirstDemandOptions>,
-  ): Promise<ListResponse<GetFindResult<DemandModel, T["expand"], T["fields"]>, Entity.Demand>>
+  ): Promise<ListResponse<GetFindResult<DemandModel, T["expand"], T["fields"]>, "demand">>
 
   /**
    * Получить количество отгрузок.
@@ -103,7 +103,7 @@ export interface DemandEndpoint {
    * const count = await moysklad.demand.size();
    * ```
    */
-  size(options?: AllDemandsOptions): Promise<ListMeta<Entity.Demand>>
+  size(options?: AllDemandsOptions): Promise<ListMeta<"demand">>
 
   /**
    * Удалить отгрузку.

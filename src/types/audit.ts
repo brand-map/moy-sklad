@@ -179,7 +179,7 @@ interface BaseAuditEvent {
   readonly additionalInfo?: string
 
   /** Метаданные контекста */
-  readonly audit: Meta<Entity.AuditEvent>
+  readonly audit: Meta<"auditevent">
 
   /**
    * Метаданные сущности.

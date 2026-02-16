@@ -10,12 +10,12 @@ import type { AllVariantsOptions, FirstVariantOptions, ListVariantsOptions, Vari
 async function fetchVariantsResponse<T>(
   client: ApiClient,
   searchParameters?: URLSearchParams,
-): Promise<ListResponse<GetFindResult<VariantModel, T>, Entity.Variant>> {
+): Promise<ListResponse<GetFindResult<VariantModel, T>, "variant">> {
   const response = await client.get(endpointPaths.entity.variant, {
     searchParameters: searchParameters ?? undefined,
   })
 
-  return response.json() as Promise<ListResponse<GetFindResult<VariantModel, T>, Entity.Variant>>
+  return response.json() as Promise<ListResponse<GetFindResult<VariantModel, T>, "variant">>
 }
 
 /**
@@ -27,7 +27,7 @@ async function fetchVariantsResponse<T>(
 export async function listVariants<T extends ListVariantsOptions = ListVariantsOptions>(
   client: ApiClient,
   options?: Subset<T, ListVariantsOptions>,
-): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>> {
+): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, "variant">> {
   const searchParameters = composeSearchParameters({
     pagination: options?.pagination,
     expand: options?.expand,
@@ -48,7 +48,7 @@ export async function listVariants<T extends ListVariantsOptions = ListVariantsO
 export async function allVariants<T extends AllVariantsOptions = AllVariantsOptions>(
   client: ApiClient,
   options?: Subset<T, AllVariantsOptions>,
-): Promise<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>> {
+): Promise<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, "variant">> {
   return client.batchGet(
     async (limit, offset) => {
       const searchParameters = composeSearchParameters({
@@ -74,7 +74,7 @@ export async function allVariants<T extends AllVariantsOptions = AllVariantsOpti
 export async function firstVariant<T extends FirstVariantOptions = FirstVariantOptions>(
   client: ApiClient,
   options?: Subset<T, FirstVariantOptions>,
-): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, Entity.Variant>> {
+): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, "variant">> {
   const searchParameters = composeSearchParameters({
     pagination: { limit: 1 },
     expand: options?.expand,

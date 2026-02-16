@@ -10,12 +10,12 @@ import type { AllBundleOptions, BundleModel, FirstBundleOptions, ListBundleOptio
 async function fetchBundlesResponse<T>(
   client: ApiClient,
   searchParameters?: URLSearchParams,
-): Promise<ListResponse<GetFindResult<BundleModel, T>, Entity.Bundle>> {
+): Promise<ListResponse<GetFindResult<BundleModel, T>, "bundle">> {
   const response = await client.get(endpointPaths.entity.bundle, {
     searchParameters: searchParameters ?? undefined,
   })
 
-  return response.json() as Promise<ListResponse<GetFindResult<BundleModel, T>, Entity.Bundle>>
+  return response.json() as Promise<ListResponse<GetFindResult<BundleModel, T>, "bundle">>
 }
 
 /**
@@ -27,7 +27,7 @@ async function fetchBundlesResponse<T>(
 export async function listBundles<T extends ListBundleOptions = ListBundleOptions>(
   client: ApiClient,
   options?: Subset<T, ListBundleOptions>,
-): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, Entity.Bundle>> {
+): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
   const searchParameters = composeSearchParameters({
     pagination: options?.pagination,
     expand: options?.expand,
@@ -48,7 +48,7 @@ export async function listBundles<T extends ListBundleOptions = ListBundleOption
 export async function allBundles<T extends AllBundleOptions = AllBundleOptions>(
   client: ApiClient,
   options?: Subset<T, AllBundleOptions>,
-): Promise<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, Entity.Bundle>> {
+): Promise<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
   return client.batchGet(
     async (limit, offset) => {
       const searchParameters = composeSearchParameters({
@@ -74,7 +74,7 @@ export async function allBundles<T extends AllBundleOptions = AllBundleOptions>(
 export async function firstBundle<T extends FirstBundleOptions = FirstBundleOptions>(
   client: ApiClient,
   options?: Subset<T, FirstBundleOptions>,
-): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, Entity.Bundle>> {
+): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
   const searchParameters = composeSearchParameters({
     pagination: { limit: 1 },
     expand: options?.expand,

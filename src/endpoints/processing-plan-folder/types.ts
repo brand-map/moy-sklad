@@ -6,7 +6,7 @@ import type { GroupModel } from "../group"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-gruppa-tehkart
  */
-export interface ProcessingPlanFolder extends Idable, Meta<Entity.ProcessingPlanFolder> {
+export interface ProcessingPlanFolder extends Idable, Meta<"processingplanfolder"> {
   /** ID учётной записи */
   readonly accountId: string
 
@@ -23,13 +23,13 @@ export interface ProcessingPlanFolder extends Idable, Meta<Entity.ProcessingPlan
   description?: string
 
   /** Метаданные отдела сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Наименование Группы техкарт */
   name: string
 
   /** Владелец (Сотрудник) */
-  owner: Meta<Entity.Employee>
+  owner: Meta<"employee">
 
   /** Наименование Группы техкарт, в которую входит данная Группа техкарт */
   readonly pathName: string

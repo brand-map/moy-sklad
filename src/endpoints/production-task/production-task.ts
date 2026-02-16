@@ -62,7 +62,7 @@ export interface ProductionTaskEndpoint {
    */
   list<T extends ListProductionTasksOptions = Record<string, unknown>>(
     options?: Subset<T, ListProductionTasksOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductionTaskModel, T["expand"]>, Entity.ProductionTask>>
+  ): Promise<ListResponse<GetFindResult<ProductionTaskModel, T["expand"]>, "productiontask">>
 
   /**
    * Получить все производственные задания.
@@ -79,7 +79,7 @@ export interface ProductionTaskEndpoint {
    */
   all<T extends AllProductionTasksOptions = Record<string, unknown>>(
     options?: Subset<T, AllProductionTasksOptions>,
-  ): Promise<BatchGetResult<GetFindResult<ProductionTaskModel, T["expand"]>, Entity.ProductionTask>>
+  ): Promise<BatchGetResult<GetFindResult<ProductionTaskModel, T["expand"]>, "productiontask">>
 
   /**
    * Получить производственное задание по id.
@@ -116,7 +116,7 @@ export interface ProductionTaskEndpoint {
    *   shared: false,
    *     owner: {
    *      meta: {
-   *        type: Entity.Employee,
+   *        type: "employee",
    *        href: moysklad.client
    *           .buildUrl(["entity", "employee", "5427bc76-b95f-11eb-0a80-04bb000cd583"]).toString(),
    *        mediaType: MediaType.Json,
@@ -145,8 +145,8 @@ export interface ProductionTaskEndpoint {
    * await moysklad.productionTask.create({
    *   owner: {
    *     meta: {
-   *       type: Entity.Employee,
-   *       href: moysklad.client.buildUrl(["entity", Entity.Employee, "b0e1f1d1-0b1d-11ec-80e9-0b5808000a0e"]).toString(),
+   *       type: "employee",
+   *       href: moysklad.client.buildUrl(["entity", "employee", "b0e1f1d1-0b1d-11ec-80e9-0b5808000a0e"]).toString(),
    *       mediaType: MediaType.Json,
    *     }
    *   },
@@ -175,11 +175,11 @@ export interface ProductionTaskEndpoint {
    *   {
    *     owner: {
    *       meta: {
-   *         type: Entity.Employee,
+   *         type: "employee",
    *         href: moysklad.client
    *           .buildUrl([
    *             "entity",
-   *             Entity.Employee,
+   *             "employee",
    *             "b0e1f1d1-0b1d-11ec-80e9-0b5808000a0e",
    *           ])
    *           .toString(),
@@ -191,11 +191,11 @@ export interface ProductionTaskEndpoint {
    *   // обновить существующее производственное задание
    *   {
    *     meta: {
-   *       type: Entity.ProductionTask,
+   *       type: "productiontask",
    *       href: moysklad.client
    *         .buildUrl([
    *           "entity",
-   *           Entity.ProductionTask,
+   *           "productiontask",
    *           "b0e1f1d1-0b1d-11ec-80e9-0b5808000a0e",
    *         ])
    *         .toString(),
@@ -209,7 +209,7 @@ export interface ProductionTaskEndpoint {
   upsert<T extends CreateProductionTaskOptions = Record<string, unknown>>(
     data: (
       | GetModelCreatableFields<ProductionTaskModel>
-      | (GetModelUpdatableFields<ProductionTaskModel> & UpdateMeta<Entity.ProductionTask>)
+      | (GetModelUpdatableFields<ProductionTaskModel> & UpdateMeta<"productiontask">)
     )[],
     options?: Subset<T, CreateProductionTaskOptions>,
   ): Promise<GetFindResult<ProductionTaskModel, T["expand"]>[]>
@@ -232,13 +232,13 @@ export interface ProductionTaskEndpoint {
    */
   first<T extends FirstProductionTaskOptions = Record<string, unknown>>(
     options?: Subset<T, FirstProductionTaskOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductionTaskModel, T["expand"]>, Entity.ProductionTask>>
+  ): Promise<ListResponse<GetFindResult<ProductionTaskModel, T["expand"]>, "productiontask">>
 
   /**
    * Получить общее количество производственных заданий.
    * @returns Общее количество производственных заданий
    */
-  size(options?: AllProductionTasksOptions): Promise<ListMeta<Entity.ProductionTask>>
+  size(options?: AllProductionTasksOptions): Promise<ListMeta<"productiontask">>
 
   /**
    * Удалить производственное задание по id.

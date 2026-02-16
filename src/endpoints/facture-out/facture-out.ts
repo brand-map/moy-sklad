@@ -40,7 +40,7 @@ export interface FactureOutEndpoint {
    */
   list<T extends ListFactureOutsOptions = Record<string, unknown>>(
     options?: Subset<T, ListFactureOutsOptions>,
-  ): Promise<ListResponse<GetFindResult<FactureOutModel, T["expand"], T["fields"]>, Entity.FactureOut>>
+  ): Promise<ListResponse<GetFindResult<FactureOutModel, T["expand"], T["fields"]>, "factureout">>
 
   /**
    * Получить все счета-фактуры выданные с учетом пагинации.
@@ -57,7 +57,7 @@ export interface FactureOutEndpoint {
    */
   all<T extends AllFactureOutsOptions = Record<string, unknown>>(
     options?: Subset<T, AllFactureOutsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<FactureOutModel, T["expand"], T["fields"]>, Entity.FactureOut>>
+  ): Promise<BatchGetResult<GetFindResult<FactureOutModel, T["expand"], T["fields"]>, "factureout">>
 
   /**
    * Получить счет-фактуру выданный по ID.
@@ -91,7 +91,7 @@ export interface FactureOutEndpoint {
    */
   first<T extends FirstFactureOutOptions = Record<string, unknown>>(
     options?: Subset<T, FirstFactureOutOptions>,
-  ): Promise<ListResponse<GetFindResult<FactureOutModel, T["expand"], T["fields"]>, Entity.FactureOut>>
+  ): Promise<ListResponse<GetFindResult<FactureOutModel, T["expand"], T["fields"]>, "factureout">>
 
   /**
    * Получить количество счетов-фактур выданных.
@@ -103,7 +103,7 @@ export interface FactureOutEndpoint {
    * const count = await moysklad.factureOut.size();
    * ```
    */
-  size(options?: AllFactureOutsOptions): Promise<ListMeta<Entity.FactureOut>>
+  size(options?: AllFactureOutsOptions): Promise<ListMeta<"factureout">>
 
   /**
    * Удалить счет-фактуру выданный.

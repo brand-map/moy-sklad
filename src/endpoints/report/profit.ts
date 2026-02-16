@@ -32,7 +32,7 @@ export interface ByVariantProfitReport {
     image?: unknown // TODO add image type
     /** Единица измерения */
     uom: {
-      meta: Metadata<Entity.Uom>
+      meta: Metadata<"uom">
       name: string
     }
   }
@@ -114,5 +114,5 @@ export interface ByVariantProfitReportListOptions {
 export interface ReportProfitEndpoint {
   byVariant: (
     options?: ByVariantProfitReportListOptions,
-  ) => Promise<ListResponse<ByVariantProfitReport, Entity.SalesByVariant>>
+  ) => Promise<ListResponse<ByVariantProfitReport, "salesbyvariant">>
 }

@@ -90,7 +90,7 @@ export type Entity =
   | "stockbystore"
   | "webhook"
 
-export type AssortmentEntity = Entity.Product | Entity.Service | Entity.Bundle | Entity.Variant | Entity.Consignment
+export type AssortmentEntity = "product" | "service" | "bundle" | "variant" | "consignment"
 
 type AssortmentFields = {
   /** Остаток */

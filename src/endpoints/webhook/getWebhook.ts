@@ -18,11 +18,11 @@ const webhookPath = endpointPaths.entity.webhook
 async function fetchWebhooksResponse(
   client: ApiClient,
   searchParameters?: URLSearchParams,
-): Promise<ListResponse<Webhook, Entity.Webhook>> {
+): Promise<ListResponse<Webhook, "webhook">> {
   const response = await client.get(webhookPath, {
     searchParameters: searchParameters ?? undefined,
   })
-  return response.json() as Promise<ListResponse<Webhook, Entity.Webhook>>
+  return response.json() as Promise<ListResponse<Webhook, "webhook">>
 }
 
 /**
@@ -35,7 +35,7 @@ async function fetchWebhooksResponse(
 export async function listWebhooks<T extends ListWebhooksOptions>(
   client: ApiClient,
   options?: Subset<T, ListWebhooksOptions>,
-): Promise<ListResponse<GetFindResult<WebhookModel, undefined>, Entity.Webhook>> {
+): Promise<ListResponse<GetFindResult<WebhookModel, undefined>, "webhook">> {
   const searchParameters = composeSearchParameters({
     pagination: options?.pagination,
     order: options?.order,
@@ -50,7 +50,7 @@ export async function listWebhooks<T extends ListWebhooksOptions>(
 export async function allWebhooks<T extends AllWebhooksOptions>(
   client: ApiClient,
   options?: Subset<T, AllWebhooksOptions>,
-): Promise<BatchGetResult<Webhook, Entity.Webhook>> {
+): Promise<BatchGetResult<Webhook, "webhook">> {
   return client.batchGet(async (limit, offset) => {
     const searchParameters = composeSearchParameters({
       pagination: { limit, offset },
@@ -67,7 +67,7 @@ export async function allWebhooks<T extends AllWebhooksOptions>(
 export async function firstWebhook<T extends FirstWebhookOptions>(
   client: ApiClient,
   options?: Subset<T, FirstWebhookOptions>,
-): Promise<ListResponse<Webhook, Entity.Webhook>> {
+): Promise<ListResponse<Webhook, "webhook">> {
   const searchParameters = composeSearchParameters({
     pagination: { limit: 1 },
     order: options?.order,
@@ -156,7 +156,7 @@ export async function batchCreateOrUpdateWebhooks(
  */
 export async function batchDeleteWebhooks(
   client: ApiClient,
-  metaList: Meta<Entity.Webhook>[],
+  metaList: Meta<"webhook">[],
 ): Promise<BatchDeleteResult[]> {
   const response = await client.post(`${webhookPath}/delete`, {
     body: metaList,

@@ -28,13 +28,13 @@ import type { OrganizationModel } from "../organization"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-ishodqschij-platezh-ishodqschie-platezhi
  */
-export interface PaymentOut extends Idable, Meta<Entity.PaymentOut> {
+export interface PaymentOut extends Idable, Meta<"paymentout"> {
   /** ID учетной записи */
   readonly accountId: string
   /** Метаданные контрагента, сотрудника или юр.лица */
-  agent: Meta<Entity.Counterparty>
+  agent: Meta<"counterparty">
   /** Метаданные счета контрагента или юр.лица */
-  agentAccount?: Meta<Entity.Account>
+  agentAccount?: Meta<"account">
   /** Отметка о проведении */
   applicable: boolean
   /**
@@ -46,7 +46,7 @@ export interface PaymentOut extends Idable, Meta<Entity.PaymentOut> {
   /** Код Исходящего платежа */
   code?: string
   /** Метаданные договора */
-  contract?: Meta<Entity.Contract>
+  contract?: Meta<"contract">
   /** Дата создания */
   readonly created: DateTime
   /** Момент последнего удаления Исходящего платежа */
@@ -54,7 +54,7 @@ export interface PaymentOut extends Idable, Meta<Entity.PaymentOut> {
   /** Комментарий Исходящего платежа */
   description?: string
   /** Метаданные Статьи расходов */
-  expenseItem: Meta<Entity.ExpenseItem>
+  expenseItem: Meta<"expenseitem">
   /** Внешний код Исходящего платежа */
   externalCode: string
   /**
@@ -64,23 +64,23 @@ export interface PaymentOut extends Idable, Meta<Entity.PaymentOut> {
    */
   files: Meta<never>[] // TODO add files
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
   /** Дата документа */
   moment: DateTime
   /** Наименование Исходящего платежа */
   name: string
   /** Метаданные юрлица */
-  organization: Meta<Entity.Organization>
+  organization: Meta<"organization">
   /** Метаданные счета юрлица */
-  organizationAccount?: Meta<Entity.Account>
+  organizationAccount?: Meta<"account">
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
   /** Назначение платежа */
   paymentPurpose: string
   /** Напечатан ли документ */
   readonly printed: boolean
   /** Метаданные проекта */
-  project?: Meta<Entity.Project>
+  project?: Meta<"project">
   /**
    * Валюта
    *
@@ -88,11 +88,11 @@ export interface PaymentOut extends Idable, Meta<Entity.PaymentOut> {
    */
   rate: DocumentRate // TODO expand rate's currency
   /** Метаданные канала продаж */
-  salesChannel?: Meta<Entity.SalesChannel>
+  salesChannel?: Meta<"saleschannel">
   /** Общий доступ */
   shared: boolean
   /** Метаданные статуса Исходящего платежа */
-  state?: Meta<Entity.State>
+  state?: Meta<"state">
   /** Сумма Входящего платежа в установленной валюте */
   sum: number
   /** ID синхронизации. После заполнения недоступен для изменения */

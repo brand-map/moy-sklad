@@ -36,7 +36,7 @@ export interface InventoryEndpoint {
    */
   list<T extends ListInventoryOptions = Record<string, unknown>>(
     options?: Subset<T, ListInventoryOptions>,
-  ): Promise<ListResponse<GetFindResult<InventoryModel, T["expand"]>, Entity.Inventory>>
+  ): Promise<ListResponse<GetFindResult<InventoryModel, T["expand"]>, "inventory">>
 
   /**
    * Получить все инвентаризации.
@@ -46,7 +46,7 @@ export interface InventoryEndpoint {
    */
   all<T extends AllInventoryOptions = Record<string, unknown>>(
     options?: Subset<T, AllInventoryOptions>,
-  ): Promise<BatchGetResult<GetFindResult<InventoryModel, T["expand"]>, Entity.Inventory>>
+  ): Promise<BatchGetResult<GetFindResult<InventoryModel, T["expand"]>, "inventory">>
 
   /**
    * Получить количество инвентаризаций.
@@ -59,7 +59,7 @@ export interface InventoryEndpoint {
    * const count = await moysklad.inventory.size();
    * ```
    */
-  size(options?: AllInventoryOptions): Promise<ListMeta<Entity.Inventory>>
+  size(options?: AllInventoryOptions): Promise<ListMeta<"inventory">>
 
   /**
    * Получить первую инвентаризацию.
@@ -69,7 +69,7 @@ export interface InventoryEndpoint {
    */
   first<T extends FirstInventoryOptions = Record<string, unknown>>(
     options?: Subset<T, FirstInventoryOptions>,
-  ): Promise<ListResponse<GetFindResult<InventoryModel, T["expand"]>, Entity.Inventory>>
+  ): Promise<ListResponse<GetFindResult<InventoryModel, T["expand"]>, "inventory">>
 
   /**
    * Получить инвентаризацию по id.
@@ -119,7 +119,7 @@ export interface InventoryEndpoint {
   upsert<T extends CreateInventoryOptions = Record<string, unknown>>(
     data: (
       | GetModelCreatableFields<InventoryModel>
-      | (GetModelUpdatableFields<InventoryModel> & UpdateMeta<Entity.Inventory>)
+      | (GetModelUpdatableFields<InventoryModel> & UpdateMeta<"inventory">)
     )[],
     options?: Subset<T, CreateInventoryOptions>,
   ): Promise<GetFindResult<InventoryModel, T["expand"]>[]>

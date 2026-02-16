@@ -18,7 +18,7 @@ import type {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-seriq
  */
-export interface Consignment extends Idable, Meta<Entity.Consignment> {
+export interface Consignment extends Idable, Meta<"consignment"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -41,7 +41,7 @@ export interface Consignment extends Idable, Meta<Entity.Consignment> {
   externalCode?: string
 
   /* Изображение товара, к которому относится данная серия */
-  image?: Meta<Entity.Image>
+  image?: Meta<"image">
 
   /** Метка Серии */
   label: string

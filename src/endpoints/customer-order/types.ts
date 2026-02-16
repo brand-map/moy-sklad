@@ -38,7 +38,7 @@ import type { OrganizationModel } from "../organization"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-pokupatelq-zakazy-pokupatelej
  */
-export interface CustomerOrderPosition extends Idable, Meta<Entity.CustomerOrderPosition> {
+export interface CustomerOrderPosition extends Idable, Meta<"customerorderposition"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -92,35 +92,35 @@ export interface CustomerOrderPositionModel extends Model {
   }
 }
 
-export interface CustomerOrder extends Idable, Meta<Entity.CustomerOrder> {
+export interface CustomerOrder extends Idable, Meta<"customerorder"> {
   readonly accountId: string
-  agent: Meta<Entity.Counterparty>
-  agentAccount?: Meta<Entity.Account>
+  agent: Meta<"counterparty">
+  agentAccount?: Meta<"account">
   applicable: boolean
   attributes?: Attribute[] // TODO add attributes filters
   code?: string
-  contract?: Meta<Entity.Contract> // TODO expand contract
+  contract?: Meta<"contract"> // TODO expand contract
   readonly created: DateTime
   readonly deleted?: DateTime
   deliveryPlannedMoment?: DateTime
   description?: string
   externalCode: string
   files: unknown[] // TODO add files types & expand
-  group: Meta<Entity.Group>
+  group: Meta<"group">
   readonly invoicedSum: number
   moment: DateTime
   name: string
-  organization: Meta<Entity.Organization>
-  organizationAccount?: Meta<Entity.Account>
-  owner?: Meta<Entity.Employee>
+  organization: Meta<"organization">
+  organizationAccount?: Meta<"account">
+  owner?: Meta<"employee">
   readonly payedSum: number
-  positions: ListMeta<Entity.CustomerOrderPosition>
+  positions: ListMeta<"customerorderposition">
   readonly printed: boolean
-  project?: Meta<Entity.Project>
+  project?: Meta<"project">
   readonly published: boolean
   rate: DocumentRate // TODO expand rate's currency
   readonly reservedSum: number
-  salesChannel?: Meta<Entity.SalesChannel> // TODO expand salesChannel
+  salesChannel?: Meta<"saleschannel"> // TODO expand salesChannel
   shared: boolean
   shipmentAddress?: string
   shipmentAddressFull?: {
@@ -128,16 +128,16 @@ export interface CustomerOrder extends Idable, Meta<Entity.CustomerOrder> {
     apartment?: string
     city?: string
     comment?: string
-    country?: Meta<Entity.Country>
+    country?: Meta<"country">
     house?: string
     postalCode?: string
-    region?: Meta<Entity.Region>
+    region?: Meta<"region">
     street?: string
   }
 
   readonly shippedSum: number
-  state?: Meta<Entity.State>
-  store?: Meta<Entity.Store>
+  state?: Meta<"state">
+  store?: Meta<"store">
   readonly sum: number
   syncId?: string
   taxSystem?: TaxSystem
@@ -147,7 +147,7 @@ export interface CustomerOrder extends Idable, Meta<Entity.CustomerOrder> {
   readonly vatSum: number
 
   purchaseOrders?: unknown // TODO add purchaseOrders types & expand
-  demands?: Meta<Entity.Demand>[]
+  demands?: Meta<"demand">[]
   payments?: unknown // TODO add payments types & expand
   invoicesOut?: unknown // TODO add invoicesOut types & expand
   moves?: unknown // TODO add moves types & expand
@@ -252,7 +252,7 @@ export interface CustomerOrderMetadata {
 
   /** Дополнительные поля */
   attributes: {
-    meta: ListMetadata<Entity.AttributeMetadata>
+    meta: ListMetadata<"attributemetadata">
   }
 
   /** Массив статусов заказов покупателей */

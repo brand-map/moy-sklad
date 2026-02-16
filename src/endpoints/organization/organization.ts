@@ -43,7 +43,7 @@ export interface OrganizationEndpoint {
    */
   list<T extends ListOrganizationsOptions = Record<string, unknown>>(
     options?: Subset<T, ListOrganizationsOptions>,
-  ): Promise<ListResponse<GetFindResult<OrganizationModel, T["expand"]>, Entity.Organization>>
+  ): Promise<ListResponse<GetFindResult<OrganizationModel, T["expand"]>, "organization">>
 
   /**
    * Получить все юрлица.
@@ -60,7 +60,7 @@ export interface OrganizationEndpoint {
    */
   all<T extends AllOrganizationsOptions = Record<string, unknown>>(
     options?: Subset<T, AllOrganizationsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<OrganizationModel, T["expand"]>, Entity.Organization>>
+  ): Promise<BatchGetResult<GetFindResult<OrganizationModel, T["expand"]>, "organization">>
 
   /**
    * Получить юрлицо по id.
@@ -120,7 +120,7 @@ export interface OrganizationEndpoint {
    */
   first<T extends FirstOrganizationOptions = Record<string, unknown>>(
     options?: Subset<T, FirstOrganizationOptions>,
-  ): Promise<ListResponse<GetFindResult<OrganizationModel, T["expand"]>, Entity.Organization>>
+  ): Promise<ListResponse<GetFindResult<OrganizationModel, T["expand"]>, "organization">>
 
   /**
    * Получить количество юрлиц.
@@ -134,7 +134,7 @@ export interface OrganizationEndpoint {
    * const count = await moysklad.organization.size();
    * ```
    */
-  size(options?: AllOrganizationsOptions): Promise<ListMeta<Entity.Organization>>
+  size(options?: AllOrganizationsOptions): Promise<ListMeta<"organization">>
 
   /**
    * Удалить юрлицо по id.
@@ -193,10 +193,7 @@ export interface OrganizationEndpoint {
    * const { rows } = await moysklad.organization.listAccounts("5427bc76-b95f-11eb-0a80-04bb000cd583");
    * ```
    */
-  listAccounts(
-    id: string,
-    options?: ListOrganizationsOptions,
-  ): Promise<ListResponse<AccountModel["object"], Entity.Account>>
+  listAccounts(id: string, options?: ListOrganizationsOptions): Promise<ListResponse<AccountModel["object"], "account">>
 
   /**
    * Изменить счета юрлица.
@@ -217,5 +214,5 @@ export interface OrganizationEndpoint {
   updateAccounts(
     id: string,
     data: GetModelCreatableFields<AccountModel>[],
-  ): Promise<ListResponse<AccountModel["object"], Entity.Account>>
+  ): Promise<ListResponse<AccountModel["object"], "account">>
 }

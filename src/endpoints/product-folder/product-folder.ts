@@ -40,7 +40,7 @@ export interface ProductFolderEndpoint {
    */
   list<T extends ListProductFoldersOptions = Record<string, unknown>>(
     options?: Subset<T, ListProductFoldersOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductFolderModel, T["expand"]>, Entity.ProductFolder>>
+  ): Promise<ListResponse<GetFindResult<ProductFolderModel, T["expand"]>, "productfolder">>
 
   /**
    * Получить все группы товаров
@@ -55,7 +55,7 @@ export interface ProductFolderEndpoint {
    */
   all<T extends ListProductFoldersOptions = Record<string, unknown>>(
     options?: Subset<T, ListProductFoldersOptions>,
-  ): Promise<BatchGetResult<GetFindResult<ProductFolderModel, T["expand"]>, Entity.ProductFolder>>
+  ): Promise<BatchGetResult<GetFindResult<ProductFolderModel, T["expand"]>, "productfolder">>
 
   /**
    * Получить первую группу товаров, соответствующую фильтру
@@ -150,7 +150,7 @@ export interface ProductFolderEndpoint {
    * const folder = await moysklad.productFolder.upsert({
    *   meta: {
    *     href: "https://api.moysklad.ru/api/remap/1.2/entity/productfolder/a7404397-83a7-11ed-0a80-0e9700500d7e",
-   *     type: Entity.ProductFolder,
+   *     type: "productfolder",
    *     mediaType: MediaType.Json,
    *   },
    *   name: "Фрукты"
@@ -168,7 +168,7 @@ export interface ProductFolderEndpoint {
    *   {
    *     meta: {
    *       href: "https://api.moysklad.ru/api/remap/1.2/entity/productfolder/b8515408-94b8-12fe-1b91-1f8811600e8f",
-   *       type: Entity.ProductFolder,
+   *       type: "productfolder",
    *       mediaType: MediaType.Json,
    *     },
    *     name: "Фрукты"

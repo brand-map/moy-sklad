@@ -42,12 +42,12 @@ export type OrganizationCompanyType =
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-jurlico-jurlica
  */
-interface BaseOrganization extends Idable, Meta<Entity.Organization> {
+interface BaseOrganization extends Idable, Meta<"organization"> {
   /** ID учетной записи */
   readonly accountId: string
 
   /** Метаданные счетов юрлица */
-  accounts: ListMeta<Entity.Account>
+  accounts: ListMeta<"account">
 
   /** Фактический адрес Юрлица */
   actualAddress?: string
@@ -67,13 +67,13 @@ interface BaseOrganization extends Idable, Meta<Entity.Organization> {
     /** Комментарий */
     comment?: string
     /** Метаданные страны */
-    country?: Meta<Entity.Country>
+    country?: Meta<"country">
     /** Дом */
     house?: string
     /** Почтовый индекс */
     postalCode?: string
     /** Метаданные региона */
-    region?: Meta<Entity.Region>
+    region?: Meta<"region">
     /** Улица */
     street?: string
   }
@@ -103,13 +103,13 @@ interface BaseOrganization extends Idable, Meta<Entity.Organization> {
     /** Комментарий */
     comment?: string
     /** Метаданные страны */
-    country?: Meta<Entity.Country>
+    country?: Meta<"country">
     /** Дом */
     house?: string
     /** Почтовый индекс */
     postalCode?: string
     /** Метаданные региона */
-    region?: Meta<Entity.Region>
+    region?: Meta<"region">
     /** Улица */
     street?: string
   }
@@ -130,7 +130,7 @@ interface BaseOrganization extends Idable, Meta<Entity.Organization> {
   readonly bonusPoints?: number
 
   /** Метаданные активной бонусной программы */
-  bonusProgram?: Meta<Entity.BonusProgram>
+  bonusProgram?: Meta<"bonusprogram">
 
   /** Главный бухгалтер */
   chiefAccountant?: string
@@ -181,7 +181,7 @@ interface BaseOrganization extends Idable, Meta<Entity.Organization> {
   fsrarId?: string
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Включен ли ЕГАИС для данного юрлица */
   isEgaisEnable?: boolean
@@ -190,7 +190,7 @@ interface BaseOrganization extends Idable, Meta<Entity.Organization> {
   name: string
 
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Является ли данное юрлицо плательщиком НДС */
   payerVat?: boolean

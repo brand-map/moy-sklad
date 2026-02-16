@@ -27,7 +27,7 @@ export type ProcessingPlanCostDistributionType = "BY_PRICE" | "BY_PRODUCTION"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-jetapy-tehkarty
  */
-export interface ProcessingPlanStage extends Idable, Meta<Entity.ProcessingPlanStages> {
+export interface ProcessingPlanStage extends Idable, Meta<"processingplanstages"> {
   /** Стоимость производства, на определенном этапе */
   cost: number
 
@@ -38,7 +38,7 @@ export interface ProcessingPlanStage extends Idable, Meta<Entity.ProcessingPlanS
   standardHour: number
 
   /** Метаданные позиции техпроцесса */
-  processingProcessPosition: Meta<Entity.ProcessingProcessPosition>
+  processingProcessPosition: Meta<"processingprocessposition">
 }
 
 export interface ProcessingPlanStageModel extends Model {
@@ -50,7 +50,7 @@ export interface ProcessingPlanStageModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-materialy-tehkarty
  */
-export interface ProcessingPlanMaterial extends Idable, Meta<Entity.ProcessingPlanMaterial> {
+export interface ProcessingPlanMaterial extends Idable, Meta<"processingplanmaterial"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -61,16 +61,16 @@ export interface ProcessingPlanMaterial extends Idable, Meta<Entity.ProcessingPl
    *
    * В случае, если в поле assortment указана модификация, то это поле содержит товар, к которому относится эта модификация
    */
-  product: Meta<Entity.Product>
+  product: Meta<"product">
 
   /** Количество товаров данного вида в позиции */
   quantity: number
 
   /** Метаданные позиции Техпроцесса */
-  processingProcessPosition: Meta<Entity.ProcessingProcessPosition>
+  processingProcessPosition: Meta<"processingprocessposition">
 
   /** Метаданные техкарты материала  */
-  readonly materialProcessingPlan?: Meta<Entity.ProcessingPlan>
+  readonly materialProcessingPlan?: Meta<"processingplan">
 }
 
 export interface ProcessingPlanMaterialModel extends Model {
@@ -86,7 +86,7 @@ export interface ProcessingPlanMaterialModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-produkty-tehkarty
  */
-export interface ProcessingPlanProduct extends Idable, Meta<Entity.ProcessingPlanResult> {
+export interface ProcessingPlanProduct extends Idable, Meta<"processingplanresult"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -97,7 +97,7 @@ export interface ProcessingPlanProduct extends Idable, Meta<Entity.ProcessingPla
    *
    * В случае, если в поле assortment указана модификация, то это поле содержит товар, к которому относится эта модификация
    */
-  product: Meta<Entity.Product>
+  product: Meta<"product">
 
   /** Количество товаров данного вида в позиции */
   quantity: number
@@ -116,7 +116,7 @@ export interface ProcessingPlanProductModel extends Model {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-tehkarty
  */
-export interface ProcessingPlan extends Idable, Meta<Entity.ProcessingPlan> {
+export interface ProcessingPlan extends Idable, Meta<"processingplan"> {
   /** ID учетной записи */
   readonly accountId: string
 
@@ -136,31 +136,31 @@ export interface ProcessingPlan extends Idable, Meta<Entity.ProcessingPlan> {
   externalCode: string
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Коллекция метаданных этапов Техкарты */
-  stages: ListMeta<Entity.ProcessingPlanStages>
+  stages: ListMeta<"processingplanstages">
 
   /** Коллекция метаданных материалов Техкарты */
-  materials: ListMeta<Entity.ProcessingPlanMaterial>
+  materials: ListMeta<"processingplanmaterial">
 
   /** Наименование техкарты */
   name: string
 
   /** Владелец (Сотрудник) */
-  owner: Meta<Entity.Employee>
+  owner: Meta<"employee">
 
   /** Метаданные группы Техкарты */
-  parent: Meta<Entity.ProcessingPlanFolder>
+  parent: Meta<"processingplanfolder">
 
   /** Наименование группы, в которую входит Техкарта */
   readonly pathName: string
 
   /** Метаданные Техпроцесса */
-  processingProcess: Meta<Entity.ProcessingProcess>
+  processingProcess: Meta<"processingprocess">
 
   /** Коллекция метаданных готовых продуктов Техкарты */
-  products: ListMeta<Entity.ProcessingPlanResult>
+  products: ListMeta<"processingplanresult">
 
   /** Общий доступ */
   shared: boolean

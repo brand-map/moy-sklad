@@ -28,15 +28,15 @@ import type { OrganizationModel } from "../organization"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vhodqschij-platezh
  */
-export interface PaymentIn extends Idable, Meta<Entity.PaymentIn> {
+export interface PaymentIn extends Idable, Meta<"paymentin"> {
   /** ID учетной записи */
   readonly accountId: string
 
   /** Метаданные контрагента */
-  agent: Meta<Entity.Counterparty>
+  agent: Meta<"counterparty">
 
   /** Метаданные счета контрагента */
-  agentAccount?: Meta<Entity.Account>
+  agentAccount?: Meta<"account">
 
   /** Отметка о проведении */
   applicable: boolean
@@ -48,7 +48,7 @@ export interface PaymentIn extends Idable, Meta<Entity.PaymentIn> {
   code?: string
 
   /** Метаданные договора */
-  contract?: Meta<Entity.Contract>
+  contract?: Meta<"contract">
 
   /** Дата создания */
   readonly created: DateTime
@@ -63,13 +63,13 @@ export interface PaymentIn extends Idable, Meta<Entity.PaymentIn> {
   externalCode: string
 
   /** Ссылка на Счет-фактуру выданный, с которым связан этот платеж */
-  factureOut?: Meta<Entity.FactureOut>
+  factureOut?: Meta<"factureout">
 
   /** Метаданные массива Файлов (Максимальное количество файлов - 100) */
   files?: unknown[] // TODO add files
 
   /** Отдел сотрудника */
-  group: Meta<Entity.Group>
+  group: Meta<"group">
 
   /** Входящая дата */
   incomingDate?: DateTime
@@ -85,25 +85,18 @@ export interface PaymentIn extends Idable, Meta<Entity.PaymentIn> {
 
   /** Массив ссылок на связанные операции */
   operations?: Array<{
-    meta: Meta<
-      | Entity.CustomerOrder
-      | Entity.PurchaseReturn
-      | Entity.Demand
-      | Entity.InvoiceOut
-      | Entity.CommissionReportIn
-      | Entity.RetailShift
-    >
+    meta: Meta<"customerorder" | "purchasereturn" | "demand" | "invoiceout" | "commissionreportin" | "retailshift">
     linkedSum?: number
   }>
 
   /** Метаданные юрлица */
-  organization: Meta<Entity.Organization>
+  organization: Meta<"organization">
 
   /** Метаданные счета юрлица */
-  organizationAccount?: Meta<Entity.Account>
+  organizationAccount?: Meta<"account">
 
   /** Владелец (Сотрудник) */
-  owner?: Meta<Entity.Employee>
+  owner?: Meta<"employee">
 
   /** Назначение платежа */
   paymentPurpose: string
@@ -112,7 +105,7 @@ export interface PaymentIn extends Idable, Meta<Entity.PaymentIn> {
   readonly printed: boolean
 
   /** Метаданные проекта */
-  project?: Meta<Entity.Project>
+  project?: Meta<"project">
 
   /** Опубликован ли документ */
   readonly published: boolean
@@ -121,13 +114,13 @@ export interface PaymentIn extends Idable, Meta<Entity.PaymentIn> {
   rate: DocumentRate // TODO expand rate's currency
 
   /** Метаданные канала продаж */
-  salesChannel?: Meta<Entity.SalesChannel>
+  salesChannel?: Meta<"saleschannel">
 
   /** Общий доступ */
   shared: boolean
 
   /** Метаданные статуса Входящего платежа */
-  state?: Meta<Entity.State>
+  state?: Meta<"state">
 
   /** Сумма Входящего платежа в установленной валюте */
   sum: number

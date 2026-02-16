@@ -18,13 +18,13 @@ import type {
 } from "../../types"
 import type { ProductModel } from ".."
 
-export interface Variant extends Idable, Meta<Entity.Variant> {
+export interface Variant extends Idable, Meta<"variant"> {
   readonly accountId: string
   archived: boolean
   barcodes?: Barcodes
   buyPrice?: {
     value: number
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
   }
   characteristics: Attribute[]
   code?: string
@@ -34,19 +34,19 @@ export interface Variant extends Idable, Meta<Entity.Variant> {
   images?: unknown[] // TODO add files types & expand
   minPrice?: {
     value: number
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
   }
   name: string
   packs?: {
     barcodes?: Barcodes
     readonly id: string
     quantity: number
-    uom: Meta<Entity.Uom>
+    uom: Meta<"uom">
   }[]
-  product: Meta<Entity.Product>
+  product: Meta<"product">
   salePrices?: {
     value: number
-    currency: Meta<Entity.Currency>
+    currency: Meta<"currency">
     priceType: PriceType
   }[]
   readonly things?: string[]

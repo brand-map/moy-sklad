@@ -42,7 +42,7 @@ export interface SupplyEndpoint {
    */
   list<T extends ListSuppliesOptions = Record<string, unknown>>(
     options?: Subset<T, ListSuppliesOptions>,
-  ): Promise<ListResponse<GetFindResult<SupplyModel, T["expand"]>, Entity.Supply>>
+  ): Promise<ListResponse<GetFindResult<SupplyModel, T["expand"]>, "supply">>
 
   /**
    * Получить все приёмки
@@ -57,7 +57,7 @@ export interface SupplyEndpoint {
    */
   all<T extends AllSuppliesOptions = Record<string, unknown>>(
     options?: Subset<T, AllSuppliesOptions>,
-  ): Promise<BatchGetResult<GetFindResult<SupplyModel, T["expand"]>, Entity.Supply>>
+  ): Promise<BatchGetResult<GetFindResult<SupplyModel, T["expand"]>, "supply">>
 
   /**
    * Получить приёмку по ID
@@ -141,7 +141,7 @@ export interface SupplyEndpoint {
    */
   first<T extends FirstSupplyOptions = Record<string, unknown>>(
     options?: Subset<T, FirstSupplyOptions>,
-  ): Promise<ListResponse<GetFindResult<SupplyModel, T["expand"]>, Entity.Supply>>
+  ): Promise<ListResponse<GetFindResult<SupplyModel, T["expand"]>, "supply">>
 
   /**
    * Получить количество приёмок
@@ -153,7 +153,7 @@ export interface SupplyEndpoint {
    * const count = await moysklad.supply.size();
    * ```
    */
-  size(options?: AllSuppliesOptions): Promise<ListMeta<Entity.Supply>>
+  size(options?: AllSuppliesOptions): Promise<ListMeta<"supply">>
 
   /**
    * Удалить приёмку
