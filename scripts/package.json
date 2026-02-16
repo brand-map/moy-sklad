@@ -1,0 +1,16 @@
+{
+  "name": "scripts",
+  "private": true,
+  "type": "module",
+  "module": "index.ts",
+  "dependencies": {
+    "ts-morph": "^27.0.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^25.2.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
