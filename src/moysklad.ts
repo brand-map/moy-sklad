@@ -1,35 +1,42 @@
-import type { ApiClient } from "./api-client"
-import type {
-  AssortmentEndpoint,
-  BonusTransactionEndpoint,
-  CounterpartyEndpoint,
-  CustomEntityEndpoint,
-  CustomerOrderEndpoint,
-  DemandEndpoint,
-  EnterEndpoint,
-  FactureOutEndpoint,
-  InventoryEndpoint,
-  InvoiceOutEndpoint,
-  OrganizationEndpoint,
-  PaymentInEndpoint,
-  PaymentOutEndpoint,
-  ProcessingPlanEndpoint,
-  ProductEndpoint,
-  ProductFolderEndpoint,
-  ProductionStageCompletionEndpoint,
-  ProductionStageEndpoint,
-  ProductionTaskEndpoint,
-  PurchaseOrderEndpoint,
-  RegionEndpoint,
-  ReportEndpoint,
-  SalesReturnEndpoint,
-  SecurityEndpoint,
-  SupplyEndpoint,
-  VariantEndpoint,
-  WizardEndpoint,
-} from "./endpoints"
+import { ApiClient } from "./api-client"
+import type { ApiClientOptions } from "./api-client"
 
-export interface Moysklad {
+import { AssortmentEndpoint } from "./endpoints/assortment/endpoint"
+
+/**
+ * High-level Moysklad API wrapper.
+ * Creates an `ApiClient` instance and exposes class-based endpoint objects.
+ * Use this when you prefer an object-oriented API over standalone endpoint functions.
+ *
+ * @param options - API client options (auth, baseUrl, etc.)
+ *
+ * @example
+ * ```ts
+ * const moysklad = new Moysklad({
+ *   auth: { token: "your-token" }
+ * })
+ *
+ * const { rows } = await moysklad.assortment.list({ pagination: { limit: 10 } });
+ * ```
+ */
+export class Moysklad implements MoyskladInterface {
+  public readonly client: ApiClient
+
+  readonly assortment: AssortmentEndpoint
+
+  public constructor(options: ApiClientOptions) {
+    this.client = new ApiClient(options)
+
+    this.assortment = new AssortmentEndpoint(this.client)
+  }
+}
+
+/**
+ * Root interface for the class-based Moysklad client.
+ *
+ * Describes the public shape implemented by `Moysklad`.
+ */
+interface MoyskladInterface {
   /**
    * API клиент
    *
@@ -38,193 +45,193 @@ export interface Moysklad {
   client: ApiClient
 
   /**
-   * Бонусные операции
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-bonusnaq-operaciq
-   */
-  bonusTransaction: BonusTransactionEndpoint
-
-  /**
-   * Безопасность (токены)
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/#mojsklad-json-api-obschie-swedeniq-autentifikaciq
-   */
-  security: SecurityEndpoint
-
-  /**
-   * Контрагенты
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-kontragent
-   */
-  counterparty: CounterpartyEndpoint
-
-  /**
-   * Юрлица
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-jurlico
-   */
-  organization: OrganizationEndpoint
-
-  /**
-   * Пользовательские справочники
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-pol-zowatel-skij-sprawochnik
-   */
-  customEntity: CustomEntityEndpoint
-
-  /**
    * Ассортимент
    *
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-assortiment
    */
   assortment: AssortmentEndpoint
 
-  /**
-   * Заказы покупателей
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-pokupatelq
-   */
-  customerOrder: CustomerOrderEndpoint
+  // /**
+  //  * Бонусные операции
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-bonusnaq-operaciq
+  //  */
+  // bonusTransaction: BonusTransactionEndpoint
 
-  /**
-   * Отгрузки
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-otgruzka
-   */
-  demand: DemandEndpoint
+  // /**
+  //  * Безопасность (токены)
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#mojsklad-json-api-obschie-swedeniq-autentifikaciq
+  //  */
+  // security: SecurityEndpoint
 
-  /**
-   * Счета-фактуры выданные
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-faktura-wydannyj
-   */
-  factureOut: FactureOutEndpoint
+  // /**
+  //  * Контрагенты
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-kontragent
+  //  */
+  // counterparty: CounterpartyEndpoint
 
-  /**
-   * Приёмки
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-priemka-priemki
-   */
-  supply: SupplyEndpoint
+  // /**
+  //  * Юрлица
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-jurlico
+  //  */
+  // organization: OrganizationEndpoint
 
-  /**
-   * Оприходования
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-oprihodowanie
-   */
-  enter: EnterEndpoint
+  // /**
+  //  * Пользовательские справочники
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-pol-zowatel-skij-sprawochnik
+  //  */
+  // customEntity: CustomEntityEndpoint
 
-  /**
-   * Товары
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
-   */
-  product: ProductEndpoint
+  // /**
+  //  * Заказы покупателей
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-pokupatelq
+  //  */
+  // customerOrder: CustomerOrderEndpoint
 
-  /**
-   * Группы товаров
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-gruppa-towarow
-   */
-  productFolder: ProductFolderEndpoint
+  // /**
+  //  * Отгрузки
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-otgruzka
+  //  */
+  // demand: DemandEndpoint
 
-  /**
-   * Техкарты
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-tehkarty
-   */
-  processingPlan: ProcessingPlanEndpoint
+  // /**
+  //  * Счета-фактуры выданные
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-faktura-wydannyj
+  //  */
+  // factureOut: FactureOutEndpoint
 
-  /**
-   * Входящие платежи
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vhodqschij-platezh
-   */
-  paymentIn: PaymentInEndpoint
+  // /**
+  //  * Приёмки
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-priemka-priemki
+  //  */
+  // supply: SupplyEndpoint
 
-  /**
-   * Исходящие платежи
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-ishodqschij-platezh-ishodqschie-platezhi
-   */
-  paymentOut: PaymentOutEndpoint
+  // /**
+  //  * Оприходования
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-oprihodowanie
+  //  */
+  // enter: EnterEndpoint
 
-  /**
-   * Счета покупателям
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-pokupatelu-scheta-pokupatelqm
-   */
-  invoiceOut: InvoiceOutEndpoint
+  // /**
+  //  * Товары
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
+  //  */
+  // product: ProductEndpoint
 
-  /**
-   * Автозаполнение
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-awtozapolnenie
-   */
-  wizard: WizardEndpoint
+  // /**
+  //  * Группы товаров
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-gruppa-towarow
+  //  */
+  // productFolder: ProductFolderEndpoint
 
-  /**
-   * Отчёты
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety
-   */
-  report: ReportEndpoint
+  // /**
+  //  * Техкарты
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-tehkarta-tehkarty
+  //  */
+  // processingPlan: ProcessingPlanEndpoint
 
-  /**
-   * Заказ поставщику
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-postawschiku
-   */
-  purchaseOrder: PurchaseOrderEndpoint
+  // /**
+  //  * Входящие платежи
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vhodqschij-platezh
+  //  */
+  // paymentIn: PaymentInEndpoint
 
-  /**
-   * Регионы
-   *
-   * Справочник регионов России. Данный справочник предназначен только для чтения.
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-region
-   */
-  region: RegionEndpoint
+  // /**
+  //  * Исходящие платежи
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-ishodqschij-platezh-ishodqschie-platezhi
+  //  */
+  // paymentOut: PaymentOutEndpoint
 
-  /**
-   * Производственные этапы
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie-proizwodstwennye-atapy
-   */
-  productionStage: ProductionStageEndpoint
+  // /**
+  //  * Счета покупателям
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-schet-pokupatelu-scheta-pokupatelqm
+  //  */
+  // invoiceOut: InvoiceOutEndpoint
 
-  /**
-   * Выполнения этапов производства
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vypolnenie-atapa-proizwodstwa
-   */
-  productionStageCompletion: ProductionStageCompletionEndpoint
+  // /**
+  //  * Автозаполнение
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-awtozapolnenie
+  //  */
+  // wizard: WizardEndpoint
 
-  /**
-   * Инвентаризации
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-inwentarizaciq
-   */
-  inventory: InventoryEndpoint
+  // /**
+  //  * Отчёты
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety
+  //  */
+  // report: ReportEndpoint
 
-  /**
-   * Производственные задания
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie
-   */
-  productionTask: ProductionTaskEndpoint
+  // /**
+  //  * Заказ поставщику
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-zakaz-postawschiku
+  //  */
+  // purchaseOrder: PurchaseOrderEndpoint
 
-  /**
-   * Модификации
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-modifikaciq
-   */
-  variant: VariantEndpoint
+  // /**
+  //  * Регионы
+  //  *
+  //  * Справочник регионов России. Данный справочник предназначен только для чтения.
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-region
+  //  */
+  // region: RegionEndpoint
 
-  /**
-   * Возвраты покупателей
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vozwrat-pokupatelq
-   */
-  salesReturn: SalesReturnEndpoint
+  // /**
+  //  * Производственные этапы
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie-proizwodstwennye-atapy
+  //  */
+  // productionStage: ProductionStageEndpoint
+
+  // /**
+  //  * Выполнения этапов производства
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vypolnenie-atapa-proizwodstwa
+  //  */
+  // productionStageCompletion: ProductionStageCompletionEndpoint
+
+  // /**
+  //  * Инвентаризации
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-inwentarizaciq
+  //  */
+  // inventory: InventoryEndpoint
+
+  // /**
+  //  * Производственные задания
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie
+  //  */
+  // productionTask: ProductionTaskEndpoint
+
+  // /**
+  //  * Модификации
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-modifikaciq
+  //  */
+  // variant: VariantEndpoint
+
+  // /**
+  //  * Возвраты покупателей
+  //  *
+  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-vozwrat-pokupatelq
+  //  */
+  // salesReturn: SalesReturnEndpoint
 }
