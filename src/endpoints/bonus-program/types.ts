@@ -6,13 +6,11 @@ import type { Entity, Idable, Meta, Model } from "../../types"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-bonusnaq-programma-bonusnye-programmy
  */
-export enum WelcomeBonusMode {
+export type WelcomeBonusMode =
   /** Приветственные баллы начисляются участиникам после регистрации в бонусной программе. */
-  Registration = "REGISTRATION",
-
+  | "REGISTRATION"
   /** Приветственные баллы начисляются участиникам бонусной программы после совершения первой покупки. */
-  FirstPurchase = "FIRST_PURCHASE",
-}
+  | "FIRST_PURCHASE"
 
 interface BaseBonusProgram extends Idable, Meta<Entity.BonusProgram> {
   readonly accountId: string

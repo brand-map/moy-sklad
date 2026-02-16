@@ -29,14 +29,7 @@ type EnumDeclarationData = {
   members: EnumMemberData[]
 }
 
-const DEFAULT_IGNORED_DIRS = new Set([
-  ".git",
-  "node_modules",
-  "dist",
-  "build",
-  ".next",
-  "coverage",
-])
+const DEFAULT_IGNORED_DIRS = new Set([".git", "node_modules", "dist", "build", ".next", "coverage"])
 
 function parseArgs(argv: string[]): CliOptions {
   const write = argv.includes("--write")
@@ -109,7 +102,7 @@ function collectEnumData(enumDecl: EnumDeclaration): EnumDeclarationData | { rea
 
   const declarationComments = [
     ...enumDecl.getJsDocs().map((doc) => doc.getText()),
-    ...enumDecl.getLeadingCommentRanges().map((range) => range.getText()),
+    // ...enumDecl.getLeadingCommentRanges().map((range) => range.getText()),
   ]
 
   return {

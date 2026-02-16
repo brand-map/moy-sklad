@@ -22,22 +22,17 @@ import type { GroupModel } from "../group"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-usluga-uslugi-atributy-suschnosti-priznak-predmeta-rascheta
  */
-export enum ServicePaymentItemType {
+export type ServicePaymentItemType =
   /** Услуга */
-  Service = "SERVICE",
-
+  | "SERVICE"
   /** Работа */
-  Work = "WORK",
-
+  | "WORK"
   /** Предоставление РИД */
-  ProvidingRid = "PROVIDING_RID",
-
+  | "PROVIDING_RID"
   /** Составной предмет расчета */
-  CompoundPaymentItem = "COMPOUND_PAYMENT_ITEM",
-
+  | "COMPOUND_PAYMENT_ITEM"
   /** Иной предмет расчета */
-  AnotherPaymentItem = "ANOTHER_PAYMENT_ITEM",
-}
+  | "ANOTHER_PAYMENT_ITEM"
 
 /**
  * Услуга

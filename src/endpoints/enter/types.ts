@@ -24,14 +24,13 @@ import type { GroupModel } from "../group"
 import type { OrganizationModel } from "../organization"
 
 /** Распределение накладных расходов оприходования */
-export enum EnterOverheadDistribution {
+export type EnterOverheadDistribution =
   /** По весу */
-  Weight = "weight",
+  | "weight"
   /** По объёму */
-  Volume = "volume",
+  | "volume"
   /** По цене */
-  Price = "price",
-}
+  | "price"
 
 /** Накладные расходы оприходования */
 export interface EnterOverhead {

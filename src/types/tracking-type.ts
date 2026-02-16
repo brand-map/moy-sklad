@@ -1,53 +1,36 @@
 /** Тип маркируемой продукции */
-export enum TrackingType {
+export type TrackingType =
   /** Пиво и слабоалкогольная продукция */
-  BeerAlcohol = "BEER_ALCOHOL",
-
+  | "BEER_ALCOHOL"
   /** Фотокамеры и лампы-вспышки */
-  Electronics = "ELECTRONICS",
-
+  | "ELECTRONICS"
   /** Биологически активные добавки к пище */
-  FoodSupplement = "FOOD_SUPPLEMENT",
-
+  | "FOOD_SUPPLEMENT"
   /** Тип маркировки "Одежда" */
-  LpClothes = "LP_CLOTHES",
-
+  | "LP_CLOTHES"
   /** Тип маркировки "Постельное белье" */
-  LpLinens = "LP_LINENS",
-
+  | "LP_LINENS"
   /** Медизделия и кресла-коляски */
-  MedicalDevices = "MEDICAL_DEVICES",
-
+  | "MEDICAL_DEVICES"
   /** Молочная продукция */
-  Milk = "MILK",
-
+  | "MILK"
   /** Никотиносодержащая продукция */
-  Ncp = "NCP",
-
+  | "NCP"
   /** Без маркировки */
-  NotTracked = "NOT_TRACKED",
-
+  | "NOT_TRACKED"
   /** Альтернативная табачная продукция */
-  Otp = "OTP",
-
+  | "OTP"
   /** Духи и туалетная вода */
-  Perfumery = "PERFUMERY",
-
+  | "PERFUMERY"
   /** Антисептики */
-  Sanitizer = "SANITIZER",
-
+  | "SANITIZER"
   /** Тип маркировки "Обувь" */
-  Shoes = "SHOES",
-
+  | "SHOES"
   /** Безалкогольные напитки */
-  SoftDrinks = "SOFT_DRINKS",
-
+  | "SOFT_DRINKS"
   /** Шины и покрышки */
-  Tires = "TIRES",
-
+  | "TIRES"
   /** Тип маркировки "Табак" */
-  Tobacco = "TOBACCO",
-
+  | "TOBACCO"
   /** Упакованная вода */
-  Water = "WATER",
-}
+  | "WATER"

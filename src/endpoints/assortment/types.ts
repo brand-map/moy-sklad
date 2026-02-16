@@ -21,56 +21,53 @@ import type {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-assortiment-atributy-dostupnye-dlq-fil-tracii-dostupnye-znacheniq-dlq-stockmode
  */
-export enum StockMode {
+export type StockMode =
   /** Любое значение остатка */
-  All = "all",
+  | "all"
   /** Положительный остаток */
-  PositiveOnly = "positiveOnly",
+  | "positiveOnly"
   /** Отрицательный остаток */
-  NegativeOnly = "negativeOnly",
+  | "negativeOnly"
   /** Нулевой остаток */
-  Empty = "empty",
+  | "empty"
   /** Ненулевой остаток */
-  NonEmpty = "nonEmpty",
+  | "nonEmpty"
   /** Остаток ниже неснижаемого остатка */
-  UnderMinimum = "underMinimum",
-}
+  | "underMinimum"
 
 /**
  * Режим фильтрации по доступности
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-assortiment-atributy-dostupnye-dlq-fil-tracii-dostupnye-znacheniq-dlq-quantitymode
  */
-export enum QuantityMode {
+export type QuantityMode =
   /** Любое значение остатка */
-  All = "all",
+  | "all"
   /** Положительный остаток */
-  PositiveOnly = "positiveOnly",
+  | "positiveOnly"
   /** Отрицательный остаток */
-  NegativeOnly = "negativeOnly",
+  | "negativeOnly"
   /** Нулевой остаток */
-  Empty = "empty",
+  | "empty"
   /** Ненулевой остаток */
-  NonEmpty = "nonEmpty",
+  | "nonEmpty"
   /** Остаток ниже неснижаемого остатка */
-  UnderMinimum = "underMinimum",
-}
+  | "underMinimum"
 
 /**
  * Тип сущности для фильтрации ассортимента
  */
-export enum AssortmentEntityType {
+export type AssortmentEntityType =
   /** Товар */
-  Product = "product",
+  | "product"
   /** Услуга */
-  Service = "service",
+  | "service"
   /** Комплект */
-  Bundle = "bundle",
+  | "bundle"
   /** Модификация */
-  Variant = "variant",
+  | "variant"
   /** Серия */
-  Consignment = "consignment",
-}
+  | "consignment"
 
 export interface ListAssortmentOptions {
   /** Получить вместе с сериями. */

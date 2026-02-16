@@ -1,3 +1,1 @@
-export enum MediaType {
-  Json = "application/json",
-}
+export type MediaType = "application/json"

@@ -30,11 +30,7 @@ import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
 import type { OrganizationModel } from "../organization"
 
-export enum DemandOverheadDistribution {
-  Weight = "weight",
-  Volume = "volume",
-  Price = "price",
-}
+export type DemandOverheadDistribution = "weight" | "volume" | "price"
 
 export interface DemandOverhead {
   sum: number

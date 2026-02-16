@@ -190,22 +190,17 @@ export interface StockAllOptions {
 }
 
 /** Тип остатка, резерва, ожидания, которые необходимо рассчитать в кратком отчёте об остатках. */
-export enum StockAllCurrentStockType {
+export type StockAllCurrentStockType =
   /** Физический остаток на складах, без учёта резерва и ожидания */
-  Stock = "stock",
-
+  | "stock"
   /** Остаток на складах за вычетом резерва */
-  FreeStock = "freeStock",
-
+  | "freeStock"
   /** Доступно. Учитывает резерв и ожидания */
-  Quantity = "quantity",
-
+  | "quantity"
   /** Резерв */
-  Reserve = "reserve",
-
+  | "reserve"
   /** Ожидание */
-  InTransit = "inTransit",
-}
+  | "inTransit"
 
 export type StockAllCurrentRow<T extends StockAllCurrentStockType> = {
   /** ID ассортимента */

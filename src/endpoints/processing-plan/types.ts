@@ -20,10 +20,7 @@ import type { ProcessingProcessModel } from "../processing-process"
 import type { ProductModel } from "../product"
 
 /** Тип распределения себестоимости */
-export enum ProcessingPlanCostDistributionType {
-  ByPrice = "BY_PRICE",
-  ByProduction = "BY_PRODUCTION",
-}
+export type ProcessingPlanCostDistributionType = "BY_PRICE" | "BY_PRODUCTION"
 
 /**
  * Этап техкарты
