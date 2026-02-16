@@ -81,7 +81,7 @@ export type BasicAuth = {
   login: string
   /** Пароль */
   password: string
-  token: never
+  token?: never
 }
 
 /**
