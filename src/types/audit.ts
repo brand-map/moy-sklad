@@ -5,96 +5,93 @@ import type { DateTime, Entity, GreaterOrEqualsFilter, IdFilter, LessOrEqualsFil
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/audit/#audit-audit-sobytiq-tipy-sobytij
  */
-export enum AuditEventType {
+export type AuditEventType =
   /** Регистрация */
-  Registration = "registration",
+  | "registration"
   /** Массовая операция */
-  BulkOperation = "bulkoperation",
+  | "bulkoperation"
   /** Удаление публикации */
-  ClosePublication = "closepublication",
+  | "closepublication"
   /** Создание сущностей */
-  Create = "create",
+  | "create"
   /** Удаление сущностей */
-  Delete = "delete",
+  | "delete"
   /** Создание публикации */
-  OpenPublication = "openpublication",
+  | "openpublication"
   /** Печать документа */
-  Print = "print",
+  | "print"
   /** Помещение в архив */
-  PutToArchive = "puttoarchive",
+  | "puttoarchive"
   /** Помещение в корзину */
-  PutToRecycleBin = "puttorecyclebin",
+  | "puttorecyclebin"
   /** Смена токена для Точки продаж */
-  ReplaceToken = "replacetoken",
+  | "replacetoken"
   /** Извлечение из архива */
-  RestoreFromArchive = "restorefromarchive",
+  | "restorefromarchive"
   /** Извлечение из корзины */
-  RestoreFromRecycleBin = "restorefromrecyclebin",
+  | "restorefromrecyclebin"
   /** Отправка письма */
-  SendEmailFromEntity = "sendemailfromentity",
+  | "sendemailfromentity"
   /** Изменение сущностей */
-  Update = "update",
-}
+  | "update"
 
 /**
  * Тип изменения
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/audit/#audit-audit-sobytiq-atributy-suschnosti
  */
-export enum AuditEventSource {
+export type AuditEventSource =
   /** Регистрация аккаунта */
-  Registration = "registration",
+  | "registration"
   /** Автоматическая очистка корзины */
-  ClearRecycleBin = "clearrecyclebin",
+  | "clearrecyclebin"
   /** Объединение */
-  Combine = "combine",
+  | "combine"
   /** Массовое создание */
-  BulkCreate = "bulkcreate",
+  | "bulkcreate"
   /** Синхронизация с ИМ */
-  Connectors = "connectors",
+  | "connectors"
   /** Копирование */
-  Copy = "copy",
+  | "copy"
   /** Отправка сообщения */
-  EmailSend = "emailsend",
+  | "emailsend"
   /** Синхронизация с Эвотор */
-  Evotor = "evotor",
+  | "evotor"
   /** Экспорт */
-  Export = "export",
+  | "export"
   /** Экспорт в 1С Клиент ЭДО */
-  ExportEdiClient1c = "exportediclient1c",
+  | "exportediclient1c"
   /** Импорт */
-  Import = "import",
+  | "import"
   /** Импорт в 1С Клиент ЭДО */
-  ImportEdiClient1c = "importediclient1c",
+  | "importediclient1c"
   /** JSON API (remap-1.0, remap-1.1, remap-1.2) */
-  JsonApi = "jsonapi",
+  | "jsonapi"
   /** Вход или выход из МоегоСклада */
-  LoginLogout = "loginlogout",
+  | "loginlogout"
   /** Phone API */
-  Phone = "phone-1.0",
+  | "phone-1.0"
   /** POS API */
-  PosApi = "posapi",
+  | "posapi"
   /** REST API */
-  RestApi = "restapi",
+  | "restapi"
   /** Точка продаж */
-  Retail = "retail",
+  | "retail"
   /** Работа со сценариями */
-  Scriptor = "scriptor",
-}
+  | "scriptor"
 
 /**
  * Тип сущностей для настроек
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/audit/#audit-audit-sobytiq-atributy-suschnosti
  */
-export enum AuditObjectType {
+export type AuditObjectType =
   /** Настройки сущностей */
-  EntitySettings = "ENTITY_SETTINGS",
+  | "ENTITY_SETTINGS"
   /** Настройки состояний */
-  StateSettings = "STATE_SETTINGS",
+  | "STATE_SETTINGS"
   /** Настройки шаблонов */
-  TemplateSettings = "TEMPLATE_SETTINGS",
-}
+  | "TEMPLATE_SETTINGS"
 
 /**
  * Diff для события регистрации

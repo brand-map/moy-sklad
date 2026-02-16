@@ -25,19 +25,15 @@ import type { GroupModel } from "../group"
  *
  * {@linkcode Bundle}
  */
-export enum BundlePaymentItemType {
+export type BundlePaymentItemType =
   /** Товар */
-  Good = "GOOD",
-
+  | "GOOD"
   /** Подакцизный товар */
-  ExcisableGood = "EXCISABLE_GOOD",
-
+  | "EXCISABLE_GOOD"
   /** Составной предмет расчета */
-  CompoundPaymentItem = "COMPOUND_PAYMENT_ITEM",
-
+  | "COMPOUND_PAYMENT_ITEM"
   /** Иной предмет расчета */
-  AnotherPaymentItem = "ANOTHER_PAYMENT_ITEM",
-}
+  | "ANOTHER_PAYMENT_ITEM"
 
 /**
  * Компонент комплекта

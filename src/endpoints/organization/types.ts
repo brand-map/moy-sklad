@@ -29,14 +29,13 @@ import type { GroupModel } from "../group"
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-jurlico-jurlica-tip-jurlica
  */
-export enum OrganizationCompanyType {
+export type OrganizationCompanyType =
   /** Юридическое лицо */
-  Legal = "legal",
+  | "legal"
   /** Индивидуальный предприниматель */
-  Entrepreneur = "entrepreneur",
+  | "entrepreneur"
   /** Физическое лицо */
-  Individual = "individual",
-}
+  | "individual"
 
 /**
  * Юрлицо

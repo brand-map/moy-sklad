@@ -20,16 +20,9 @@ import type {
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
 
-export enum CounterpartyCompanyType {
-  Legal = "legal",
-  Entrepreneur = "entrepreneur",
-  Individual = "individual",
-}
+export type CounterpartyCompanyType = "legal" | "entrepreneur" | "individual"
 
-export enum IndividualCounterpartySex {
-  Male = "male",
-  Female = "female",
-}
+export type IndividualCounterpartySex = "male" | "female"
 
 interface BaseCounterparty extends Idable, Meta<Entity.Counterparty> {
   readonly accountId: string

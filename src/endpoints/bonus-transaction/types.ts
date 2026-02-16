@@ -21,23 +21,13 @@ import type { GroupModel } from "../group"
 import type { OrganizationModel } from "../organization"
 
 /** Категория бонусной операции */
-export enum BonusTransactionCategoryType {
-  Regular = "REGULAR",
-  Welcome = "WELCOME",
-}
+export type BonusTransactionCategoryType = "REGULAR" | "WELCOME"
 
 /** Статус бонусной операции */
-export enum BonusTransactionStatus {
-  WaitProcessing = "WAIT_PROCESSING",
-  Completed = "COMPLETED",
-  Canceled = "CANCELED",
-}
+export type BonusTransactionStatus = "WAIT_PROCESSING" | "COMPLETED" | "CANCELED"
 
 /** Тип бонусной операции */
-export enum BonusTransactionType {
-  Earning = "EARNING",
-  Spending = "SPENDING",
-}
+export type BonusTransactionType = "EARNING" | "SPENDING"
 
 /**
  * Бонусная операция

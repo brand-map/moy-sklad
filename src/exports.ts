@@ -1,0 +1,1 @@
+export { Moysklad } from "./moysklad"

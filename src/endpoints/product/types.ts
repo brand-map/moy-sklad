@@ -23,12 +23,7 @@ import type {
 import type { CounterpartyModel } from ".."
 import type { GroupModel } from "../group"
 
-export enum ProductPaymentItemType {
-  Good = "GOOD",
-  ExcisableGood = "EXCISABLE_GOOD",
-  CompoundPaymentItem = "COMPOUND_PAYMENT_ITEM",
-  AnotherPaymentItem = "ANOTHER_PAYMENT_ITEM",
-}
+export type ProductPaymentItemType = "GOOD" | "EXCISABLE_GOOD" | "COMPOUND_PAYMENT_ITEM" | "ANOTHER_PAYMENT_ITEM"
 
 export type PpeType =
   | "2400001225408"

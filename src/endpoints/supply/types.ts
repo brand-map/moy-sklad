@@ -28,11 +28,7 @@ import type { GroupModel } from "../group"
 import type { OrganizationModel } from "../organization"
 import type { PurchaseOrderModel } from "../purchase-order"
 
-export enum SupplyOverheadDistribution {
-  Weight = "weight",
-  Volume = "volume",
-  Price = "price",
-}
+export type SupplyOverheadDistribution = "weight" | "volume" | "price"
 
 export interface SupplyOverhead {
   sum: number

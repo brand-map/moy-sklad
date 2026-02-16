@@ -1,6 +1,6 @@
 {
-  "name": "moy-sklad",
-  "version": "1.0.0",
+  "name": "@brand-map/moy-sklad",
+  "version": "0.0.0",
   "description": "Fully typed TypeScript client for Moysklad API with comprehensive support for products, services, webhooks, and more",
   "keywords": [
     "api",
@@ -15,9 +15,10 @@
   "license": "MIT",
   "author": "",
   "type": "module",
-  "module": "src/index.ts",
+  "module": "src/exports.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/exports.ts",
+    "./parts": "./src/exports-parts.ts"
   },
   "scripts": {
     "fmt": "oxfmt ."

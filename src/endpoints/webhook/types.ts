@@ -5,37 +5,33 @@ import type { BooleanFilter, Entity, Idable, IdFilter, Meta, Model, StringFilter
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#webhuki-atributy-suschnosti-action
  */
-export enum WebhookAction {
+export type WebhookAction =
   /** Создание */
-  Create = "CREATE",
+  | "CREATE"
   /** Обновление */
-  Update = "UPDATE",
+  | "UPDATE"
   /** Удаление */
-  Delete = "DELETE",
+  | "DELETE"
   /** Обработано (только для асинхронных задач) */
-  Processed = "PROCESSED",
-}
+  | "PROCESSED"
 
 /**
  * Режим отображения изменения сущности. Только для действия UPDATE.
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#webhuki-atributy-suschnosti-difftype
  */
-export enum WebhookDiffType {
+export type WebhookDiffType =
   /** По умолчанию */
-  None = "NONE",
+  | "NONE"
   /** Передавать список изменённых полей в updatedFields */
-  Fields = "FIELDS",
-}
+  | "FIELDS"
 
 /**
  * HTTP метод запроса вебхука (в API всегда POST).
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#webhuki-atributy-suschnosti-method
  */
-export enum WebhookMethod {
-  Post = "POST",
-}
+export type WebhookMethod = "POST"
 
 /**
  * Вебхук — механизм отправки уведомлений при наступлении изменений в системе.

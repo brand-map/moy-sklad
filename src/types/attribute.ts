@@ -2,23 +2,22 @@ import type { Entity } from "./entity"
 import type { Meta, Metadata } from "./metadata"
 import type { Idable } from "./mixins"
 
-export enum AttributeType {
-  Time = "time",
-  Link = "link",
-  String = "string",
-  Text = "text",
-  File = "file",
-  Boolean = "boolean",
-  Double = "double",
-  Long = "long",
-  Contract = "contract",
-  Counterparty = "counterparty",
-  Project = "project",
-  Store = "store",
-  Employee = "employee",
-  Product = "product",
-  CustomEntity = "customentity",
-}
+export type AttributeType =
+  | "time"
+  | "link"
+  | "string"
+  | "text"
+  | "file"
+  | "boolean"
+  | "double"
+  | "long"
+  | "contract"
+  | "counterparty"
+  | "project"
+  | "store"
+  | "employee"
+  | "product"
+  | "customentity"
 
 interface BaseAttribute extends Idable, Meta<Entity.AttributeMetadata> {
   name: string
