@@ -1,6 +1,6 @@
 {
-  "name": "moy-sklad",
-  "version": "1.0.0",
+  "name": "@brand-map/moy-sklad",
+  "version": "0.0.0",
   "description": "Fully typed TypeScript client for Moysklad API with comprehensive support for products, services, webhooks, and more",
   "keywords": [
     "api",
