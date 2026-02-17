@@ -23,87 +23,87 @@ interface BaseAttribute extends Idable, Meta<"attributemetadata"> {
   name: string
   type: AttributeType
   value:
-  | boolean
-  | string
-  | number
-  | (Meta<Entity> & {
-    name: string
-  })
+    | boolean
+    | string
+    | number
+    | (Meta<Entity> & {
+        name: string
+      })
 }
 
 export interface TimeAttribute extends BaseAttribute {
-  type: 'time'
+  type: "time"
   value: string
 }
 
 export interface LinkAttribute extends BaseAttribute {
-  type: 'link'
+  type: "link"
   value: string
 }
 
 export interface StringAttribute extends BaseAttribute {
-  type: 'string'
+  type: "string"
   value: string
 }
 
 export interface TextAttribute extends BaseAttribute {
-  type: 'text'
+  type: "text"
   value: string
 }
 
 export interface FileAttribute extends BaseAttribute {
-  type: 'file'
+  type: "file"
   value: string
 }
 
 export interface BooleanAttribute extends BaseAttribute {
-  type: 'boolean'
+  type: "boolean"
   value: boolean
 }
 
 export interface DoubleAttribute extends BaseAttribute {
-  type: 'double'
+  type: "double"
   value: number
 }
 
 export interface LongAttribute extends BaseAttribute {
-  type: 'long'
+  type: "long"
   value: number
 }
 
 export interface ContractAttribute extends BaseAttribute {
-  type: 'contract'
+  type: "contract"
   value: Meta<"contract"> & { name: string }
 }
 
 export interface CounterpartyAttribute extends BaseAttribute {
-  type: 'counterparty'
+  type: "counterparty"
   value: Meta<"counterparty"> & { name: string }
 }
 
 export interface ProjectAttribute extends BaseAttribute {
-  type: 'project'
+  type: "project"
   value: Meta<"project"> & { name: string }
 }
 
 export interface StoreAttribute extends BaseAttribute {
-  type: 'store'
+  type: "store"
   value: Meta<"store"> & { name: string }
 }
 
 export interface EmployeeAttribute extends BaseAttribute {
-  type: 'employee'
+  type: "employee"
   value: Meta<"employee"> & { name: string }
 }
 
 export interface ProductAttribute extends BaseAttribute {
-  type: 'product'
+  type: "product"
   value: Meta<"product"> & { name: string }
 }
 
 export interface CustomEntityAttribute extends BaseAttribute {
   description?: string
-  type: 'customentity'
+  type: "customentity"
   customEntityMeta: Metadata<"customentitymetadata">
   value: Meta<"customentitymetadata"> & { name: string }
 }

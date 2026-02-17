@@ -28,6 +28,7 @@ interface BaseOptions<A extends WizardAction> {
   positions: {
     /** Ссылка на товар/услугу/серию/модификацию/комплект, которую представляет собой позиция, в формате Метаданных */
     assortment: Meta<AssortmentEntity>
+
     /** Количество товаров/услуг данного вида в позиции. Если позиция - товар, у которого включен учет по серийным номерам, то значение в этом поле всегда будет равно количеству серийных номеров для данной позиции в документе. */
     quantity?: number
   }[]
@@ -40,18 +41,18 @@ export const EntitiesActions = {
 export type WizardOptions<A extends WizardAction = WizardAction> = A extends "evaluate_price"
   ? SetRequired<Partial<BaseOptions<A>>, "action" | "agent">
   : A extends "evaluate_discount"
-  ? SetRequired<Partial<BaseOptions<A>>, "action" | "agent">
-  : A extends "evaluate_vat"
-  ? SetRequired<Partial<BaseOptions<A>>, "action" | "organization">
-  : SetRequired<Partial<BaseOptions<A>>, "action" | "store">
+    ? SetRequired<Partial<BaseOptions<A>>, "action" | "agent">
+    : A extends "evaluate_vat"
+      ? SetRequired<Partial<BaseOptions<A>>, "action" | "organization">
+      : SetRequired<Partial<BaseOptions<A>>, "action" | "store">
 
 export type WizardResult<A extends WizardAction> = A extends "evaluate_cost"
   ? {
-    positions: {
-      assortment: Meta<AssortmentEntity>
-      cost: number
-    }[]
-  }
+      positions: {
+        assortment: Meta<AssortmentEntity>
+        cost: number
+      }[]
+    }
   : never
 
 /**

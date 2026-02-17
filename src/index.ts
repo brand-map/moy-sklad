@@ -102,9 +102,7 @@ export { VariantEndpoint } from "./endpoints/variant"
  * await deleteWebhook(client, webhook.id)
  * ```
  */
-export {
-  WebhookEndpoint
-} from "./endpoints/webhook"
+export { WebhookEndpoint } from "./endpoints/webhook"
 
 // // ============================================================================
 // // ENDPOINT FUNCTIONS - Assortment

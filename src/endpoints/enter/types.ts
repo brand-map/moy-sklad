@@ -214,17 +214,17 @@ export interface EnterModel extends Model {
     updated: DateTimeFilter
   }
   orderableFields:
-  | "id"
-  | "syncId"
-  | "updated"
-  | "updatedBy"
-  | "name"
-  | "description"
-  | "externalCode"
-  | "moment"
-  | "applicable"
-  | "sum"
-  | "created"
+    | "id"
+    | "syncId"
+    | "updated"
+    | "updatedBy"
+    | "name"
+    | "description"
+    | "externalCode"
+    | "moment"
+    | "applicable"
+    | "sum"
+    | "created"
   requiredCreateFields: "organization" | "store"
 }
 

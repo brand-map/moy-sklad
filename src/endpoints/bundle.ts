@@ -279,7 +279,6 @@ interface ListBundleOptions {
 type FirstBundleOptions = Omit<ListBundleOptions, "pagination">
 type AllBundleOptions = Omit<ListBundleOptions, "pagination">
 
-
 /**
  * Bundle endpoint class for fetching bundles from API.
  */
@@ -287,19 +286,19 @@ export class BundleEndpoint {
   constructor(
     private readonly client: ApiClient,
     private readonly endpointPath: string = endpointPaths.entity.bundle,
-  ) { }
+  ) {}
 
   /**
    * Fetches bundles from API and parses JSON response.
    */
   private async fetchBundlesResponse<T>(
     searchParameters?: URLSearchParams,
-  ): Promise<ListResponse<GetFindResult<BundleModel, T>, 'bundle'>> {
+  ): Promise<ListResponse<GetFindResult<BundleModel, T>, "bundle">> {
     const response = await this.client.get(this.endpointPath, {
       searchParameters: searchParameters ?? undefined,
     })
 
-    return response.json() as Promise<ListResponse<GetFindResult<BundleModel, T>, 'bundle'>>
+    return response.json() as Promise<ListResponse<GetFindResult<BundleModel, T>, "bundle">>
   }
 
   /**
@@ -309,7 +308,7 @@ export class BundleEndpoint {
    */
   async list<T extends ListBundleOptions = ListBundleOptions>(
     options?: Subset<T, ListBundleOptions>,
-  ): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, 'bundle'>> {
+  ): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
     const searchParameters = composeSearchParameters({
       pagination: options?.pagination,
       expand: options?.expand,
@@ -328,7 +327,7 @@ export class BundleEndpoint {
    */
   async all<T extends AllBundleOptions = AllBundleOptions>(
     options?: Subset<T, AllBundleOptions>,
-  ): Promise<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, 'bundle'>> {
+  ): Promise<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
     return this.client.batchGet(
       async (limit, offset) => {
         const searchParameters = composeSearchParameters({
@@ -352,7 +351,7 @@ export class BundleEndpoint {
    */
   async first<T extends FirstBundleOptions = FirstBundleOptions>(
     options?: Subset<T, FirstBundleOptions>,
-  ): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, 'bundle'>> {
+  ): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
     const searchParameters = composeSearchParameters({
       pagination: { limit: 1 },
       expand: options?.expand,

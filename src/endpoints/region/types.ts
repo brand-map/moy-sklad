@@ -50,14 +50,19 @@ export interface RegionModel extends Model {
   filters: {
     /** ID в формате UUID */
     id: IdFilter
+
     /** ID учетной записи */
     accountId: IdFilter
+
     /** Код Региона */
     code: StringFilter
+
     /** Внешний код Региона */
     externalCode: StringFilter
+
     /** Наименование Региона */
     name: StringFilter
+
     /** Момент последнего обновления сущности */
     updated: DateTimeFilter
   }

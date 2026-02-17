@@ -32,7 +32,6 @@ import type { Barcodes, Idable, PaginationOptions, PriceType, TrackingType } fro
 import type { CounterpartyModel } from "./counterparty"
 import type { GroupModel } from "./group"
 
-
 /**
  * Товары
  *
@@ -172,7 +171,6 @@ interface ProductEndpointInteface {
    */
   audit(id: string, options?: GetAuditByEntityOptions): Promise<ListResponse<AuditEvent, "auditevent">>
 }
-
 
 type ProductPaymentItemType = "GOOD" | "EXCISABLE_GOOD" | "COMPOUND_PAYMENT_ITEM" | "ANOTHER_PAYMENT_ITEM"
 
@@ -317,18 +315,18 @@ export interface ProductModel extends Model {
     weight: NumberFilter
   }
   orderableFields:
-  | "id"
-  | "updated"
-  | "name"
-  | "code"
-  | "externalCode"
-  | "archived"
-  | "pathName"
-  | "isSerialTrackable"
-  | "weighed"
-  | "weight"
-  | "volume"
-  | "syncId"
+    | "id"
+    | "updated"
+    | "name"
+    | "code"
+    | "externalCode"
+    | "archived"
+    | "pathName"
+    | "isSerialTrackable"
+    | "weighed"
+    | "weight"
+    | "volume"
+    | "syncId"
   requiredCreateFields: "name"
 }
 
@@ -355,7 +353,6 @@ interface GetProductOptions {
 type FirstProductOptions = Omit<ListProductsOptions, "pagination">
 type AllProductsOptions = Omit<ListProductsOptions, "pagination">
 
-
 /**
  * Product endpoint class for fetching products from API.
  */
@@ -363,19 +360,19 @@ export class ProductEndpoint {
   constructor(
     private readonly client: ApiClient,
     private readonly endpointPath: string = endpointPaths.entity.product,
-  ) { }
+  ) {}
 
   /**
    * Fetches products from API and parses JSON response.
    */
   private async fetchProductsResponse<T>(
     searchParameters: URLSearchParams | undefined,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T>, 'product'>> {
+  ): Promise<ListResponse<GetFindResult<ProductModel, T>, "product">> {
     const response = await this.client.get(this.endpointPath, {
       searchParameters: searchParameters ?? undefined,
     })
 
-    return response.json() as Promise<ListResponse<GetFindResult<ProductModel, T>, 'product'>>
+    return response.json() as Promise<ListResponse<GetFindResult<ProductModel, T>, "product">>
   }
 
   /**
@@ -396,7 +393,7 @@ export class ProductEndpoint {
    */
   async list<T extends ListProductsOptions>(
     options?: ListProductsOptions,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, 'product'>> {
+  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">> {
     const searchParameters = composeSearchParameters({
       pagination: options?.pagination,
       expand: options?.expand,
@@ -425,7 +422,7 @@ export class ProductEndpoint {
    */
   async all<T extends AllProductsOptions>(
     options?: AllProductsOptions,
-  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, 'product'>> {
+  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">> {
     return this.client.batchGet(
       async (limit, offset) => {
         const searchParameters = composeSearchParameters({
@@ -459,7 +456,7 @@ export class ProductEndpoint {
    */
   async first<T extends FirstProductOptions>(
     options?: FirstProductOptions,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, 'product'>> {
+  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">> {
     const searchParameters = composeSearchParameters({
       pagination: { limit: 1 },
       expand: options?.expand,

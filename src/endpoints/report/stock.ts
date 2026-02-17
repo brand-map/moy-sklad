@@ -37,6 +37,7 @@ export interface StockAll extends Meta<AssortmentEntity> {
   readonly folder: Meta<"productfolder"> & {
     /** Наименование группы */
     readonly name: string
+
     /** Наименование родительской группы */
     readonly pathName: string
   }
@@ -74,18 +75,25 @@ export interface StockAllModel extends Model {
   filters: {
     /** параметр для фильтрации по архивности товаров. Возможные значения: `true`, `false`. Для выдачи как архивных, так и не архивных товаров нужно передать сразу два значения true и false. */
     archived: ArchivedFilter
+
     /** параметр для фильтрации по нескольким сериям. Значение параметра - ссылка на серию, которая должна быть включена в выборку или исключена из нее. Можно передать несколько значений. Данный параметр фильтрации можно комбинировать с параметрами `product` и `variant`. */
     consignment: IdFilter
+
     /** параметр для фильтрации по значению ожидания. Если передать `true`, в выборку попадут только товары с ожиданием. */
     inTransitOnly: BooleanFilter
+
     /** момент времени, на который нужно вывести остатки. Передается в виде строки в формате дата-время */
     moment: DateTimeFilter
+
     /** параметр для фильтрации по нескольким товарам. Значение параметра - ссылка на товар, который должен быть включен в выборку или исключен из нее. Можно передать несколько значений. Данный параметр фильтрации можно комбинировать с параметрами `consignment` и `variant`. */
     product: IdFilter
+
     /** параметр для фильтрации по нескольким группам товаров. Значение параметра - ссылка на группу товаров, которая должна быть включена в выборку или исключена из нее. Можно передать несколько значений. */
     productFolder: IdFilter
+
     /** параметр учета вложенных подгрупп. Работает только при наличии фильтра по `productFolder`. По умолчанию `true`, выводятся товары из дочерних подгрупп фильтруемой группы / групп товаров. При передаче `false` выводятся только товары из фильтруемой группы / групп, без учета подгрупп. */
     withSubFolders: BooleanFilter
+
     /**
      * Параметр для фильтрации по значению доступно
      *
@@ -100,16 +108,22 @@ export interface StockAllModel extends Model {
      * @default `nonEmpty`
      */
     quantityMode: EnumFilter<"nonEmpty" | "all" | "positiveOnly" | "negativeOnly" | "empty" | "underMinimum">
+
     /** параметр для фильтрации по значению резерва. Если передать `true`, в выборку попадут только товары с резервом. */
     reserveOnly: BooleanFilter
+
     /** специальный параметр текстового поиска. Поиск осуществляется по вхождению подстроки в названия товаров, модификаций, серий. */
     search: StringFilter
+
     /** параметр для фильтрации по признаку весового товара */
     soldByWeight: BooleanFilter
+
     /** параметр для фильтрации по количеству дней на складе. Передавать нужно целое число. В выборку попадут товары, у которых количество дней на складе больше или равно указанному. Данный параметр фильтрации можно комбинировать с параметром `stockDaysTo`. */
     stockDaysFrom: NumberFilter
+
     /** параметр для фильтрации по количеству дней на складе. Передавать нужно целое число. В выборку попадут товары, у которых количество дней на складе меньше или равно указанному. Данный параметр фильтрации можно комбинировать с параметром `stockDaysFrom`. */
     stockDaysTo: NumberFilter
+
     /**
      * Параметр для фильтрации по значению остатка
      *
@@ -127,8 +141,10 @@ export interface StockAllModel extends Model {
 
     /** параметр для фильтрации по нескольким складам. Значение параметра - ссылка на склад, который должен быть учтен в выборке или исключен из нее. Можно передать несколько значений. */
     store: IdFilter
+
     /** параметр для фильтрации по нескольким поставщикам. Значение параметра - ссылка на контрагента или организацию. В выборку будут включены или исключены товары с указанными поставщиками. Можно передать пустое значение, тогда в выборку попадут товары с незаполненным или заполненным поставщиком. */
     supplier: IdFilter
+
     /** параметр для фильтрации по нескольким модификациям. Значение параметра - ссылка на модификацию, которая должна быть включена в выборку или исключена из нее. Можно передать несколько значений. Данный параметр фильтрации можно комбинировать с параметрами `product` и `consignment`. */
     variant: IdFilter
   }
@@ -153,19 +169,19 @@ export interface StockAllModel extends Model {
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety-otchet-ostatki-rasshirennyj-otchet-ob-ostatkah-atributy-dostupnye-dlq-sortirowki
    */
   orderableFields:
-  | "avgStockDays"
-  | "code"
-  | "inTransit"
-  | "minimumBalance"
-  | "name"
-  | "pathName"
-  | "price"
-  | "productCode"
-  | "quantity"
-  | "reserve"
-  | "salePrice"
-  | "stock"
-  | "sumTotal"
+    | "avgStockDays"
+    | "code"
+    | "inTransit"
+    | "minimumBalance"
+    | "name"
+    | "pathName"
+    | "price"
+    | "productCode"
+    | "quantity"
+    | "reserve"
+    | "salePrice"
+    | "stock"
+    | "sumTotal"
 }
 
 export interface StockAllOptions {
@@ -274,7 +290,7 @@ export interface ReportStockEndpoint {
    * @param options Параметры запроса
    * @returns Краткий отчёт об остатках
    */
-  allCurrent<T extends StockAllCurrentStockType = 'stock'>(
+  allCurrent<T extends StockAllCurrentStockType = "stock">(
     options?: StockAllCurrentOptions<T>,
   ): Promise<StockAllCurrent<T>>
 
@@ -301,12 +317,16 @@ export interface StockByStore extends Meta<AssortmentEntity> {
   readonly stockByStore: Array<{
     /** Метаданные склада, по которому выводится Остаток */
     readonly meta: Meta<"store">
+
     /** Наименование склада */
     readonly name: string
+
     /** Остаток */
     readonly stock: number
+
     /** Ожидание */
     readonly inTransit: number
+
     /** Резерв */
     readonly reserve: number
   }>
@@ -317,22 +337,31 @@ export interface StockByStoreOptions {
   filter?: {
     /** ссылка на серию, по которой нужно произвести фильтрацию */
     consignment?: IdFilter
+
     /** момент времени, на который нужно вывести остатки */
     moment?: DateTimeFilter
+
     /** ссылка на товар, по которому нужно произвести фильтрацию */
     product?: IdFilter
+
     /** ссылка на группу товаров, по которой нужно произвести фильтрацию */
     productFolder?: IdFilter
+
     /** специальный параметр текстового поиска */
     search?: StringFilter
+
     /** параметр для фильтрации по признаку весового товара */
     soldByWeight?: BooleanFilter
+
     /** параметр для фильтрации по значению остатка */
     stockMode?: EnumFilter<"all" | "positiveOnly" | "negativeOnly" | "empty" | "nonEmpty" | "underMinimum">
+
     /** ссылка на склад, для которого нужно построить отчет */
     store?: IdFilter
+
     /** параметр для фильтрации по поставщику */
     supplier?: IdFilter
+
     /** ссылка на модификация, по которой нужно произвести фильтрацию */
     variant?: IdFilter
   }

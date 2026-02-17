@@ -145,16 +145,16 @@ export interface PaymentOutModel extends Model {
     salesChannel: IdFilter
   }
   orderableFields:
-  | "id"
-  | "syncId"
-  | "updated"
-  | "updatedBy"
-  | "name"
-  | "description"
-  | "externalCode"
-  | "moment"
-  | "applicable"
-  | "sum"
+    | "id"
+    | "syncId"
+    | "updated"
+    | "updatedBy"
+    | "name"
+    | "description"
+    | "externalCode"
+    | "moment"
+    | "applicable"
+    | "sum"
 
   requiredCreateFields: "agent" | "expenseItem" | "organization"
 }

@@ -182,16 +182,16 @@ export interface PurchaseOrderModel extends Model {
     updated: DateTimeFilter
   }
   orderableFields:
-  | "id"
-  | "syncId"
-  | "updated"
-  | "updatedBy"
-  | "name"
-  | "description"
-  | "externalCode"
-  | "moment"
-  | "applicable"
-  | "sum"
+    | "id"
+    | "syncId"
+    | "updated"
+    | "updatedBy"
+    | "name"
+    | "description"
+    | "externalCode"
+    | "moment"
+    | "applicable"
+    | "sum"
   requiredCreateFields: "agent" | "organization"
 }
 

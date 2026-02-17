@@ -160,16 +160,16 @@ export interface FactureOutModel extends Model {
     isDeleted: BooleanFilter
   }
   orderableFields:
-  | "id"
-  | "syncId"
-  | "updated"
-  | "name"
-  | "description"
-  | "externalCode"
-  | "moment"
-  | "applicable"
-  | "sum"
-  | "created"
+    | "id"
+    | "syncId"
+    | "updated"
+    | "name"
+    | "description"
+    | "externalCode"
+    | "moment"
+    | "applicable"
+    | "sum"
+    | "created"
   requiredCreateFields: "organization"
 }
 

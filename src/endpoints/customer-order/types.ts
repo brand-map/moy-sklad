@@ -195,18 +195,18 @@ export interface CustomerOrderModel extends Model {
     isDeleted: BooleanFilter
   }
   orderableFields:
-  | "id"
-  | "syncId"
-  | "updated"
-  | "updatedBy"
-  | "name"
-  | "description"
-  | "externalCode"
-  | "moment"
-  | "applicable"
-  | "sum"
-  | "created"
-  | "deliveryPlannedMoment"
+    | "id"
+    | "syncId"
+    | "updated"
+    | "updatedBy"
+    | "name"
+    | "description"
+    | "externalCode"
+    | "moment"
+    | "applicable"
+    | "sum"
+    | "created"
+    | "deliveryPlannedMoment"
   requiredCreateFields: "agent" | "organization"
 }
 

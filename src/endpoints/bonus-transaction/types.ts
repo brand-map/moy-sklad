@@ -122,17 +122,17 @@ export interface BonusTransactionModel extends Model {
   }
 
   orderableFields:
-  | "id"
-  | "applicable"
-  | "bonusValue"
-  | "code"
-  | "created"
-  | "executionDate"
-  | "externalCode"
-  | "moment"
-  | "name"
-  | "shared"
-  | "updated"
+    | "id"
+    | "applicable"
+    | "bonusValue"
+    | "code"
+    | "created"
+    | "executionDate"
+    | "externalCode"
+    | "moment"
+    | "name"
+    | "shared"
+    | "updated"
 
   requiredCreateFields: "agent" | "transactionType"
 

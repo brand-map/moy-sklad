@@ -157,6 +157,7 @@ export type UpdateAuditDiff = Record<
   {
     /** Значение атрибута до обновления */
     oldValue: unknown
+
     /** Значение атрибута после обновления */
     newValue: unknown
   }
@@ -237,42 +238,34 @@ interface BaseAuditEvent {
  */
 export type AuditEvent =
   | (BaseAuditEvent & {
-    readonly eventType: 'registration'
-    readonly diff?: RegistrationAuditDiff
-  })
+      readonly eventType: "registration"
+      readonly diff?: RegistrationAuditDiff
+    })
   | (BaseAuditEvent & {
-    readonly eventType: 'openpublication' | 'closepublication'
-    readonly diff?: PublicationAuditDiff
-  })
+      readonly eventType: "openpublication" | "closepublication"
+      readonly diff?: PublicationAuditDiff
+    })
   | (BaseAuditEvent & {
-    readonly eventType: 'sendemailfromentity'
-    readonly diff?: EmailAuditDiff
-  })
+      readonly eventType: "sendemailfromentity"
+      readonly diff?: EmailAuditDiff
+    })
   | (BaseAuditEvent & {
-    readonly eventType: 'delete'
-    readonly diff?: DeleteAuditDiff
-  })
+      readonly eventType: "delete"
+      readonly diff?: DeleteAuditDiff
+    })
   | (BaseAuditEvent & {
-    readonly eventType:
-    | 'update'
-    | 'puttoarchive'
-    | 'restorefromarchive'
-    | 'puttorecyclebin'
-    | 'restorefromrecyclebin'
-    readonly diff?: UpdateAuditDiff
-  })
+      readonly eventType: "update" | "puttoarchive" | "restorefromarchive" | "puttorecyclebin" | "restorefromrecyclebin"
+      readonly diff?: UpdateAuditDiff
+    })
   | (BaseAuditEvent & {
-    readonly eventType:
-    | 'bulkoperation'
-    | 'create'
-    | 'print'
-    | 'replacetoken'
-    readonly diff?: AuditDiff
-  })
+      readonly eventType: "bulkoperation" | "create" | "print" | "replacetoken"
+      readonly diff?: AuditDiff
+    })
 
 export interface GetAuditByEntityOptions {
   filter?: {
     moment?: Partial<GreaterOrEqualsFilter<DateTime> & LessOrEqualsFilter<DateTime>>
+
     /**
      * В качестве значения должен быть передан href сущности сотрудника. В отфильтрованную выборку попадут все сущности аудита, автором изменений которых является данный пользователь.
      */
@@ -282,6 +275,7 @@ export interface GetAuditByEntityOptions {
      * В качестве значения должен быть передан тип События, по которому должны быть отфильтрованы сущности аудита.
      */
     eventType?: AuditEventType
+
     /**
      * В качестве значения должен быть передан тип действия, по которому должны быть отфильтрованы сущности аудита.
      * Список возможных значений параметра:

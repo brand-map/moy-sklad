@@ -21,20 +21,28 @@ export interface Store extends Idable, Meta<"store"> {
   addressFull?: {
     /** Другое */
     addInfo?: string
+
     /** Квартира */
     apartment?: string
+
     /** Город */
     city?: string
+
     /** Комментарий */
     comment?: string
+
     /** Метаданные страны */
     country?: Meta<"country">
+
     /** Дом */
     house?: string
+
     /** Почтовый индекс */
     postalCode?: string
+
     /** Метаданные региона */
     region?: Meta<"region">
+
     /** Улица */
     street?: string
   }

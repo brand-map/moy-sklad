@@ -270,17 +270,17 @@ export interface SalesReturnModel extends Model {
     isDeleted: BooleanFilter
   }
   orderableFields:
-  | "id"
-  | "syncId"
-  | "updated"
-  | "updatedBy"
-  | "name"
-  | "description"
-  | "externalCode"
-  | "moment"
-  | "applicable"
-  | "sum"
-  | "created"
+    | "id"
+    | "syncId"
+    | "updated"
+    | "updatedBy"
+    | "name"
+    | "description"
+    | "externalCode"
+    | "moment"
+    | "applicable"
+    | "sum"
+    | "created"
   requiredCreateFields: "agent" | "organization" | "store"
 }
 

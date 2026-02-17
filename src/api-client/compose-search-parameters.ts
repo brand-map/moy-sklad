@@ -1,7 +1,6 @@
 import type { Filter, OrderOption } from "../types"
 import type { PaginationOptions } from "../types/common"
 
-
 function traverseExpand(expand: Record<string, unknown>, depth = 0) {
   if (depth > 2) {
     throw new Error("Expand depth cannot be more than 3")

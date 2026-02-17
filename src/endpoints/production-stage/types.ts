@@ -31,10 +31,13 @@ export interface ProductionStage extends Idable, Meta<"productionstage"> {
   materials: {
     /** ID учетной записи */
     readonly accountId: string
+
     /** Метаданные товара/услуги/серии/модификации */
     assortment: Meta<"assortment">
+
     /** ID позиции */
     readonly id: string
+
     /** Количество товаров/модификаций данного вида в позиции */
     planQuantity: number
   }[]

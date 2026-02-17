@@ -58,20 +58,28 @@ interface BaseOrganization extends Idable, Meta<"organization"> {
   actualAddressFull?: {
     /** Другое */
     addInfo?: string
+
     /** Квартира */
     apartment?: string
+
     /** Город */
     city?: string
+
     /** Комментарий */
     comment?: string
+
     /** Метаданные страны */
     country?: Meta<"country">
+
     /** Дом */
     house?: string
+
     /** Почтовый индекс */
     postalCode?: string
+
     /** Метаданные региона */
     region?: Meta<"region">
+
     /** Улица */
     street?: string
   }
@@ -94,20 +102,28 @@ interface BaseOrganization extends Idable, Meta<"organization"> {
   legalAddressFull?: {
     /** Другое */
     addInfo?: string
+
     /** Квартира */
     apartment?: string
+
     /** Город */
     city?: string
+
     /** Комментарий */
     comment?: string
+
     /** Метаданные страны */
     country?: Meta<"country">
+
     /** Дом */
     house?: string
+
     /** Почтовый индекс */
     postalCode?: string
+
     /** Метаданные региона */
     region?: Meta<"region">
+
     /** Улица */
     street?: string
   }
@@ -221,7 +237,7 @@ interface BaseOrganization extends Idable, Meta<"organization"> {
 
 /** Юрлицо с типом "Юридическое лицо" */
 export interface LegalOrganization extends BaseOrganization {
-  companyType: 'legal'
+  companyType: "legal"
   /** Полное наименование юрлица */
   legalTitle?: string
   /** ИНН */
@@ -236,7 +252,7 @@ export interface LegalOrganization extends BaseOrganization {
 
 /** Юрлицо с типом "Индивидуальный предприниматель" */
 export interface EntrepreneurOrganization extends BaseOrganization {
-  companyType: 'entrepreneur'
+  companyType: "entrepreneur"
   /** Дата свидетельства */
   certificateDate?: DateTime
   /** Номер свидетельства */
@@ -263,7 +279,7 @@ export interface EntrepreneurOrganization extends BaseOrganization {
 
 /** Юрлицо с типом "Физическое лицо" */
 export interface IndividualOrganization extends BaseOrganization {
-  companyType: 'individual'
+  companyType: "individual"
   /** ИНН */
   inn?: string
   /** Имя для Юрлица типа `[Индивидуальный предприниматель, Физическое лицо]` */
@@ -324,17 +340,17 @@ export interface OrganizationModel extends Model {
   }
 
   orderableFields:
-  | "id"
-  | "name"
-  | "code"
-  | "externalCode"
-  | "archived"
-  | "created"
-  | "updated"
-  | "description"
-  | "email"
-  | "phone"
-  | "fax"
+    | "id"
+    | "name"
+    | "code"
+    | "externalCode"
+    | "archived"
+    | "created"
+    | "updated"
+    | "description"
+    | "email"
+    | "phone"
+    | "fax"
 
   requiredCreateFields: "name"
 }

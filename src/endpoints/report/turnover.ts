@@ -85,12 +85,16 @@ export interface TurnoverByStoreReport {
       meta: Metadata<"store">
       name: string
     }
+
     /** Показатели на начало периода */
     onPeriodStart: TurnoverMetrics
+
     /** Показатели на конец периода */
     onPeriodEnd: TurnoverMetrics
+
     /** Показатели прихода в течение периода отчета */
     income: TurnoverMetrics
+
     /** Показатели расхода в течение периода отчета */
     outcome: TurnoverMetrics
   }>
@@ -133,40 +137,51 @@ export interface TurnoverReportModel extends Model {
   filters: {
     /** ссылка на контрагента, по которому нужно произвести фильтрацию */
     agent: IdFilter
+
     /** строка с названием группы контрагентов, по которой нужно произвести фильтрацию */
     agentTag: IdFilter
+
     /** ссылка на договор, по которому нужно произвести фильтрацию */
     contract: IdFilter
+
     /** ссылка на юрлицо, по которому нужно произвести фильтрацию */
     organization: IdFilter
+
     /** ссылка на товар, по которому нужно произвести фильтрацию */
     product: IdFilter
+
     /** ссылка на проект, по которому нужно произвести фильтрацию */
     project: IdFilter
+
     /** ссылка на точку продаж, по которой нужно произвести фильтрацию */
     retailStore: IdFilter
+
     /** ссылка на склад, по которому нужно произвести фильтрацию */
     store: IdFilter
+
     /** параметр для фильтрации по поставщику */
     supplier: IdFilter
+
     /** тип документа */
     type:
-    | "supply"
-    | "purchasereturn"
-    | "demand"
-    | "salesreturn"
-    | "loss"
-    | "enter"
-    | "move"
-    | "processing"
-    | "retaildemand"
-    | "retailsalesreturn"
-    | "productionstagecompletion"
+      | "supply"
+      | "purchasereturn"
+      | "demand"
+      | "salesreturn"
+      | "loss"
+      | "enter"
+      | "move"
+      | "processing"
+      | "retaildemand"
+      | "retailsalesreturn"
+      | "productionstagecompletion"
 
     /** ссылка на модификацию, по которой нужно произвести фильтрацию */
     variant: IdFilter
+
     /** параметр для фильтрации "Показывать товары без движения" */
     withoutturnover: BooleanFilter
+
     /** параметр для фильтрации "Показывать архивные" */
     archived: ArchivedFilter
   }

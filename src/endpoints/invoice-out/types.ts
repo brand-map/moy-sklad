@@ -200,18 +200,18 @@ export interface InvoiceOutModel extends Model {
     updated: DateTimeFilter
   }
   orderableFields:
-  | "id"
-  | "syncId"
-  | "updated"
-  | "updatedBy"
-  | "name"
-  | "description"
-  | "externalCode"
-  | "moment"
-  | "applicable"
-  | "sum"
-  | "created"
-  | "paymentPlannedMoment"
+    | "id"
+    | "syncId"
+    | "updated"
+    | "updatedBy"
+    | "name"
+    | "description"
+    | "externalCode"
+    | "moment"
+    | "applicable"
+    | "sum"
+    | "created"
+    | "paymentPlannedMoment"
   requiredCreateFields: "agent" | "organization"
 }
 
