@@ -3,7 +3,6 @@ import type {
   AssortmentModel,
   Attribute,
   DateTime,
-  Entity,
   ExpandOptions,
   FilterOptions,
   Idable,

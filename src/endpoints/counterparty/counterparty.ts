@@ -1,6 +1,5 @@
 import type {
   BatchGetResult,
-  Entity,
   GetFindResult,
   GetModelUpdatableFields,
   ListMeta,

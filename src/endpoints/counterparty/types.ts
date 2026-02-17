@@ -4,7 +4,6 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  Entity,
   EnumFilter,
   ExpandOptions,
   FilterOptions,

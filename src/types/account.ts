@@ -1,4 +1,3 @@
-import type { Entity } from "./entity"
 import type { Meta } from "./metadata"
 import type { DateTime, Idable } from "./common"
 import type { Model } from "./model"

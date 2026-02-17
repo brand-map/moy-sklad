@@ -1,4 +1,4 @@
-import type { Entity, GetFindResult, ListResponse } from "../../types"
+import type { GetFindResult, ListResponse } from "../../types"
 import type { CustomEntityModel } from "./types"
 
 /**

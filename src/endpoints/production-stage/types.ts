@@ -1,6 +1,5 @@
 import type { SetRequired } from "../../types"
 import type {
-  Entity,
   ExpandOptions,
   FilterOptions,
   Idable,

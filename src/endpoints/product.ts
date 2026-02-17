@@ -4,28 +4,20 @@ import { endpointPaths } from "../endpoint-paths"
 import type {
   ArchivedFilter,
   Attribute,
-  AuditEvent,
-  BatchDeleteResult,
   BatchGetResult,
   BooleanFilter,
   DateTime,
   DateTimeFilter,
   ExpandOptions,
   FilterOptions,
-  GetAuditByEntityOptions,
   GetFindResult,
-  GetModelUpdatableFields,
   IdFilter,
-  ListMeta,
   ListResponse,
-  MatchArrayType,
   Meta,
   Model,
-  ModelCreateOrUpdateData,
   NumberFilter,
   OrderOptions,
   StringFilter,
-  Subset,
   TaxSystem,
 } from "../types"
 import type { Barcodes, Idable, PaginationOptions, PriceType, TrackingType } from "../types/common"
@@ -33,144 +25,277 @@ import type { CounterpartyModel } from "./counterparty"
 import type { GroupModel } from "./group"
 
 /**
- * Товары
- *
- * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
+ * Product endpoint class for fetching products from API.
  */
-interface ProductEndpointInteface {
+export class ProductEndpoint {
+  constructor(
+    private readonly client: ApiClient,
+    private readonly endpointPath: string = endpointPaths.entity.product,
+  ) {}
+
   /**
-   * Получить список товаров.
+   * Fetches products from API and parses JSON response.
+   */
+  private async fetchProductsResponse<T>(
+    searchParameters: URLSearchParams | undefined,
+  ): Promise<ListResponse<GetFindResult<ProductModel, T>, "product">> {
+    const response = await this.client.get(this.endpointPath, {
+      searchParameters: searchParameters ?? undefined,
+    })
+
+    return response.json() as Promise<ListResponse<GetFindResult<ProductModel, T>, "product">>
+  }
+
+  /**
+   * Gets list of products.
    *
-   * @param options - Опции для получения списка
-   * @returns Объект с списком товаров
+   * @param options - List options including filters, pagination, expand, order, search
+   * @returns Promise with list response containing products
    *
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
+   *
+   * @example
+   * ```ts
+   * const { rows } = await productEndpoint.list({
+   *   filter: { name: "Product" },
+   *   pagination: { limit: 50, offset: 0 }
+   * });
+   * ```
    */
-  list<T extends ListProductsOptions = Record<string, unknown>>(
-    options?: Subset<T, ListProductsOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">>
+  async list<T extends ListProductsOptions>(
+    options?: ListProductsOptions,
+  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">> {
+    const searchParameters = composeSearchParameters({
+      pagination: options?.pagination,
+      expand: options?.expand,
+      order: options?.order,
+      search: options?.search,
+      filter: options?.filter,
+    })
+
+    return this.fetchProductsResponse<T["expand"]>(searchParameters)
+  }
 
   /**
-   * Получить все товары.
+   * Gets all products.
    *
-   * @param options - Опции для получения списка
-   * @returns Массив товаров
+   * @param options - Options including filters, expand, order, search
+   * @returns Promise with batch get result containing all products
    *
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
+   *
+   * @example
+   * ```ts
+   * const { rows } = await productEndpoint.all({
+   *   filter: { archived: false }
+   * });
+   * ```
    */
-  all<T extends AllProductsOptions = Record<string, unknown>>(
-    options?: Subset<T, AllProductsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">>
+  async all<T extends AllProductsOptions>(
+    options?: AllProductsOptions,
+  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">> {
+    return this.client.batchGet(
+      async (limit, offset) => {
+        const searchParameters = composeSearchParameters({
+          pagination: { limit, offset },
+          expand: options?.expand,
+          order: options?.order,
+          search: options?.search,
+          filter: options?.filter,
+        })
+
+        return this.fetchProductsResponse<T["expand"]>(searchParameters)
+      },
+      Boolean(options?.expand && Object.keys(options.expand).length > 0),
+    )
+  }
 
   /**
-   * Получить первый товар из списка.
+   * Gets the first product from the list.
    *
-   * @param options - Опции для получения списка
-   * @returns Объект с списком товаров (с ограничением в 1 элемент)
+   * @param options - Options including filters, expand, order, search
+   * @returns Promise with list response containing first product
    *
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
+   *
+   * @example
+   * ```ts
+   * const { rows } = await productEndpoint.first({
+   *   filter: { name: "Product A" }
+   * });
+   * ```
    */
-  first<T extends FirstProductOptions = Record<string, unknown>>(
-    options?: Subset<T, FirstProductOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">>
+  async first<T extends FirstProductOptions>(
+    options?: FirstProductOptions,
+  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">> {
+    const searchParameters = composeSearchParameters({
+      pagination: { limit: 1 },
+      expand: options?.expand,
+      order: options?.order,
+      search: options?.search,
+      filter: options?.filter,
+    })
+
+    return this.fetchProductsResponse<T["expand"]>(searchParameters)
+  }
 
   /**
-   * Получить товар по ID.
+   * Gets a product by ID.
    *
-   * @param id - ID товара
-   * @param options - Опции для получения товара
-   * @returns Товар
+   * @param id - Product ID
+   * @returns Promise with product model
    *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-towar
+   * @example
+   * ```ts
+   * const product = await productEndpoint.byId("product-id");
+   * ```
    */
-  get<T extends GetProductOptions = Record<string, unknown>>(
-    id: string,
-    options?: Subset<T, GetProductOptions>,
-  ): Promise<GetFindResult<ProductModel, T["expand"]>>
+  async byId(id: string): Promise<ProductModel> {
+    const response = await this.client.get(`${this.endpointPath}/${id}`)
 
-  /**
-   * Получить размер списка товаров.
-   *
-   * @returns Количество товаров
-   */
-  size(options?: AllProductsOptions): Promise<ListMeta<"product">>
-
-  /**
-   * Удалить товар.
-   *
-   * @param id - ID товара
-   * @returns Void
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-udalit-towar
-   */
-  delete(id: string): Promise<void>
-
-  /**
-   * Обновить товар.
-   *
-   * @param id - ID товара
-   * @param data - Данные для обновления
-   * @param options - Опции для обновления
-   * @returns Обновленный товар
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-izmenit-towar
-   */
-  update<T extends UpdateProductOptions = Record<string, unknown>>(
-    id: string,
-    data: GetModelUpdatableFields<ProductModel>,
-    options?: Subset<T, UpdateProductOptions>,
-  ): Promise<GetFindResult<ProductModel, T["expand"]>>
-
-  /**
-   * Создать или обновить товар.
-   *
-   * @param data - Данные для создания или обновления
-   * @param options - Опции для создания или обновления
-   * @returns Созданный или обновленный товар
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-sozdat-towar
-   */
-  upsert<
-    TData extends ModelCreateOrUpdateData<ProductModel>,
-    TOptions extends UpsertProductsOptions = Record<string, unknown>,
-  >(
-    data: TData,
-    options?: Subset<TOptions, UpsertProductsOptions>,
-  ): Promise<MatchArrayType<TData, GetFindResult<ProductModel, TOptions["expand"]>>>
-
-  /**
-   * Массовое удаление товаров.
-   *
-   * @param ids - Массив ID товаров
-   * @returns Результат удаления
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-massowoe-udalenie-towarow
-   */
-  batchDelete(ids: string[]): Promise<BatchDeleteResult[]>
-
-  /**
-   * Переместить товар в корзину.
-   *
-   * @param id - ID товара
-   * @returns Void
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-towar-w-korzinu
-   */
-  trash(id: string): Promise<void>
-
-  /**
-   * Получить события аудита для товара.
-   *
-   * {@linkcode AuditEvent}
-   *
-   * @param id - ID товара
-   * @param options - Опции для получения событий аудита
-   * @returns Список событий аудита
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/audit/#audit-audit-poluchit-sobytiq-po-suschnosti
-   */
-  audit(id: string, options?: GetAuditByEntityOptions): Promise<ListResponse<AuditEvent, "auditevent">>
+    return response.json() as Promise<ProductModel>
+  }
 }
+
+// /**
+//  * Товары
+//  *
+//  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
+//  */
+// interface ProductEndpointInteface {
+//   /**
+//    * Получить список товаров.
+//    *
+//    * @param options - Опции для получения списка
+//    * @returns Объект с списком товаров
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
+//    */
+//   list<T extends ListProductsOptions = Record<string, unknown>>(
+//     options?: Subset<T, ListProductsOptions>,
+//   ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">>
+
+//   /**
+//    * Получить все товары.
+//    *
+//    * @param options - Опции для получения списка
+//    * @returns Массив товаров
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
+//    */
+//   all<T extends AllProductsOptions = Record<string, unknown>>(
+//     options?: Subset<T, AllProductsOptions>,
+//   ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">>
+
+//   /**
+//    * Получить первый товар из списка.
+//    *
+//    * @param options - Опции для получения списка
+//    * @returns Объект с списком товаров (с ограничением в 1 элемент)
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
+//    */
+//   first<T extends FirstProductOptions = Record<string, unknown>>(
+//     options?: Subset<T, FirstProductOptions>,
+//   ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">>
+
+//   /**
+//    * Получить товар по ID.
+//    *
+//    * @param id - ID товара
+//    * @param options - Опции для получения товара
+//    * @returns Товар
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-towar
+//    */
+//   get<T extends GetProductOptions = Record<string, unknown>>(
+//     id: string,
+//     options?: Subset<T, GetProductOptions>,
+//   ): Promise<GetFindResult<ProductModel, T["expand"]>>
+
+//   /**
+//    * Получить размер списка товаров.
+//    *
+//    * @returns Количество товаров
+//    */
+//   size(options?: AllProductsOptions): Promise<ListMeta<"product">>
+
+//   /**
+//    * Удалить товар.
+//    *
+//    * @param id - ID товара
+//    * @returns Void
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-udalit-towar
+//    */
+//   delete(id: string): Promise<void>
+
+//   /**
+//    * Обновить товар.
+//    *
+//    * @param id - ID товара
+//    * @param data - Данные для обновления
+//    * @param options - Опции для обновления
+//    * @returns Обновленный товар
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-izmenit-towar
+//    */
+//   update<T extends UpdateProductOptions = Record<string, unknown>>(
+//     id: string,
+//     data: GetModelUpdatableFields<ProductModel>,
+//     options?: Subset<T, UpdateProductOptions>,
+//   ): Promise<GetFindResult<ProductModel, T["expand"]>>
+
+//   /**
+//    * Создать или обновить товар.
+//    *
+//    * @param data - Данные для создания или обновления
+//    * @param options - Опции для создания или обновления
+//    * @returns Созданный или обновленный товар
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-sozdat-towar
+//    */
+//   upsert<
+//     TData extends ModelCreateOrUpdateData<ProductModel>,
+//     TOptions extends UpsertProductsOptions = Record<string, unknown>,
+//   >(
+//     data: TData,
+//     options?: Subset<TOptions, UpsertProductsOptions>,
+//   ): Promise<MatchArrayType<TData, GetFindResult<ProductModel, TOptions["expand"]>>>
+
+//   /**
+//    * Массовое удаление товаров.
+//    *
+//    * @param ids - Массив ID товаров
+//    * @returns Результат удаления
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-massowoe-udalenie-towarow
+//    */
+//   batchDelete(ids: string[]): Promise<BatchDeleteResult[]>
+
+//   /**
+//    * Переместить товар в корзину.
+//    *
+//    * @param id - ID товара
+//    * @returns Void
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-towar-w-korzinu
+//    */
+//   trash(id: string): Promise<void>
+
+//   /**
+//    * Получить события аудита для товара.
+//    *
+//    * {@linkcode AuditEvent}
+//    *
+//    * @param id - ID товара
+//    * @param options - Опции для получения событий аудита
+//    * @returns Список событий аудита
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/audit/#audit-audit-poluchit-sobytiq-po-suschnosti
+//    */
+//   audit(id: string, options?: GetAuditByEntityOptions): Promise<ListResponse<AuditEvent, "auditevent">>
+// }
 
 type ProductPaymentItemType = "GOOD" | "EXCISABLE_GOOD" | "COMPOUND_PAYMENT_ITEM" | "ANOTHER_PAYMENT_ITEM"
 
@@ -338,150 +463,17 @@ interface ListProductsOptions {
   filter?: FilterOptions<ProductModel>
 }
 
-interface UpsertProductsOptions {
-  expand?: ExpandOptions<ProductModel>
-}
+// interface UpsertProductsOptions {
+//   expand?: ExpandOptions<ProductModel>
+// }
 
-interface UpdateProductOptions {
-  expand?: ExpandOptions<ProductModel>
-}
+// interface UpdateProductOptions {
+//   expand?: ExpandOptions<ProductModel>
+// }
 
-interface GetProductOptions {
-  expand?: ExpandOptions<ProductModel>
-}
+// interface GetProductOptions {
+//   expand?: ExpandOptions<ProductModel>
+// }
 
 type FirstProductOptions = Omit<ListProductsOptions, "pagination">
 type AllProductsOptions = Omit<ListProductsOptions, "pagination">
-
-/**
- * Product endpoint class for fetching products from API.
- */
-export class ProductEndpoint {
-  constructor(
-    private readonly client: ApiClient,
-    private readonly endpointPath: string = endpointPaths.entity.product,
-  ) {}
-
-  /**
-   * Fetches products from API and parses JSON response.
-   */
-  private async fetchProductsResponse<T>(
-    searchParameters: URLSearchParams | undefined,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T>, "product">> {
-    const response = await this.client.get(this.endpointPath, {
-      searchParameters: searchParameters ?? undefined,
-    })
-
-    return response.json() as Promise<ListResponse<GetFindResult<ProductModel, T>, "product">>
-  }
-
-  /**
-   * Gets list of products.
-   *
-   * @param options - List options including filters, pagination, expand, order, search
-   * @returns Promise with list response containing products
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
-   *
-   * @example
-   * ```ts
-   * const { rows } = await productEndpoint.list({
-   *   filter: { name: "Product" },
-   *   pagination: { limit: 50, offset: 0 }
-   * });
-   * ```
-   */
-  async list<T extends ListProductsOptions>(
-    options?: ListProductsOptions,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">> {
-    const searchParameters = composeSearchParameters({
-      pagination: options?.pagination,
-      expand: options?.expand,
-      order: options?.order,
-      search: options?.search,
-      filter: options?.filter,
-    })
-
-    return this.fetchProductsResponse<T["expand"]>(searchParameters)
-  }
-
-  /**
-   * Gets all products.
-   *
-   * @param options - Options including filters, expand, order, search
-   * @returns Promise with batch get result containing all products
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
-   *
-   * @example
-   * ```ts
-   * const { rows } = await productEndpoint.all({
-   *   filter: { archived: false }
-   * });
-   * ```
-   */
-  async all<T extends AllProductsOptions>(
-    options?: AllProductsOptions,
-  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">> {
-    return this.client.batchGet(
-      async (limit, offset) => {
-        const searchParameters = composeSearchParameters({
-          pagination: { limit, offset },
-          expand: options?.expand,
-          order: options?.order,
-          search: options?.search,
-          filter: options?.filter,
-        })
-
-        return this.fetchProductsResponse<T["expand"]>(searchParameters)
-      },
-      Boolean(options?.expand && Object.keys(options.expand).length > 0),
-    )
-  }
-
-  /**
-   * Gets the first product from the list.
-   *
-   * @param options - Options including filters, expand, order, search
-   * @returns Promise with list response containing first product
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
-   *
-   * @example
-   * ```ts
-   * const { rows } = await productEndpoint.first({
-   *   filter: { name: "Product A" }
-   * });
-   * ```
-   */
-  async first<T extends FirstProductOptions>(
-    options?: FirstProductOptions,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">> {
-    const searchParameters = composeSearchParameters({
-      pagination: { limit: 1 },
-      expand: options?.expand,
-      order: options?.order,
-      search: options?.search,
-      filter: options?.filter,
-    })
-
-    return this.fetchProductsResponse<T["expand"]>(searchParameters)
-  }
-
-  /**
-   * Gets a product by ID.
-   *
-   * @param id - Product ID
-   * @returns Promise with product model
-   *
-   * @example
-   * ```ts
-   * const product = await productEndpoint.byId("product-id");
-   * ```
-   */
-  async byId(id: string): Promise<ProductModel> {
-    const response = await this.client.get(`${this.endpointPath}/${id}`)
-
-    return response.json() as Promise<ProductModel>
-  }
-}
