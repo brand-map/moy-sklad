@@ -1,8 +1,7 @@
 import type { Attribute } from "./attribute"
-import type { DateTime } from "./datetime"
 import type { BooleanFilter, DateTimeFilter, IdFilter, StringFilter } from "./filters"
 import type { Meta } from "./metadata"
-import type { Idable } from "./common"
+import type { DateTime, Idable } from "./common"
 import type { Model } from "./model"
 
 /**

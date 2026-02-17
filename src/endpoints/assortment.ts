@@ -1,7 +1,7 @@
-import { ApiClient, composeSearchParameters } from "../api-client"
+import { ApiClient } from "../api-client"
 import type { Subset, BatchGetResult, ListMeta } from "../types"
 import type { AssortmentEntity, AssortmentModel } from "../types/entity"
-import type { ListResponse } from "../types/response"
+import type { ListResponse } from "../types"
 import { buildSearchParams } from "../utils/search-params-handlers"
 import type {
   ArchivedFilter,
@@ -13,6 +13,7 @@ import type {
   StringFilter,
 } from "../types"
 import type { PaginationOptions } from "../types/common"
+import { composeSearchParameters } from "../utils/compose-search-parameters"
 
 /**
  * Ассортимент

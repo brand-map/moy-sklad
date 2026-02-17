@@ -1,5 +1,5 @@
+import type { ListResponse } from "./common"
 import type { Entity } from "./entity"
-import type { ListResponse } from "./response"
 
 export type BatchGetResult<T, E extends Entity> = Pick<ListResponse<T, E>, "rows" | "context">
 
@@ -13,4 +13,8 @@ export interface BatchGetOptions {
   expandLimit?: number
   /** Ограничение количества одновременных запросов */
   concurrencyLimit?: number
+}
+
+export interface BatchDeleteResult {
+  info: string
 }

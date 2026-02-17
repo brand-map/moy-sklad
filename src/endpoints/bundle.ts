@@ -1,5 +1,5 @@
 import { ApiClient } from "../api-client"
-import { composeSearchParameters } from "../api-client/compose-search-parameters"
+import { composeSearchParameters } from "../utils/compose-search-parameters"
 import { endpointPaths } from "../endpoint-paths"
 import type { BatchGetResult, GetFindResult, ListResponse, Subset } from "../types"
 import type {

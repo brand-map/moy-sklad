@@ -1,26 +1,26 @@
 import ky, { type KyInstance } from "ky"
-import type { BatchGetOptions, BatchGetResult, Entity, ListResponse } from "../types"
-import { handleError } from "./handle-error"
-import { TokenBucket } from "./token-bucket"
+import type { BatchGetOptions, BatchGetResult, Entity, ListResponse } from "./types"
+import { handleError } from "./utils/handle-error"
+// import { TokenBucket } from "./token-bucket"
 
-/**
- * Rate limit information from API response headers
- */
-interface RateLimitInfo {
-  /** Remaining requests in current window */
-  remaining: number
-  /** Total limit per window */
-  limit: number
-  /** Unix timestamp when window resets */
-  reset: number
-  /** Available requests for this request */
-  resetTime: Date
-}
+// /**
+//  * Rate limit information from API response headers
+//  */
+// interface RateLimitInfo {
+//   /** Remaining requests in current window */
+//   remaining: number
+//   /** Total limit per window */
+//   limit: number
+//   /** Unix timestamp when window resets */
+//   reset: number
+//   /** Available requests for this request */
+//   resetTime: Date
+// }
 
-/**
- * Request weight calculation based on auth type and date
- */
-type RequestWeight = 1 | 2 | 3 | 4
+// /**
+//  * Request weight calculation based on auth type and date
+//  */
+// type RequestWeight = 1 | 2 | 3 | 4
 
 interface RateLimitState {
   lastReset: number
@@ -28,48 +28,48 @@ interface RateLimitState {
   concurrent: number
 }
 
-/**
- * Calculates the weight of a request based on authentication type and current date
- */
-function getRequestWeight(auth: Auth): RequestWeight {
-  // Check if using user credentials (login/password or user token)
-  const isUserAuth = "login" in auth
+// /**
+//  * Calculates the weight of a request based on authentication type and current date
+//  */
+// function getRequestWeight(auth: Auth): RequestWeight {
+//   // Check if using user credentials (login/password or user token)
+//   const isUserAuth = "login" in auth
 
-  if (!isUserAuth) {
-    // Solution token auth - standard weight
-    return 1
-  }
+//   if (!isUserAuth) {
+//     // Solution token auth - standard weight
+//     return 1
+//   }
 
-  // User auth - weight depends on date
-  const now = new Date()
+//   // User auth - weight depends on date
+//   const now = new Date()
 
-  // Dec 1, 2026 and later: weight 4
-  if (now >= new Date(2026, 11, 1)) {
-    return 4
-  }
+//   // Dec 1, 2026 and later: weight 4
+//   if (now >= new Date(2026, 11, 1)) {
+//     return 4
+//   }
 
-  // Sept 1, 2026 and later: weight 3
-  if (now >= new Date(2026, 8, 1)) {
-    return 3
-  }
+//   // Sept 1, 2026 and later: weight 3
+//   if (now >= new Date(2026, 8, 1)) {
+//     return 3
+//   }
 
-  // May 12, 2026 and later: weight 2
-  if (now >= new Date(2026, 4, 12)) {
-    return 2
-  }
+//   // May 12, 2026 and later: weight 2
+//   if (now >= new Date(2026, 4, 12)) {
+//     return 2
+//   }
 
-  // Before May 12, 2026: weight 1
-  return 1
-}
+//   // Before May 12, 2026: weight 1
+//   return 1
+// }
 
-/**
- * Calculates rate limit threshold (requests per 3 seconds)
- */
-function getRateLimitThreshold(weight: RequestWeight): number {
-  // The base limit is 45 units per 3 seconds
-  const RATE_LIMIT_UNITS = 45
-  return Math.floor(RATE_LIMIT_UNITS / weight)
-}
+// /**
+//  * Calculates rate limit threshold (requests per 3 seconds)
+//  */
+// function getRateLimitThreshold(weight: RequestWeight): number {
+//   // The base limit is 45 units per 3 seconds
+//   const RATE_LIMIT_UNITS = 45
+//   return Math.floor(RATE_LIMIT_UNITS / weight)
+// }
 
 /**
  * Опции для Basic авторизации
@@ -101,7 +101,7 @@ export type TokenAuth = {
  *
  * @see https://dev.moysklad.ru/doc/api/remap/1.2/#mojsklad-json-api-obschie-swedeniq-autentifikaciq
  */
-export type Auth = BasicAuth | TokenAuth
+type Auth = BasicAuth | TokenAuth
 
 /**
  * Опции для инициализации API клиента
