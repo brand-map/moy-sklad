@@ -3,9 +3,11 @@ import type { ApiClientOptions } from "./api-client"
 
 import { AssortmentEndpoint } from "./endpoints/assortment"
 import { BundleEndpoint } from "./endpoints/bundle"
+import { ImageEndpoint } from "./endpoints/image"
 import { ProductEndpoint } from "./endpoints/product"
 import { ServiceEndpoint } from "./endpoints/service"
 import { VariantEndpoint } from "./endpoints/variant"
+import { WebhookEndpoint } from "./endpoints/webhook"
 
 /**
  * High-level Moysklad API wrapper.
@@ -51,6 +53,20 @@ export class Moysklad {
    * TODO: @see LINK
    */
   readonly bundle: BundleEndpoint
+
+  /**
+   * webhook
+   *
+   * TODO: @see LINK
+   */
+  readonly webhook: WebhookEndpoint
+
+  /**
+   * image
+   *
+   * TODO: @see LINK
+   */
+  readonly image: ImageEndpoint
 
   /**
    * Товары
@@ -243,5 +259,7 @@ export class Moysklad {
     this.service = new ServiceEndpoint(this.client)
     this.variant = new VariantEndpoint(this.client)
     this.bundle = new BundleEndpoint(this.client)
+    this.webhook = new WebhookEndpoint(this.client)
+    this.image = new ImageEndpoint(this.client)
   }
 }

@@ -18,31 +18,26 @@ import type {
 
 import { ApiClient } from "../api-client"
 import { composeSearchParameters } from "../utils/compose-search-parameters"
-import { endpointPaths } from "../endpoint-paths"
-import type { ProductModel } from "./product"
+
+import type { Image, ImageCollectionMetaOnly } from "../endpoints/image"
+import type { EmptyObject } from "../types"
 import type { Barcodes, Idable, PaginationOptions, PriceType } from "../types/common"
+import type { ProductModel } from "./product"
+
+// Simple model for images expand option (images can be expanded with or without fields)
+interface ImageExpandModel extends Model {
+  object: Image | ImageCollectionMetaOnly
+  expandable: EmptyObject
+  filters: EmptyObject
+}
 
 /**
  * Variant endpoint class for fetching variants from API.
  */
 export class VariantEndpoint {
-  constructor(
-    private readonly client: ApiClient,
-    private readonly endpointPath: string = endpointPaths.entity.variant,
-  ) {}
+  private endpointPath = "entity/variant"
 
-  /**
-   * Fetches variants from API and parses JSON response.
-   */
-  private async fetchVariantsResponse<T>(
-    searchParameters?: URLSearchParams,
-  ): Promise<ListResponse<GetFindResult<VariantModel, T>, "variant">> {
-    const response = await this.client.get(this.endpointPath, {
-      searchParameters: searchParameters ?? undefined,
-    })
-
-    return response.json() as Promise<ListResponse<GetFindResult<VariantModel, T>, "variant">>
-  }
+  constructor(private client: ApiClient) {}
 
   /**
    * Gets list of variants.
@@ -52,15 +47,21 @@ export class VariantEndpoint {
   async list<T extends ListVariantsOptions = ListVariantsOptions>(
     options?: Subset<T, ListVariantsOptions>,
   ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, "variant">> {
-    const searchParameters = composeSearchParameters({
+    const searchParams: Record<string, unknown> = {
       pagination: options?.pagination,
       expand: options?.expand,
       order: options?.order,
       search: options?.search,
       filter: options?.filter,
-    })
+    }
 
-    return this.fetchVariantsResponse<T["expand"]>(searchParameters)
+    if (options?.fields && options.fields.length > 0) {
+      searchParams.fields = options.fields.join(",")
+    }
+
+    const searchParameters = composeSearchParameters(searchParams)
+
+    return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
   }
 
   /**
@@ -73,15 +74,59 @@ export class VariantEndpoint {
   ): Promise<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, "variant">> {
     return this.client.batchGet(
       async (limit, offset) => {
-        const searchParameters = composeSearchParameters({
+        const searchParams: Record<string, unknown> = {
           pagination: { limit, offset },
           expand: options?.expand,
           order: options?.order,
           search: options?.search,
           filter: options?.filter,
-        })
+        }
 
-        return this.fetchVariantsResponse<T["expand"]>(searchParameters)
+        if (options?.fields && options.fields.length > 0) {
+          searchParams.fields = options.fields.join(",")
+        }
+
+        const searchParameters = composeSearchParameters(searchParams)
+
+        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
+      },
+      Boolean(options?.expand && Object.keys(options.expand).length > 0),
+    )
+  }
+
+  /**
+   * Gets all variants as an async generator (chunk by chunk).
+   *
+   * @param options - Options including filters, expand, order, search
+   * @yields Batch chunk with context and rows
+   *
+   * @example
+   * ```ts
+   * for await (const chunk of variantEndpoint.allChunks({ filter: { archived: false } })) {
+   *   console.log(chunk.rows.length)
+   * }
+   * ```
+   */
+  async *allChunks<T extends AllVariantsOptions = AllVariantsOptions>(
+    options?: Subset<T, AllVariantsOptions>,
+  ): AsyncGenerator<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, "variant">, void, void> {
+    yield* this.client.getChunks(
+      async (limit, offset) => {
+        const searchParams: Record<string, unknown> = {
+          pagination: { limit, offset },
+          expand: options?.expand,
+          order: options?.order,
+          search: options?.search,
+          filter: options?.filter,
+        }
+
+        if (options?.fields && options.fields.length > 0) {
+          searchParams.fields = options.fields.join(",")
+        }
+
+        const searchParameters = composeSearchParameters(searchParams)
+
+        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
       },
       Boolean(options?.expand && Object.keys(options.expand).length > 0),
     )
@@ -95,27 +140,58 @@ export class VariantEndpoint {
   async first<T extends FirstVariantOptions = FirstVariantOptions>(
     options?: Subset<T, FirstVariantOptions>,
   ): Promise<ListResponse<GetFindResult<VariantModel, T["expand"]>, "variant">> {
-    const searchParameters = composeSearchParameters({
+    const searchParams: Record<string, unknown> = {
       pagination: { limit: 1 },
       expand: options?.expand,
       order: options?.order,
       search: options?.search,
       filter: options?.filter,
-    })
+    }
 
-    return this.fetchVariantsResponse<T["expand"]>(searchParameters)
+    if (options?.fields && options.fields.length > 0) {
+      searchParams.fields = options.fields.join(",")
+    }
+
+    const searchParameters = composeSearchParameters(searchParams)
+
+    return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
   }
 
   /**
    * Gets a variant by ID.
    *
    * @param id - Variant ID
+   * @param options - Optional query parameters (expand, fields)
    * @returns Promise with variant model
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-modifikaciq
+   *
+   * @example
+   * ```ts
+   * const variant = await variantEndpoint.byId("variant-id");
+   * const variantWithImages = await variantEndpoint.byId("variant-id", {
+   *   expand: { images: true },
+   *   fields: ["downloadPermanentHref"]
+   * });
+   * ```
    */
-  async byId(id: string): Promise<VariantModel> {
-    const response = await this.client.get(`${this.endpointPath}/${id}`)
+  async byId(
+    id: string,
+    options?: { expand?: ExpandOptions<VariantModel>; fields?: "downloadPermanentHref"[] },
+  ): Promise<Variant> {
+    const searchParams: Record<string, unknown> = {}
 
-    return response.json() as Promise<VariantModel>
+    if (options?.expand) {
+      searchParams.expand = options.expand
+    }
+
+    if (options?.fields && options.fields.length > 0) {
+      searchParams.fields = options.fields.join(",")
+    }
+
+    const searchParameters = composeSearchParameters(searchParams)
+
+    return this.client.get(`${this.endpointPath}/${id}`, { searchParameters }).then((res) => res.json()) as any
   }
 }
 
@@ -132,7 +208,12 @@ interface Variant extends Idable, Meta<"variant"> {
   description?: string
   discountProhibited: boolean
   externalCode: string
-  images?: unknown[] // TODO add files types & expand
+  /**
+   * Изображения.
+   * При expand=images без fields: возвращает { meta: {...} }
+   * При expand=images&fields=downloadPermanentHref: возвращает Image[]
+   */
+  images?: Image[] | ImageCollectionMetaOnly
   minPrice?: {
     value: number
     currency: Meta<"currency">
@@ -158,6 +239,7 @@ export interface VariantModel extends Model {
   object: Variant
   expandable: {
     product: ProductModel
+    images: ImageExpandModel
   }
   filters: {
     id: IdFilter
@@ -190,6 +272,13 @@ interface ListVariantsOptions {
   order?: OrderOptions<VariantModel>
   search?: string
   filter?: FilterOptions<VariantModel>
+  /**
+   * Дополнительные поля для получения.
+   * Используйте `["downloadPermanentHref"]` вместе с `expand: { images: true }` для получения постоянных ссылок на изображения.
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-izobrazhenie-poluchit-postoyannuyu-ssylku-na-izobrazhenie-tovara-komplekta-ili-modifikacii
+   */
+  fields?: "downloadPermanentHref"[]
 }
 
 // interface CreateVariantOptions {

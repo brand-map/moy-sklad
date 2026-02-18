@@ -1,6 +1,6 @@
 import { ApiClient } from "../api-client"
 import { composeSearchParameters } from "../utils/compose-search-parameters"
-import { endpointPaths } from "../endpoint-paths"
+
 import type {
   ArchivedFilter,
   Attribute,
@@ -25,23 +25,9 @@ import type { GroupModel } from "./group"
  * Service endpoint class for fetching services from API.
  */
 export class ServiceEndpoint {
-  constructor(
-    private readonly client: ApiClient,
-    private readonly endpointPath: string = endpointPaths.entity.service,
-  ) {}
+  private endpointPath = "entity/service"
 
-  /**
-   * Fetches services from API and parses JSON response.
-   */
-  private async fetchServicesResponse<T>(
-    searchParameters?: URLSearchParams,
-  ): Promise<ListResponse<GetFindResult<ServiceModel, T>, "service">> {
-    const response = await this.client.get(this.endpointPath, {
-      searchParameters: searchParameters ?? undefined,
-    })
-
-    return response.json() as Promise<ListResponse<GetFindResult<ServiceModel, T>, "service">>
-  }
+  constructor(private client: ApiClient) {}
 
   /**
    * Gets list of services.
@@ -59,7 +45,7 @@ export class ServiceEndpoint {
       filter: options?.filter,
     })
 
-    return this.fetchServicesResponse<T["expand"]>(searchParameters)
+    return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
   }
 
   /**
@@ -80,7 +66,39 @@ export class ServiceEndpoint {
           filter: options?.filter,
         })
 
-        return this.fetchServicesResponse<T["expand"]>(searchParameters)
+        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
+      },
+      Boolean(options?.expand && Object.keys(options.expand).length > 0),
+    )
+  }
+
+  /**
+   * Gets all services as an async generator (chunk by chunk).
+   *
+   * @param options - Options including filters, expand, order, search
+   * @yields Batch chunk with context and rows
+   *
+   * @example
+   * ```ts
+   * for await (const chunk of serviceEndpoint.allChunks({ filter: { archived: false } })) {
+   *   console.log(chunk.rows.length)
+   * }
+   * ```
+   */
+  async *allChunks<T extends AllServiceOptions = AllServiceOptions>(
+    options?: Subset<T, AllServiceOptions>,
+  ): AsyncGenerator<BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, "service">, void, void> {
+    yield* this.client.getChunks(
+      async (limit, offset) => {
+        const searchParameters = composeSearchParameters({
+          pagination: { limit, offset },
+          expand: options?.expand,
+          order: options?.order,
+          search: options?.search,
+          filter: options?.filter,
+        })
+
+        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
       },
       Boolean(options?.expand && Object.keys(options.expand).length > 0),
     )
@@ -102,7 +120,7 @@ export class ServiceEndpoint {
       filter: options?.filter,
     })
 
-    return this.fetchServicesResponse<T["expand"]>(searchParameters)
+    return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
   }
 
   /**
@@ -112,9 +130,7 @@ export class ServiceEndpoint {
    * @returns Promise with service model
    */
   async byId(id: string): Promise<ServiceModel> {
-    const response = await this.client.get(`${this.endpointPath}/${id}`)
-
-    return response.json() as Promise<ServiceModel>
+    return this.client.get(`${this.endpointPath}/${id}`).then((res) => res.json()) as any
   }
 }
 
