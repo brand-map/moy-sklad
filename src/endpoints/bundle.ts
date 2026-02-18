@@ -1,6 +1,5 @@
 import { ApiClient } from "../api-client"
 import { composeSearchParameters } from "../api-client/compose-search-parameters"
-import { endpointPaths } from "../endpoint-paths"
 import type { BatchGetResult, GetFindResult, ListResponse, Subset } from "../types"
 import type {
   ArchivedFilter,
@@ -283,23 +282,9 @@ type AllBundleOptions = Omit<ListBundleOptions, "pagination">
  * Bundle endpoint class for fetching bundles from API.
  */
 export class BundleEndpoint {
-  constructor(
-    private readonly client: ApiClient,
-    private readonly endpointPath: string = endpointPaths.entity.bundle,
-  ) {}
+  private endpointPath = "entity/bundle"
 
-  /**
-   * Fetches bundles from API and parses JSON response.
-   */
-  private async fetchBundlesResponse<T>(
-    searchParameters?: URLSearchParams,
-  ): Promise<ListResponse<GetFindResult<BundleModel, T>, "bundle">> {
-    const response = await this.client.get(this.endpointPath, {
-      searchParameters: searchParameters ?? undefined,
-    })
-
-    return response.json() as Promise<ListResponse<GetFindResult<BundleModel, T>, "bundle">>
-  }
+  constructor(private client: ApiClient) {}
 
   /**
    * Gets list of bundles.
@@ -317,7 +302,7 @@ export class BundleEndpoint {
       filter: options?.filter,
     })
 
-    return this.fetchBundlesResponse<T["expand"]>(searchParameters)
+    return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
   }
 
   /**
@@ -338,7 +323,39 @@ export class BundleEndpoint {
           filter: options?.filter,
         })
 
-        return this.fetchBundlesResponse<T["expand"]>(searchParameters)
+        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
+      },
+      Boolean(options?.expand && Object.keys(options.expand).length > 0),
+    )
+  }
+
+  /**
+   * Gets all bundles as an async generator (chunk by chunk).
+   *
+   * @param options - Options including filters, expand, order, search
+   * @yields Batch chunk with context and rows
+   *
+   * @example
+   * ```ts
+   * for await (const chunk of bundleEndpoint.allChunks({ filter: { archived: false } })) {
+   *   console.log(chunk.rows.length)
+   * }
+   * ```
+   */
+  async *allChunks<T extends AllBundleOptions = AllBundleOptions>(
+    options?: Subset<T, AllBundleOptions>,
+  ): AsyncGenerator<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, "bundle">, void, void> {
+    yield* this.client.getChunks(
+      async (limit, offset) => {
+        const searchParameters = composeSearchParameters({
+          pagination: { limit, offset },
+          expand: options?.expand,
+          order: options?.order,
+          search: options?.search,
+          filter: options?.filter,
+        })
+
+        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
       },
       Boolean(options?.expand && Object.keys(options.expand).length > 0),
     )
@@ -360,7 +377,7 @@ export class BundleEndpoint {
       filter: options?.filter,
     })
 
-    return this.fetchBundlesResponse<T["expand"]>(searchParameters)
+    return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
   }
 
   /**
@@ -370,8 +387,6 @@ export class BundleEndpoint {
    * @returns Promise with bundle model
    */
   async byId(id: string): Promise<BundleModel> {
-    const response = await this.client.get(`${this.endpointPath}/${id}`)
-
-    return response.json() as Promise<BundleModel>
+    return this.client.get(`${this.endpointPath}/${id}`).then((res) => res.json()) as any
   }
 }

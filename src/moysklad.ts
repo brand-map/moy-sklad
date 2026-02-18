@@ -6,6 +6,7 @@ import { BundleEndpoint } from "./endpoints/bundle"
 import { ProductEndpoint } from "./endpoints/product"
 import { ServiceEndpoint } from "./endpoints/service"
 import { VariantEndpoint } from "./endpoints/variant"
+import { WebhookEndpoint } from "./endpoints/webhook"
 
 /**
  * High-level Moysklad API wrapper.
@@ -41,6 +42,7 @@ export class Moysklad {
   readonly service: ServiceEndpoint
   readonly variant: VariantEndpoint
   readonly bundle: BundleEndpoint
+  readonly webhook: WebhookEndpoint
 
   //  /**
   //  * Бонусные операции
@@ -232,5 +234,6 @@ export class Moysklad {
     this.service = new ServiceEndpoint(this.client)
     this.variant = new VariantEndpoint(this.client)
     this.bundle = new BundleEndpoint(this.client)
+    this.webhook = new WebhookEndpoint(this.client)
   }
 }
