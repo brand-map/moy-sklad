@@ -1,6 +1,6 @@
 import type { Attribute } from "./attribute"
 import type { Filter } from "./filters"
-import type { ListMeta, Meta, Metadata, UpdateMeta } from "./metadata"
+import type { ListMeta, Meta, Metadata, UpdateMeta } from "./common"
 import type { ReadonlyKeysOf } from "./type-utils"
 
 export interface Model<T extends object = object> {

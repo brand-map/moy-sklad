@@ -1,5 +1,4 @@
-import type { Meta } from "./metadata"
-import type { DateTime, Idable } from "./common"
+import type { DateTime, Idable, Meta } from "./common"
 import type { Model } from "./model"
 
 /** Счёт юрлциа / контрагента */

@@ -1,5 +1,5 @@
 import type { Entity } from "./entity"
-import type { Meta, Metadata } from "./metadata"
+import type { Meta, Metadata } from "./common"
 import type { Idable } from "./common"
 
 export type AttributeType =
