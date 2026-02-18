@@ -1,4 +1,7 @@
-import type { Meta } from "./metadata"
+import type { Model } from "./model"
+import type { Entity } from "./entity"
+
+export type DateTime = string
 
 export interface Idable {
   readonly id: string
@@ -81,9 +84,114 @@ export type TrackingType =
   /** Упакованная вода */
   | "WATER"
 
+export type TaxSystem =
+  | "GENERAL_TAX_SYSTEM"
+  | "SIMPLIFIED_TAX_SYSTEM_INCOME"
+  | "SIMPLIFIED_TAX_SYSTEM_INCOME_OUTCOME"
+  | "UNIFIED_AGRICULTURAL_TAX"
+  | "PRESUMPTIVE_TAX_SYSTEM"
+  | "PATENT_BASED"
+
 export type Barcodes = {
   ean13?: string
   ean8?: string
   code128?: string
   gtin?: string
 }[]
+
+export type PositionFields = "stock"[]
+
+/**
+ * Остатки и себестоимость в позициях документов
+ *
+ * Для получения остатков и себестоимости в позициях документа в запросе нужно передать дополнительный параметр `fields=stock`.
+ *
+ * Остатки и себестоимость для документов Отгрузка, Розничная продажа, Приемка, Возврат поставщику, Возврат покупателя, Розничный возврат расчитываются на момент поля `moment` в данных документах. Для Заказа покупателя, Счета покупателя, Заказа поставщика, Счета поставщика рассчитываются на текущий момент времени.
+ *
+ * При составлении запроса на получение списка операций нужно дополнительно передать параметр `limit` со значением, не превышающем 100.
+ *
+ * @see https://dev.moysklad.ru/doc/api/remap/1.2/#mojsklad-json-api-obschie-swedeniq-ostatki-i-sebestoimost-w-poziciqh-dokumentow
+ */
+export interface PositionStockData {
+  /** Сумма себестоимости. Для возврата покупателя без основания и розничного возврата без основания будет отсутствовать. */
+  cost?: number
+  /** Количество */
+  quantity: number
+  /** Зарезервировано */
+  reserve: number
+  /** В транзите */
+  intransit: number
+  /** Доступно */
+  available: number
+}
+
+export interface ListResponse<T, E extends Entity> extends ListMeta<E> {
+  context: Context
+  rows: T[]
+}
+
+/**
+ * Статус
+ *
+ * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-statusy-dokumentow
+ */
+export interface State extends Idable, Meta<"state"> {
+  /** ID учетной записи */
+  readonly accountId: string
+
+  /** Название статуса */
+  name: string
+
+  /** Цвет статуса */
+  color: number
+
+  /** Тип статуса */
+  stateType: "Regular" | "Successful" | "Unsuccessful"
+
+  /** Тип сущности */
+  entityType: string
+}
+
+/**
+ * Модель статуса
+ *
+ * {@linkcode State}
+ */
+export interface StateModel extends Model {
+  object: State
+}
+
+export interface Metadata<T extends Entity> {
+  href: string
+  metadataHref: string
+  mediaType: MediaType
+  type: T
+  uuidHref?: string
+  downloadHref?: string
+}
+
+export interface UpdateMetadata<T extends Entity> {
+  type: T
+  href: string
+  mediaType: MediaType
+}
+
+export interface ListMetadata<T extends Entity> extends Metadata<T> {
+  size: number
+  limit: number
+  offset: number
+  nextHref?: string
+  previousHref?: string
+}
+
+export interface Meta<T extends Entity> {
+  meta: Metadata<T>
+}
+
+export interface ListMeta<T extends Entity> {
+  meta: ListMetadata<T>
+}
+
+export interface UpdateMeta<T extends Entity> {
+  meta: UpdateMetadata<T>
+}

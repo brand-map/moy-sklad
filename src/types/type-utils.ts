@@ -61,3 +61,12 @@ export type SimplifyDeep<T> = T extends object ? { [K in keyof T]: SimplifyDeep<
 export type RequireExactlyOne<T> = {
   [K in keyof T]: Required<Pick<T, K>> & { [P in Exclude<keyof T, K>]?: never }
 }[keyof T]
+
+export type MatchArrayType<TInput, TOutput> = TInput extends any[] ? TOutput[] : TOutput
+
+/**
+ * From `T` pick properties that exist in `U`. Simple version of Intersection.
+ */
+export type Subset<T, U> = {
+  [key in keyof T]: key extends keyof U ? T[key] : never
+}

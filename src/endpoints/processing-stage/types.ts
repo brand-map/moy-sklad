@@ -1,4 +1,4 @@
-import type { DateTime, Entity, Idable, ListMeta, Meta, Model } from "../../types"
+import type { DateTime, Idable, ListMeta, Meta, Model } from "../../types"
 import type { EmployeeModel } from "../employee"
 import type { GroupModel } from "../group"
 

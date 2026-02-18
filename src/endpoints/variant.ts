@@ -17,7 +17,8 @@ import type {
 } from "../types"
 
 import { ApiClient } from "../api-client"
-import { composeSearchParameters } from "../api-client/compose-search-parameters"
+import { composeSearchParameters } from "../utils/compose-search-parameters"
+
 import type { Image, ImageCollectionMetaOnly } from "../endpoints/image"
 import type { EmptyObject } from "../types"
 import type { Barcodes, Idable, PaginationOptions, PriceType } from "../types/common"

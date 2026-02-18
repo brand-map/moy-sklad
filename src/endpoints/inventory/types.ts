@@ -5,7 +5,6 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
-  Entity,
   ExpandOptions,
   FilterOptions,
   Idable,

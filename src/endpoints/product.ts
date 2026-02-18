@@ -1,11 +1,10 @@
 import { ApiClient } from "../api-client"
-import { composeSearchParameters } from "../api-client/compose-search-parameters"
+import { composeSearchParameters } from "../utils/compose-search-parameters"
+
 import type { ImageMeta } from "../endpoints/image"
 import type {
   ArchivedFilter,
   Attribute,
-  AuditEvent,
-  BatchDeleteResult,
   BatchGetResult,
   BooleanFilter,
   DateTime,
@@ -13,20 +12,14 @@ import type {
   EmptyObject,
   ExpandOptions,
   FilterOptions,
-  GetAuditByEntityOptions,
   GetFindResult,
-  GetModelUpdatableFields,
   IdFilter,
-  ListMeta,
   ListResponse,
-  MatchArrayType,
   Meta,
   Model,
-  ModelCreateOrUpdateData,
   NumberFilter,
   OrderOptions,
   StringFilter,
-  Subset,
   TaxSystem,
 } from "../types"
 import type { Barcodes, Idable, PaginationOptions, PriceType, TrackingType } from "../types/common"
@@ -235,145 +228,146 @@ export class ProductEndpoint {
   }
 }
 
-/**
- * Товары
- *
- * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
- */
-interface ProductEndpointInteface {
-  /**
-   * Получить список товаров.
-   *
-   * @param options - Опции для получения списка
-   * @returns Объект с списком товаров
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
-   */
-  list<T extends ListProductsOptions = Record<string, unknown>>(
-    options?: Subset<T, ListProductsOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">>
+// /**
+//  * Товары
+//  *
+//  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
+//  */
+// interface ProductEndpointInteface {
+//   /**
+//    * Получить список товаров.
+//    *
+//    * @param options - Опции для получения списка
+//    * @returns Объект с списком товаров
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
+//    */
+//   list<T extends ListProductsOptions = Record<string, unknown>>(
+//     options?: Subset<T, ListProductsOptions>,
+//   ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">>
 
-  /**
-   * Получить все товары.
-   *
-   * @param options - Опции для получения списка
-   * @returns Массив товаров
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
-   */
-  all<T extends AllProductsOptions = Record<string, unknown>>(
-    options?: Subset<T, AllProductsOptions>,
-  ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">>
+//   /**
+//    * Получить все товары.
+//    *
+//    * @param options - Опции для получения списка
+//    * @returns Массив товаров
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
+//    */
+//   all<T extends AllProductsOptions = Record<string, unknown>>(
+//     options?: Subset<T, AllProductsOptions>,
+//   ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">>
 
-  /**
-   * Получить первый товар из списка.
-   *
-   * @param options - Опции для получения списка
-   * @returns Объект с списком товаров (с ограничением в 1 элемент)
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
-   */
-  first<T extends FirstProductOptions = Record<string, unknown>>(
-    options?: Subset<T, FirstProductOptions>,
-  ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">>
+//   /**
+//    * Получить первый товар из списка.
+//    *
+//    * @param options - Опции для получения списка
+//    * @returns Объект с списком товаров (с ограничением в 1 элемент)
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-spisok-towarow
+//    */
+//   first<T extends FirstProductOptions = Record<string, unknown>>(
+//     options?: Subset<T, FirstProductOptions>,
+//   ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">>
 
-  /**
-   * Получить товар по ID.
-   *
-   * @param id - ID товара
-   * @param options - Опции для получения товара
-   * @returns Товар
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-towar
-   */
-  get<T extends GetProductOptions = Record<string, unknown>>(
-    id: string,
-    options?: Subset<T, GetProductOptions>,
-  ): Promise<GetFindResult<ProductModel, T["expand"]>>
+//   /**
+//    * Получить товар по ID.
+//    *
+//    * @param id - ID товара
+//    * @param options - Опции для получения товара
+//    * @returns Товар
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-towar
+//    */
+//   get<T extends GetProductOptions = Record<string, unknown>>(
+//     id: string,
+//     options?: Subset<T, GetProductOptions>,
+//   ): Promise<GetFindResult<ProductModel, T["expand"]>>
 
-  /**
-   * Получить размер списка товаров.
-   *
-   * @returns Количество товаров
-   */
-  size(options?: AllProductsOptions): Promise<ListMeta<"product">>
+//   /**
+//    * Получить размер списка товаров.
+//    *
+//    * @returns Количество товаров
+//    */
+//   size(options?: AllProductsOptions): Promise<ListMeta<"product">>
+// }
 
-  /**
-   * Удалить товар.
-   *
-   * @param id - ID товара
-   * @returns Void
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-udalit-towar
-   */
-  delete(id: string): Promise<void>
+//   /**
+//    * Удалить товар.
+//    *
+//    * @param id - ID товара
+//    * @returns Void
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-udalit-towar
+//    */
+//   delete(id: string): Promise<void>
 
-  /**
-   * Обновить товар.
-   *
-   * @param id - ID товара
-   * @param data - Данные для обновления
-   * @param options - Опции для обновления
-   * @returns Обновленный товар
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-izmenit-towar
-   */
-  update<T extends UpdateProductOptions = Record<string, unknown>>(
-    id: string,
-    data: GetModelUpdatableFields<ProductModel>,
-    options?: Subset<T, UpdateProductOptions>,
-  ): Promise<GetFindResult<ProductModel, T["expand"]>>
+//   /**
+//    * Обновить товар.
+//    *
+//    * @param id - ID товара
+//    * @param data - Данные для обновления
+//    * @param options - Опции для обновления
+//    * @returns Обновленный товар
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-izmenit-towar
+//    */
+//   update<T extends UpdateProductOptions = Record<string, unknown>>(
+//     id: string,
+//     data: GetModelUpdatableFields<ProductModel>,
+//     options?: Subset<T, UpdateProductOptions>,
+//   ): Promise<GetFindResult<ProductModel, T["expand"]>>
 
-  /**
-   * Создать или обновить товар.
-   *
-   * @param data - Данные для создания или обновления
-   * @param options - Опции для создания или обновления
-   * @returns Созданный или обновленный товар
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-sozdat-towar
-   */
-  upsert<
-    TData extends ModelCreateOrUpdateData<ProductModel>,
-    TOptions extends UpsertProductsOptions = Record<string, unknown>,
-  >(
-    data: TData,
-    options?: Subset<TOptions, UpsertProductsOptions>,
-  ): Promise<MatchArrayType<TData, GetFindResult<ProductModel, TOptions["expand"]>>>
+//   /**
+//    * Создать или обновить товар.
+//    *
+//    * @param data - Данные для создания или обновления
+//    * @param options - Опции для создания или обновления
+//    * @returns Созданный или обновленный товар
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-sozdat-towar
+//    */
+//   upsert<
+//     TData extends ModelCreateOrUpdateData<ProductModel>,
+//     TOptions extends UpsertProductsOptions = Record<string, unknown>,
+//   >(
+//     data: TData,
+//     options?: Subset<TOptions, UpsertProductsOptions>,
+//   ): Promise<MatchArrayType<TData, GetFindResult<ProductModel, TOptions["expand"]>>>
 
-  /**
-   * Массовое удаление товаров.
-   *
-   * @param ids - Массив ID товаров
-   * @returns Результат удаления
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-massowoe-udalenie-towarow
-   */
-  batchDelete(ids: string[]): Promise<BatchDeleteResult[]>
+//   /**
+//    * Массовое удаление товаров.
+//    *
+//    * @param ids - Массив ID товаров
+//    * @returns Результат удаления
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-massowoe-udalenie-towarow
+//    */
+//   batchDelete(ids: string[]): Promise<BatchDeleteResult[]>
 
-  /**
-   * Переместить товар в корзину.
-   *
-   * @param id - ID товара
-   * @returns Void
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-towar-w-korzinu
-   */
-  trash(id: string): Promise<void>
+//   /**
+//    * Переместить товар в корзину.
+//    *
+//    * @param id - ID товара
+//    * @returns Void
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-towar-w-korzinu
+//    */
+//   trash(id: string): Promise<void>
 
-  /**
-   * Получить события аудита для товара.
-   *
-   * {@linkcode AuditEvent}
-   *
-   * @param id - ID товара
-   * @param options - Опции для получения событий аудита
-   * @returns Список событий аудита
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/audit/#audit-audit-poluchit-sobytiq-po-suschnosti
-   */
-  audit(id: string, options?: GetAuditByEntityOptions): Promise<ListResponse<AuditEvent, "auditevent">>
-}
+//   /**
+//    * Получить события аудита для товара.
+//    *
+//    * {@linkcode AuditEvent}
+//    *
+//    * @param id - ID товара
+//    * @param options - Опции для получения событий аудита
+//    * @returns Список событий аудита
+//    *
+//    * @see https://dev.moysklad.ru/doc/api/remap/1.2/audit/#audit-audit-poluchit-sobytiq-po-suschnosti
+//    */
+//   audit(id: string, options?: GetAuditByEntityOptions): Promise<ListResponse<AuditEvent, "auditevent">>
+// }
 
 type ProductPaymentItemType = "GOOD" | "EXCISABLE_GOOD" | "COMPOUND_PAYMENT_ITEM" | "ANOTHER_PAYMENT_ITEM"
 

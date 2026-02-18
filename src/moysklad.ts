@@ -39,12 +39,48 @@ export class Moysklad {
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-assortiment
    */
   readonly assortment: AssortmentEndpoint
-  readonly product: ProductEndpoint
+
+  /**
+   * Услуги
+   *
+   * TODO: @see LINK
+   */
   readonly service: ServiceEndpoint
-  readonly variant: VariantEndpoint
+
+  /**
+   * Bundle
+   *
+   * TODO: @see LINK
+   */
   readonly bundle: BundleEndpoint
+
+  /**
+   * webhook
+   *
+   * TODO: @see LINK
+   */
   readonly webhook: WebhookEndpoint
+
+  /**
+   * image
+   *
+   * TODO: @see LINK
+   */
   readonly image: ImageEndpoint
+
+  /**
+   * Товары
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
+   */
+  readonly product: ProductEndpoint
+
+  /**
+   * Модификации
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-modifikaciq
+   */
+  readonly variant: VariantEndpoint
 
   //  /**
   //  * Бонусные операции
@@ -116,12 +152,6 @@ export class Moysklad {
   //  */
   // enter: EnterEndpoint
 
-  // /**
-  //  * Товары
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar
-  //  */
-  // product: ProductEndpoint
   // /**
   //  * Группы товаров
   //  *
@@ -214,13 +244,6 @@ export class Moysklad {
   //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/documents/#dokumenty-proizwodstwennoe-zadanie
   //  */
   // productionTask: ProductionTaskEndpoint
-
-  // /**
-  //  * Модификации
-  //  *
-  //  * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-modifikaciq
-  //  */
-  // variant: VariantEndpoint
 
   // /**
   //  * Возвраты покупателей

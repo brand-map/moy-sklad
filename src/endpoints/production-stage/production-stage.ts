@@ -1,4 +1,4 @@
-import type { BatchGetResult, Entity, GetFindResult, GetModelUpdatableFields, ListResponse, Subset } from "../../types"
+import type { BatchGetResult, GetFindResult, GetModelUpdatableFields, ListResponse, Subset } from "../../types"
 import type {
   AllProductionStagesOptions,
   FirstProductionStageOptions,

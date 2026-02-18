@@ -1,6 +1,6 @@
 import type { IsEmptyObject, IsNever, Primitive } from "./type-utils"
-import type { DateTime } from "./datetime"
 import type { Model } from "./model"
+import type { DateTime } from "./common"
 
 export interface EqualsFilter<T extends Primitive> {
   /** Равно (`=`) */

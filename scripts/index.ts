@@ -100,10 +100,7 @@ function collectEnumData(enumDecl: EnumDeclaration): EnumDeclarationData | { rea
     })
   }
 
-  const declarationComments = [
-    ...enumDecl.getJsDocs().map((doc) => doc.getText()),
-    // ...enumDecl.getLeadingCommentRanges().map((range) => range.getText()),
-  ]
+  const declarationComments = enumDecl.getJsDocs().map((doc) => doc.getText())
 
   return {
     declarationComments,

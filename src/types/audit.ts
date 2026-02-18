@@ -1,5 +1,6 @@
-import type { DateTime, Entity, GreaterOrEqualsFilter, IdFilter, LessOrEqualsFilter, Meta } from "."
-import type { PaginationOptions } from "./common"
+import type { DateTime, Meta, PaginationOptions } from "./common"
+import type { Entity } from "./entity"
+import type { GreaterOrEqualsFilter, LessOrEqualsFilter, IdFilter } from "./filters"
 
 /**
  * Действие события аудита

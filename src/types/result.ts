@@ -1,8 +1,7 @@
 import type { ConditionalKeys, IsEmptyObject, IsEqual } from "./type-utils"
 import type { RestoreExpandableFieldsOptionality } from "./expand"
-import type { ListMeta } from "./metadata"
 import type { Model } from "./model"
-import type { PositionFields, PositionStockData } from "./position-fields"
+import type { ListMeta, PositionFields, PositionStockData } from "./common"
 
 // TODO finish & format
 export type IncludeFields<Result, M extends Model, F extends PositionFields | undefined> = F extends PositionFields

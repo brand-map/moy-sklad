@@ -1,5 +1,5 @@
 import type { EmptyObject } from "../../types"
-import type { Entity, Idable, Meta, Model } from "../../types"
+import type { Idable, Meta, Model } from "../../types"
 
 /**
  * Условия бонусных баллов

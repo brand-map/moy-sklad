@@ -1,5 +1,4 @@
 import { ApiClient } from "../api-client"
-import { composeSearchParameters } from "../api-client/compose-search-parameters"
 import type {
   BatchDeleteResult,
   BatchGetResult,
@@ -13,6 +12,7 @@ import type {
   StringFilter,
 } from "../types"
 import type { Idable } from "../types/common"
+import { composeSearchParameters } from "../utils/compose-search-parameters"
 
 /**
  * Webhook endpoint class for managing webhooks.

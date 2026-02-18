@@ -1,5 +1,6 @@
 import { ApiClient } from "../api-client"
-import { composeSearchParameters } from "../api-client/compose-search-parameters"
+import { composeSearchParameters } from "../utils/compose-search-parameters"
+
 import type { BatchGetResult, ListResponse, Subset } from "../types"
 import type { DateTime, Meta, Model } from "../types"
 import type { Idable, PaginationOptions } from "../types/common"
