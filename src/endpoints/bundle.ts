@@ -1,24 +1,200 @@
 import { ApiClient } from "../api-client"
 import { composeSearchParameters } from "../api-client/compose-search-parameters"
-import type { BatchGetResult, GetFindResult, ListResponse, Subset } from "../types"
+import type { Image, ImageCollectionMetaOnly } from "../endpoints/image"
 import type {
   ArchivedFilter,
   AssortmentEntity,
   AssortmentModel,
   Attribute,
+  BatchGetResult,
   BooleanFilter,
   DateTimeFilter,
+  EmptyObject,
+  GetFindResult,
   IdFilter,
   ListMeta,
+  ListResponse,
   Meta,
   Model,
   NumberFilter,
   StringFilter,
+  Subset,
   TaxSystem,
 } from "../types"
 import type { Barcodes, Idable, PaginationOptions, TrackingType } from "../types/common"
 import type { EmployeeModel } from "./employee"
 import type { GroupModel } from "./group"
+
+/**
+ * Bundle endpoint class for fetching bundles from API.
+ */
+export class BundleEndpoint {
+  private endpointPath = "entity/bundle"
+
+  constructor(private client: ApiClient) {}
+
+  /**
+   * Gets list of bundles.
+   *
+   * @param options - List options including filters, pagination, expand, order, search
+   */
+  async list<T extends ListBundleOptions = ListBundleOptions>(
+    options?: Subset<T, ListBundleOptions>,
+  ): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
+    const searchParams: Record<string, unknown> = {
+      pagination: options?.pagination,
+      expand: options?.expand,
+      order: options?.order,
+      search: options?.search,
+      filter: options?.filter,
+    }
+
+    if (options?.fields && options.fields.length > 0) {
+      searchParams.fields = options.fields.join(",")
+    }
+
+    const searchParameters = composeSearchParameters(searchParams)
+
+    return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
+  }
+
+  /**
+   * Gets all bundles.
+   *
+   * @param options - Options including filters, expand, order, search
+   */
+  async all<T extends AllBundleOptions = AllBundleOptions>(
+    options?: Subset<T, AllBundleOptions>,
+  ): Promise<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
+    return this.client.batchGet(
+      async (limit, offset) => {
+        const searchParams: Record<string, unknown> = {
+          pagination: { limit, offset },
+          expand: options?.expand,
+          order: options?.order,
+          search: options?.search,
+          filter: options?.filter,
+        }
+
+        if (options?.fields && options.fields.length > 0) {
+          searchParams.fields = options.fields.join(",")
+        }
+
+        const searchParameters = composeSearchParameters(searchParams)
+
+        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
+      },
+      Boolean(options?.expand && Object.keys(options.expand).length > 0),
+    )
+  }
+
+  /**
+   * Gets all bundles as an async generator (chunk by chunk).
+   *
+   * @param options - Options including filters, expand, order, search
+   * @yields Batch chunk with context and rows
+   *
+   * @example
+   * ```ts
+   * for await (const chunk of bundleEndpoint.allChunks({ filter: { archived: false } })) {
+   *   console.log(chunk.rows.length)
+   * }
+   * ```
+   */
+  async *allChunks<T extends AllBundleOptions = AllBundleOptions>(
+    options?: Subset<T, AllBundleOptions>,
+  ): AsyncGenerator<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, "bundle">, void, void> {
+    yield* this.client.getChunks(
+      async (limit, offset) => {
+        const searchParams: Record<string, unknown> = {
+          pagination: { limit, offset },
+          expand: options?.expand,
+          order: options?.order,
+          search: options?.search,
+          filter: options?.filter,
+        }
+
+        if (options?.fields && options.fields.length > 0) {
+          searchParams.fields = options.fields.join(",")
+        }
+
+        const searchParameters = composeSearchParameters(searchParams)
+
+        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
+      },
+      Boolean(options?.expand && Object.keys(options.expand).length > 0),
+    )
+  }
+
+  /**
+   * Gets the first bundle from the list.
+   *
+   * @param options - Options including filters, expand, order, search
+   */
+  async first<T extends FirstBundleOptions = FirstBundleOptions>(
+    options?: Subset<T, FirstBundleOptions>,
+  ): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
+    const searchParams: Record<string, unknown> = {
+      pagination: { limit: 1 },
+      expand: options?.expand,
+      order: options?.order,
+      search: options?.search,
+      filter: options?.filter,
+    }
+
+    if (options?.fields && options.fields.length > 0) {
+      searchParams.fields = options.fields.join(",")
+    }
+
+    const searchParameters = composeSearchParameters(searchParams)
+
+    return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
+  }
+
+  /**
+   * Gets a bundle by ID.
+   *
+   * @param id - Bundle ID
+   * @param options - Optional query parameters (expand, fields)
+   * @returns Promise with bundle model
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-komplekt
+   *
+   * @example
+   * ```ts
+   * const bundle = await bundleEndpoint.byId("bundle-id");
+   * const bundleWithImages = await bundleEndpoint.byId("bundle-id", {
+   *   expand: { images: true },
+   *   fields: ["downloadPermanentHref"]
+   * });
+   * ```
+   */
+  async byId(
+    id: string,
+    options?: { expand?: import("../types").ExpandOptions<BundleModel>; fields?: "downloadPermanentHref"[] },
+  ): Promise<Bundle> {
+    const searchParams: Record<string, unknown> = {}
+
+    if (options?.expand) {
+      searchParams.expand = options.expand
+    }
+
+    if (options?.fields && options.fields.length > 0) {
+      searchParams.fields = options.fields.join(",")
+    }
+
+    const searchParameters = composeSearchParameters(searchParams)
+
+    return this.client.get(`${this.endpointPath}/${id}`, { searchParameters }).then((res) => res.json()) as any
+  }
+}
+
+// Simple model for images expand option (images can be expanded with or without fields)
+interface ImageExpandModel extends Model {
+  object: Image | ImageCollectionMetaOnly
+  expandable: EmptyObject
+  filters: EmptyObject
+}
 
 /**
  * Признак предмета расчёта комплекта
@@ -124,8 +300,12 @@ interface Bundle extends Idable, Meta<"bundle"> {
   /** Метаданные отдела сотрудника */
   group: Meta<"group">
 
-  /** Массив метаданных Изображений */
-  images?: unknown[] // TODO add images type & expand
+  /**
+   * Изображения.
+   * При expand=images без fields: возвращает { meta: {...} }
+   * При expand=images&fields=downloadPermanentHref: возвращает Image[]
+   */
+  images?: Image[] | ImageCollectionMetaOnly
 
   /**
    * Минимальная цена
@@ -233,6 +413,7 @@ export interface BundleModel extends Model {
     group: GroupModel
     owner: EmployeeModel
     components: BundleComponentModel
+    images: ImageExpandModel
   }
 
   filters: {
@@ -261,6 +442,13 @@ interface ListBundleOptions {
   order?: import("../types").OrderOptions<BundleModel>
   search?: string
   filter?: import("../types").FilterOptions<BundleModel>
+  /**
+   * Дополнительные поля для получения.
+   * Используйте `["downloadPermanentHref"]` вместе с `expand: { images: true }` для получения постоянных ссылок на изображения.
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-izobrazhenie-poluchit-postoyannuyu-ssylku-na-izobrazhenie-tovara-komplekta-ili-modifikacii
+   */
+  fields?: "downloadPermanentHref"[]
 }
 
 // interface CreateBundleOptions {
@@ -277,116 +465,3 @@ interface ListBundleOptions {
 
 type FirstBundleOptions = Omit<ListBundleOptions, "pagination">
 type AllBundleOptions = Omit<ListBundleOptions, "pagination">
-
-/**
- * Bundle endpoint class for fetching bundles from API.
- */
-export class BundleEndpoint {
-  private endpointPath = "entity/bundle"
-
-  constructor(private client: ApiClient) {}
-
-  /**
-   * Gets list of bundles.
-   *
-   * @param options - List options including filters, pagination, expand, order, search
-   */
-  async list<T extends ListBundleOptions = ListBundleOptions>(
-    options?: Subset<T, ListBundleOptions>,
-  ): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
-    const searchParameters = composeSearchParameters({
-      pagination: options?.pagination,
-      expand: options?.expand,
-      order: options?.order,
-      search: options?.search,
-      filter: options?.filter,
-    })
-
-    return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
-  }
-
-  /**
-   * Gets all bundles.
-   *
-   * @param options - Options including filters, expand, order, search
-   */
-  async all<T extends AllBundleOptions = AllBundleOptions>(
-    options?: Subset<T, AllBundleOptions>,
-  ): Promise<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
-    return this.client.batchGet(
-      async (limit, offset) => {
-        const searchParameters = composeSearchParameters({
-          pagination: { limit, offset },
-          expand: options?.expand,
-          order: options?.order,
-          search: options?.search,
-          filter: options?.filter,
-        })
-
-        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
-      },
-      Boolean(options?.expand && Object.keys(options.expand).length > 0),
-    )
-  }
-
-  /**
-   * Gets all bundles as an async generator (chunk by chunk).
-   *
-   * @param options - Options including filters, expand, order, search
-   * @yields Batch chunk with context and rows
-   *
-   * @example
-   * ```ts
-   * for await (const chunk of bundleEndpoint.allChunks({ filter: { archived: false } })) {
-   *   console.log(chunk.rows.length)
-   * }
-   * ```
-   */
-  async *allChunks<T extends AllBundleOptions = AllBundleOptions>(
-    options?: Subset<T, AllBundleOptions>,
-  ): AsyncGenerator<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, "bundle">, void, void> {
-    yield* this.client.getChunks(
-      async (limit, offset) => {
-        const searchParameters = composeSearchParameters({
-          pagination: { limit, offset },
-          expand: options?.expand,
-          order: options?.order,
-          search: options?.search,
-          filter: options?.filter,
-        })
-
-        return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
-      },
-      Boolean(options?.expand && Object.keys(options.expand).length > 0),
-    )
-  }
-
-  /**
-   * Gets the first bundle from the list.
-   *
-   * @param options - Options including filters, expand, order, search
-   */
-  async first<T extends FirstBundleOptions = FirstBundleOptions>(
-    options?: Subset<T, FirstBundleOptions>,
-  ): Promise<ListResponse<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
-    const searchParameters = composeSearchParameters({
-      pagination: { limit: 1 },
-      expand: options?.expand,
-      order: options?.order,
-      search: options?.search,
-      filter: options?.filter,
-    })
-
-    return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
-  }
-
-  /**
-   * Gets a bundle by ID.
-   *
-   * @param id - Bundle ID
-   * @returns Promise with bundle model
-   */
-  async byId(id: string): Promise<BundleModel> {
-    return this.client.get(`${this.endpointPath}/${id}`).then((res) => res.json()) as any
-  }
-}

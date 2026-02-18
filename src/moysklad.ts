@@ -3,6 +3,7 @@ import type { ApiClientOptions } from "./api-client"
 
 import { AssortmentEndpoint } from "./endpoints/assortment"
 import { BundleEndpoint } from "./endpoints/bundle"
+import { ImageEndpoint } from "./endpoints/image"
 import { ProductEndpoint } from "./endpoints/product"
 import { ServiceEndpoint } from "./endpoints/service"
 import { VariantEndpoint } from "./endpoints/variant"
@@ -43,6 +44,7 @@ export class Moysklad {
   readonly variant: VariantEndpoint
   readonly bundle: BundleEndpoint
   readonly webhook: WebhookEndpoint
+  readonly image: ImageEndpoint
 
   //  /**
   //  * Бонусные операции
@@ -235,5 +237,6 @@ export class Moysklad {
     this.variant = new VariantEndpoint(this.client)
     this.bundle = new BundleEndpoint(this.client)
     this.webhook = new WebhookEndpoint(this.client)
+    this.image = new ImageEndpoint(this.client)
   }
 }

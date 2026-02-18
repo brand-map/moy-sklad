@@ -1,5 +1,6 @@
 import { ApiClient } from "../api-client"
 import { composeSearchParameters } from "../api-client/compose-search-parameters"
+import type { ImageMeta } from "../endpoints/image"
 import type {
   ArchivedFilter,
   Attribute,
@@ -9,6 +10,7 @@ import type {
   BooleanFilter,
   DateTime,
   DateTimeFilter,
+  EmptyObject,
   ExpandOptions,
   FilterOptions,
   GetAuditByEntityOptions,
@@ -30,6 +32,14 @@ import type {
 import type { Barcodes, Idable, PaginationOptions, PriceType, TrackingType } from "../types/common"
 import type { CounterpartyModel } from "./counterparty"
 import type { GroupModel } from "./group"
+import type { Image, ImageCollectionMetaOnly } from "../endpoints/image"
+
+// Simple model for images expand option (images can be expanded with or without fields)
+interface ImageExpandModel extends Model {
+  object: Image | ImageCollectionMetaOnly
+  expandable: EmptyObject
+  filters: EmptyObject
+}
 
 export class ProductEndpoint {
   private endpointPath = "entity/product"
@@ -55,13 +65,19 @@ export class ProductEndpoint {
   async list<T extends ListProductsOptions>(
     options?: ListProductsOptions,
   ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">> {
-    const searchParameters = composeSearchParameters({
+    const searchParams: Record<string, unknown> = {
       pagination: options?.pagination,
       expand: options?.expand,
       order: options?.order,
       search: options?.search,
       filter: options?.filter,
-    })
+    }
+
+    if (options?.fields && options.fields.length > 0) {
+      searchParams.fields = options.fields.join(",")
+    }
+
+    const searchParameters = composeSearchParameters(searchParams)
 
     return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
   }
@@ -86,13 +102,19 @@ export class ProductEndpoint {
   ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">> {
     return this.client.batchGet(
       async (limit, offset) => {
-        const searchParameters = composeSearchParameters({
+        const searchParams: Record<string, unknown> = {
           pagination: { limit, offset },
           expand: options?.expand,
           order: options?.order,
           search: options?.search,
           filter: options?.filter,
-        })
+        }
+
+        if (options?.fields && options.fields.length > 0) {
+          searchParams.fields = options.fields.join(",")
+        }
+
+        const searchParameters = composeSearchParameters(searchParams)
 
         return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
       },
@@ -120,13 +142,19 @@ export class ProductEndpoint {
   ): AsyncGenerator<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">, void, void> {
     yield* this.client.getChunks(
       async (limit, offset) => {
-        const searchParameters = composeSearchParameters({
+        const searchParams: Record<string, unknown> = {
           pagination: { limit, offset },
           expand: options?.expand,
           order: options?.order,
           search: options?.search,
           filter: options?.filter,
-        })
+        }
+
+        if (options?.fields && options.fields.length > 0) {
+          searchParams.fields = options.fields.join(",")
+        }
+
+        const searchParameters = composeSearchParameters(searchParams)
 
         return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
       },
@@ -152,13 +180,19 @@ export class ProductEndpoint {
   async first<T extends FirstProductOptions>(
     options?: FirstProductOptions,
   ): Promise<ListResponse<GetFindResult<ProductModel, T["expand"]>, "product">> {
-    const searchParameters = composeSearchParameters({
+    const searchParams: Record<string, unknown> = {
       pagination: { limit: 1 },
       expand: options?.expand,
       order: options?.order,
       search: options?.search,
       filter: options?.filter,
-    })
+    }
+
+    if (options?.fields && options.fields.length > 0) {
+      searchParams.fields = options.fields.join(",")
+    }
+
+    const searchParameters = composeSearchParameters(searchParams)
 
     return this.client.get(this.endpointPath, { searchParameters }).then((res) => res.json()) as any
   }
@@ -167,15 +201,37 @@ export class ProductEndpoint {
    * Gets a product by ID.
    *
    * @param id - Product ID
+   * @param options - Optional query parameters (expand, fields)
    * @returns Promise with product model
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-towar-poluchit-towar
    *
    * @example
    * ```ts
    * const product = await productEndpoint.byId("product-id");
+   * const productWithImages = await productEndpoint.byId("product-id", {
+   *   expand: { images: true },
+   *   fields: ["downloadPermanentHref"]
+   * });
    * ```
    */
-  async byId(id: string): Promise<ProductModel> {
-    return this.client.get(`${this.endpointPath}/${id}`).then((res) => res.json()) as any
+  async byId(
+    id: string,
+    options?: { expand?: ExpandOptions<ProductModel>; fields?: "downloadPermanentHref"[] },
+  ): Promise<Product> {
+    const searchParams: Record<string, unknown> = {}
+
+    if (options?.expand) {
+      searchParams.expand = options.expand
+    }
+
+    if (options?.fields && options.fields.length > 0) {
+      searchParams.fields = options.fields.join(",")
+    }
+
+    const searchParameters = composeSearchParameters(searchParams)
+
+    return this.client.get(`${this.endpointPath}/${id}`, { searchParameters }).then((res) => res.json()) as any
   }
 }
 
@@ -369,7 +425,7 @@ type PpeType =
   | "2400003496103"
   | "2400003675805"
 
-interface Product extends Idable, Meta<"product"> {
+export interface Product extends Idable, Meta<"product"> {
   readonly accountId: string
   alcoholic?: {
     excise?: number
@@ -394,7 +450,12 @@ interface Product extends Idable, Meta<"product"> {
   externalCode: string
   files?: unknown[] // TODO add files types & expand
   group: Meta<"group">
-  images?: unknown[] // TODO add files types & expand
+  /**
+   * Изображения.
+   * При expand=images без fields: возвращает { meta: {...} }
+   * При expand=images&fields=downloadPermanentHref: возвращает Image[]
+   */
+  images?: { rows?: Image[]; meta: ImageMeta } | ImageCollectionMetaOnly
   isSerialTrackable?: boolean
   minimumBalance?: number
   name: string
@@ -438,6 +499,7 @@ export interface ProductModel extends Model {
     agent: CounterpartyModel
     group: GroupModel
     owner: CounterpartyModel
+    images: ImageExpandModel
   }
   filters: {
     id: IdFilter
@@ -483,18 +545,28 @@ interface ListProductsOptions {
   order?: OrderOptions<ProductModel>
   search?: string
   filter?: FilterOptions<ProductModel>
+  /**
+   * Дополнительные поля для получения.
+   * Используйте `["downloadPermanentHref"]` вместе с `expand: { images: true }` для получения постоянных ссылок на изображения.
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/#/dictionaries/images#4-poluchit-postoyannuyu-ssylku-na-izobrazhenie-tovara-komplekta-ili-modifikacii
+   */
+  fields?: "downloadPermanentHref"[]
 }
 
 interface UpsertProductsOptions {
   expand?: ExpandOptions<ProductModel>
+  fields?: "downloadPermanentHref"[]
 }
 
 interface UpdateProductOptions {
   expand?: ExpandOptions<ProductModel>
+  fields?: "downloadPermanentHref"[]
 }
 
 interface GetProductOptions {
   expand?: ExpandOptions<ProductModel>
+  fields?: "downloadPermanentHref"[]
 }
 
 type FirstProductOptions = Omit<ListProductsOptions, "pagination">
