@@ -140,6 +140,7 @@ export function composeSearchParameters({
   search?: string
   filter?: Record<string, Filter | undefined>
   namedfilter?: string
+  fields?: string[]
 }) {
   const searchParameters = new URLSearchParams()
   const expandFields = expand && traverseExpand(expand)

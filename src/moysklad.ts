@@ -5,6 +5,7 @@ import { AssortmentEndpoint } from "./endpoints/assortment"
 import { BundleEndpoint } from "./endpoints/bundle"
 import { ImageEndpoint } from "./endpoints/image"
 import { ProductEndpoint } from "./endpoints/product"
+import { ReportEndpoint } from "./endpoints/report"
 import { ServiceEndpoint } from "./endpoints/service"
 import { VariantEndpoint } from "./endpoints/variant"
 import { WebhookEndpoint } from "./endpoints/webhook"
@@ -201,6 +202,13 @@ export class Moysklad {
   //  */
   // report: ReportEndpoint
 
+  /**
+   * Отчёты
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety
+   */
+  readonly report: ReportEndpoint
+
   // /**
   //  * Заказ поставщику
   //  *
@@ -261,5 +269,6 @@ export class Moysklad {
     this.bundle = new BundleEndpoint(this.client)
     this.webhook = new WebhookEndpoint(this.client)
     this.image = new ImageEndpoint(this.client)
+    this.report = new ReportEndpoint(this.client)
   }
 }

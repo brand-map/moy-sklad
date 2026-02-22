@@ -48,6 +48,8 @@ export class AssortmentEndpoint {
     const composedSearchParameters = composeSearchParameters({
       pagination: options?.pagination,
       filter: options?.filter,
+      expand: options?.expand,
+      fields: options?.fields
     })
 
     const searchParameters = buildSearchParams(composedSearchParameters, options?.groupBy)
@@ -82,6 +84,8 @@ export class AssortmentEndpoint {
             offset,
           },
           filter: options?.filter,
+          expand: { images: true },
+          fields: ["downloadPermanentHref"],
         })
         const searchParameters = buildSearchParams(composedSearchParameters, options?.groupBy)
 
@@ -221,7 +225,8 @@ type AssortmentEntityType =
 interface ListAssortmentOptions {
   /** Получить продукты и варианты вместе с сериями | только продукты | продукты и варианты */
   groupBy?: "consignment" | "product" | "variant"
-
+  expand?: Record<string, boolean>
+  fields?: string[]
   filter?: {
     /** Фильтрация по коду вида алкогольной продукции */
     "alcoholic.type"?: NumberFilter
