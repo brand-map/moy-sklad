@@ -11,6 +11,7 @@ import type {
   BooleanFilter,
   DateTimeFilter,
   EmptyObject,
+  ExpandOptions,
   GetFindResult,
   IdFilter,
   ListMeta,
@@ -32,7 +33,7 @@ import type { GroupModel } from "./group"
 export class BundleEndpoint {
   private endpointPath = "entity/bundle"
 
-  constructor(private client: ApiClient) {}
+  constructor(private client: ApiClient) { }
 
   /**
    * Gets list of bundles.
@@ -172,7 +173,7 @@ export class BundleEndpoint {
    */
   async byId(
     id: string,
-    options?: { expand?: import("../types").ExpandOptions<BundleModel>; fields?: "downloadPermanentHref"[] },
+    options?: { expand?: ExpandOptions<BundleModel>; fields?: "downloadPermanentHref"[] },
   ): Promise<Bundle> {
     const searchParams: Record<string, unknown> = {}
 

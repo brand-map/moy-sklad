@@ -27,7 +27,7 @@ import type { GroupModel } from "./group"
 export class ServiceEndpoint {
   private endpointPath = "entity/service"
 
-  constructor(private client: ApiClient) {}
+  constructor(private client: ApiClient) { }
 
   /**
    * Gets list of services.
@@ -129,7 +129,7 @@ export class ServiceEndpoint {
    * @param id - Service ID
    * @returns Promise with service model
    */
-  async byId(id: string): Promise<ServiceModel> {
+  async byId(id: string): Promise<Service> {
     return this.client.get(`${this.endpointPath}/${id}`).then((res) => res.json()) as any
   }
 }
