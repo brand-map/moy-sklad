@@ -143,7 +143,7 @@ export function composeSearchParameters({
   search?: string
   filter?: Record<string, Filter | undefined>
   namedfilter?: string
-  fields?: string[]
+  fields?: string[] | string
 }) {
   const searchParameters = new URLSearchParams()
   const expandFields = expand && traverseExpand(expand)
@@ -189,8 +189,8 @@ export function composeSearchParameters({
     }
   }
   if (fields) {
-    const fields = [] as string[]
-    searchParameters.append("fields", fields.join(","))
+    const fieldsValue = Array.isArray(fields) ? fields.join(",") : String(fields)
+    searchParameters.append("fields", fieldsValue)
   }
 
   for (const [field, value] of Object.entries(options)) {
