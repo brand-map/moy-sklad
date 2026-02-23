@@ -1,4 +1,4 @@
-import ky, { type KyInstance } from "ky"
+import ky, { type KyInstance, type KyRequest, type Options } from "ky"
 import type { BatchGetOptions, BatchGetResult, Entity, ListResponse } from "./types"
 import { handleError } from "./utils/handle-error"
 
@@ -68,48 +68,43 @@ export type ApiClientOptions = {
   batchGetOptions?: BatchGetOptions
 }
 
-type RequestOptions = Omit<RequestInit, "body"> & {
-  body?: object
+type RequestOptions = Omit<Options, "body"> & {
+  body?: Options["body"] | Record<string, any>
   searchParameters?: URLSearchParams
 }
-type RequestOptionsWithoutMethod = Omit<RequestOptions, "method">
+
+export function createApiClientFetcher(auth: Auth, options?: { userAgent?: string; baseUrl?: string }) {
+  const baseUrl = options?.baseUrl ?? "https://api.moysklad.ru/api/remap/1.2"
+  const userAgent = options?.userAgent ?? "brand-map/moy-sklad (+https://github.com/brand-map/moy-sklad)"
+
+  return ky.create({
+    prefixUrl: baseUrl,
+    headers: {
+      Authorization: "token" in auth ? `Bearer ${auth.token}` : `Basic ${btoa(`${auth.login}:${auth.password}`)}`,
+      "User-Agent": userAgent,
+      "Content-Type": "application/json",
+      Accept: "application/json;charset=utf-8",
+      "Accept-Encoding": "gzip",
+    },
+    throwHttpErrors: false,
+  })
+}
 
 /** API клиент */
 export class ApiClient {
-  private baseUrl: string
-  private userAgent: string
-  private auth: Auth
+  public static baseUrl = "https://api.moysklad.ru/api/remap/1.2"
   private batchGetOptions: Required<BatchGetOptions>
-  ky: KyInstance
+  #ky: KyInstance
 
-  constructor(options: ApiClientOptions) {
-    this.baseUrl = options.baseUrl ?? "https://api.moysklad.ru/api/remap/1.2"
-    this.userAgent = options.userAgent ?? "brand-map/moy-sklad (+https://github.com/brand-map/moy-sklad)"
-
-    this.auth = options.auth
-
+  constructor(fether: KyInstance, options?: Pick<ApiClientOptions, "batchGetOptions">) {
     this.batchGetOptions = {
       limit: 1000,
       expandLimit: 100,
       concurrencyLimit: 3,
-      ...options.batchGetOptions,
+      ...options?.batchGetOptions,
     }
 
-    // Initialize ky instance with default headers and configuration
-    this.ky = ky.create({
-      prefixUrl: this.baseUrl,
-      headers: {
-        Authorization:
-          "token" in this.auth
-            ? `Bearer ${this.auth.token}`
-            : `Basic ${btoa(`${this.auth.login}:${this.auth.password}`)}`,
-        "User-Agent": this.userAgent,
-        "Content-Type": "application/json",
-        Accept: "application/json;charset=utf-8",
-        "Accept-Encoding": "gzip",
-      },
-      throwHttpErrors: false,
-    })
+    this.#ky = fether
   }
 
   /**
@@ -120,21 +115,28 @@ export class ApiClient {
    *
    * @example
    * ```ts
-   * const response = await apiClient.request("/entity/counterparty", { method: "POST", body: { name: "ООО Ромашка" } });
+   * const response = await apiClient. #request("/entity/counterparty", { method: "POST", body: { name: "ООО Ромашка" } });
    * ```
    */
-  async request(endpoint: string, options: RequestOptions = {}): Promise<Response> {
+  async #request(
+    endpoint: string,
+    { body, searchParameters, ...requestOptions }: RequestOptions = {},
+  ): Promise<Response> {
     const normalizedEndpoint = endpoint.startsWith("/") ? endpoint.slice(1) : endpoint
-    const searchParams = new URLSearchParams(options.searchParameters)
-    const kyOptions: Record<string, unknown> = {
-      ...options,
-      searchParams: searchParams.size > 0 ? searchParams : undefined,
+    const searchParams = searchParameters ? new URLSearchParams(searchParameters) : undefined
+
+    const kyOptions = {
+      ...requestOptions,
+      searchParams: searchParams?.size ? searchParams : undefined,
+      body: body && typeof body === "object" ? JSON.stringify(body) : body,
     }
-    if (options.body) kyOptions.json = options.body
 
-    const response = await this.ky(normalizedEndpoint, kyOptions)
+    const response = await this.#ky(normalizedEndpoint, kyOptions)
 
-    if (!response.ok) await handleError(response)
+    if (!response.ok) {
+      await handleError(response)
+    }
+
     return response as Response
   }
 
@@ -143,8 +145,8 @@ export class ApiClient {
    *
    * {@linkcode request}
    * */
-  get(url: string, options: RequestOptionsWithoutMethod = {}): Promise<Response> {
-    return this.request(url, { ...options, method: "GET" })
+  public get(url: string, options: RequestOptions = {}): Promise<Response> {
+    return this.#request(url, { ...options, method: "GET" })
   }
 
   /**
@@ -152,8 +154,8 @@ export class ApiClient {
    *
    * {@linkcode request}
    */
-  post(url: string, options: RequestOptionsWithoutMethod = {}): Promise<Response> {
-    return this.request(url, { ...options, method: "POST" })
+  public post(url: string, options: RequestOptions = {}): Promise<Response> {
+    return this.#request(url, { ...options, method: "POST" })
   }
 
   /**
@@ -161,8 +163,8 @@ export class ApiClient {
    *
    * {@linkcode request}
    */
-  put(url: string, options: RequestOptionsWithoutMethod = {}): Promise<Response> {
-    return this.request(url, { ...options, method: "PUT" })
+  public put(url: string, options: RequestOptions = {}): Promise<Response> {
+    return this.#request(url, { ...options, method: "PUT" })
   }
 
   /**
@@ -170,8 +172,8 @@ export class ApiClient {
    *
    * {@linkcode request}
    */
-  delete(url: string, options: RequestOptionsWithoutMethod = {}): Promise<Response> {
-    return this.request(url, { ...options, method: "DELETE" })
+  public delete(url: string, options: RequestOptions = {}): Promise<Response> {
+    return this.#request(url, { ...options, method: "DELETE" })
   }
 
   /**
@@ -181,7 +183,7 @@ export class ApiClient {
    *
    * @returns Нормализованный URL
    */
-  private normalizeUrl(url: string): string {
+  public static normalizeUrl(url: string): string {
     return url.replaceAll(/\/{2,}/g, "/")
   }
 
@@ -195,9 +197,9 @@ export class ApiClient {
   private buildStringUrl(url: string): URL {
     const shouldIncludeBaseUrl = !url.startsWith("http")
 
-    const returnUrl = shouldIncludeBaseUrl ? `${this.baseUrl}/${url}` : url
+    const returnUrl = shouldIncludeBaseUrl ? `${ApiClient.baseUrl}/${url}` : url
 
-    return new URL(this.normalizeUrl(returnUrl))
+    return new URL(ApiClient.normalizeUrl(returnUrl))
   }
 
   /**
@@ -210,9 +212,9 @@ export class ApiClient {
   private buildArrayUrl(url: string[]): URL {
     const shouldIncludeBaseUrl = !url[0]?.startsWith("http")
 
-    const returnUrl = shouldIncludeBaseUrl ? `${this.baseUrl}/${url.join("/")}` : url.join("/")
+    const returnUrl = shouldIncludeBaseUrl ? `${ApiClient.baseUrl}/${url.join("/")}` : url.join("/")
 
-    return new URL(this.normalizeUrl(returnUrl))
+    return new URL(ApiClient.normalizeUrl(returnUrl))
   }
 
   /**
@@ -234,7 +236,7 @@ export class ApiClient {
    * // "https://api.moysklad.ru/api/remap/1.2/entity/counterparty/5427bc76-b95f-11eb-0a80-04bb000cd583"
    * ```
    */
-  buildUrl(url: string | string[]): URL {
+  public buildUrl(url: string | string[]): URL {
     if (typeof url === "string") {
       return this.buildStringUrl(url)
     }
@@ -250,20 +252,20 @@ export class ApiClient {
    *
    * @returns Объект с массивом сущностей и контекстом
    */
-  async batchGet<T, E extends Entity>(
+  public async getAll<T, E extends Entity>(
     fetcher: (limit: number, offset: number) => Promise<ListResponse<T, E>>,
     hasExpand?: boolean,
   ): Promise<BatchGetResult<T, E>> {
     let context: BatchGetResult<T, E>["context"] | undefined
     const allRows: T[] = []
 
-    for await (const chunk of this.getChunks(fetcher, hasExpand)) {
+    for await (const chunk of this.getAllByChunks(fetcher, hasExpand)) {
       context = chunk.context
       allRows.push(...chunk.rows)
     }
 
     if (context == null) {
-      throw new Error("getChunks returned no chunks")
+      throw new Error("getAllByChunks returned no chunks")
     }
 
     return { context, rows: allRows }
@@ -278,7 +280,7 @@ export class ApiClient {
    *
    * @yields Объект чанка с `rows` и `context`
    */
-  async *getChunks<T, E extends Entity>(
+  public async *getAllByChunks<T, E extends Entity>(
     fetcher: (limit: number, offset: number) => Promise<ListResponse<T, E>>,
     hasExpand?: boolean,
   ): AsyncGenerator<BatchGetResult<T, E>, void, void> {
@@ -314,13 +316,13 @@ export class ApiClient {
     }
   }
 
-  /**
-   * Perform a request and directly return parsed JSON.
-   *
-   * This helper reduces boilerplate for callers that need the response body as a typed object.
-   */
-  async requestJson<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
-    const response = await this.request(endpoint, options)
-    return (await response.json()) as T
-  }
+  // /**
+  //  * Perform a request and directly return parsed JSON.
+  //  *
+  //  * This helper reduces boilerplate for callers that need the response body as a typed object.
+  //  */
+  // private async requestJson<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
+  //   const response = await this. #request(endpoint, options)
+  //   return (await response.json()) as T
+  // }
 }

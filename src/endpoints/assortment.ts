@@ -76,7 +76,7 @@ export class AssortmentEndpoint {
   all<T extends AllAssortmentOptions>(
     options?: Subset<T, AllAssortmentOptions>,
   ): Promise<BatchGetResult<AssortmentModel["object"], "assortment">> {
-    return this.client.batchGet(
+    return this.client.getAll(
       async (limit, offset) => {
         const composedSearchParameters = composeSearchParameters({
           pagination: {
@@ -116,7 +116,7 @@ export class AssortmentEndpoint {
   allChunks<T extends AllAssortmentOptions>(
     options?: Subset<T, AllAssortmentOptions>,
   ): AsyncGenerator<BatchGetResult<AssortmentModel["object"], "assortment">, void, void> {
-    return this.client.getChunks(
+    return this.client.getAllByChunks(
       async (limit, offset) => {
         const composedSearchParameters = composeSearchParameters({
           pagination: {

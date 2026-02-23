@@ -1,4 +1,4 @@
-import { ApiClient } from "./api-client"
+import { ApiClient, createApiClientFetcher } from "./api-client"
 import type { ApiClientOptions } from "./api-client"
 
 import { AssortmentEndpoint } from "./endpoints/assortment"
@@ -82,6 +82,13 @@ export class Moysklad {
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/dictionaries/#suschnosti-modifikaciq
    */
   readonly variant: VariantEndpoint
+
+  /**
+   * Отчёты
+   *
+   * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety
+   */
+  readonly report: ReportEndpoint
 
   //  /**
   //  * Бонусные операции
@@ -202,13 +209,6 @@ export class Moysklad {
   //  */
   // report: ReportEndpoint
 
-  /**
-   * Отчёты
-   *
-   * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety
-   */
-  readonly report: ReportEndpoint
-
   // /**
   //  * Заказ поставщику
   //  *
@@ -260,8 +260,9 @@ export class Moysklad {
   //  */
   // salesReturn: SalesReturnEndpoint
 
-  public constructor(options: ApiClientOptions) {
-    this.client = new ApiClient(options)
+  public constructor({ auth, ...options }: ApiClientOptions) {
+    this.client = new ApiClient(createApiClientFetcher(auth, options), { batchGetOptions: options.batchGetOptions })
+
     this.product = new ProductEndpoint(this.client)
     this.assortment = new AssortmentEndpoint(this.client)
     this.service = new ServiceEndpoint(this.client)

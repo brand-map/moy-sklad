@@ -76,7 +76,7 @@ export class ImageEndpoint {
   ): Promise<BatchGetResult<Image, "image">> {
     const path = this.buildImagePath(entityType, entityId)
 
-    return this.client.batchGet(async (limit, offset) => {
+    return this.client.getAll(async (limit, offset) => {
       const searchParams: Record<string, unknown> = {
         pagination: { limit, offset },
       }
@@ -112,7 +112,7 @@ export class ImageEndpoint {
   ): AsyncGenerator<BatchGetResult<Image, "image">, void, void> {
     const path = this.buildImagePath(entityType, entityId)
 
-    yield* this.client.getChunks(async (limit, offset) => {
+    yield* this.client.getAllByChunks(async (limit, offset) => {
       const searchParams: Record<string, unknown> = {
         pagination: { limit, offset },
       }

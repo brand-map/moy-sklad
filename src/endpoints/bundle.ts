@@ -68,7 +68,7 @@ export class BundleEndpoint {
   async all<T extends AllBundleOptions = AllBundleOptions>(
     options?: Subset<T, AllBundleOptions>,
   ): Promise<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
-    return this.client.batchGet(
+    return this.client.getAll(
       async (limit, offset) => {
         const searchParams: Record<string, unknown> = {
           pagination: { limit, offset },
@@ -106,7 +106,7 @@ export class BundleEndpoint {
   async *allChunks<T extends AllBundleOptions = AllBundleOptions>(
     options?: Subset<T, AllBundleOptions>,
   ): AsyncGenerator<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, "bundle">, void, void> {
-    yield* this.client.getChunks(
+    yield* this.client.getAllByChunks(
       async (limit, offset) => {
         const searchParams: Record<string, unknown> = {
           pagination: { limit, offset },
@@ -247,7 +247,7 @@ interface ImageExpandModel extends Model {
 //   async all<T extends AllBundleOptions = AllBundleOptions>(
 //     options?: Subset<T, AllBundleOptions>,
 //   ): Promise<BatchGetResult<GetFindResult<BundleModel, T["expand"]>, "bundle">> {
-//     return this.client.batchGet(
+//     return this.client.getAll(
 //       async (limit, offset) => {
 //         const searchParameters = composeSearchParameters({
 //           pagination: { limit, offset },

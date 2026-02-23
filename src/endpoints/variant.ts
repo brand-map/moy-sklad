@@ -72,7 +72,7 @@ export class VariantEndpoint {
   async all<T extends AllVariantsOptions = AllVariantsOptions>(
     options?: Subset<T, AllVariantsOptions>,
   ): Promise<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, "variant">> {
-    return this.client.batchGet(
+    return this.client.getAll(
       async (limit, offset) => {
         const searchParams: Record<string, unknown> = {
           pagination: { limit, offset },
@@ -110,7 +110,7 @@ export class VariantEndpoint {
   async *allChunks<T extends AllVariantsOptions = AllVariantsOptions>(
     options?: Subset<T, AllVariantsOptions>,
   ): AsyncGenerator<BatchGetResult<GetFindResult<VariantModel, T["expand"]>, "variant">, void, void> {
-    yield* this.client.getChunks(
+    yield* this.client.getAllByChunks(
       async (limit, offset) => {
         const searchParams: Record<string, unknown> = {
           pagination: { limit, offset },

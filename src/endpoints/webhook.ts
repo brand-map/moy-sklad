@@ -41,7 +41,7 @@ export class WebhookEndpoint {
    * Получить все вебхуки с учётом пагинации.
    */
   async all<T>(): Promise<BatchGetResult<Webhook, "webhook">> {
-    return this.client.batchGet(async (limit, offset) => {
+    return this.client.getAll(async (limit, offset) => {
       const searchParameters = composeSearchParameters({
         pagination: { limit, offset },
       })
@@ -63,7 +63,7 @@ export class WebhookEndpoint {
    * ```
    */
   async *allChunks<T>(options?: T): AsyncGenerator<BatchGetResult<Webhook, "webhook">, void, void> {
-    yield* this.client.getChunks(async (limit, offset) => {
+    yield* this.client.getAllByChunks(async (limit, offset) => {
       const searchParameters = composeSearchParameters({
         pagination: { limit, offset },
         // order: options?.order,

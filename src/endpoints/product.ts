@@ -103,7 +103,7 @@ export class ProductEndpoint {
   async all<T extends AllProductsOptions>(
     options?: AllProductsOptions,
   ): Promise<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">> {
-    return this.client.batchGet(
+    return this.client.getAll(
       async (limit, offset) => {
         const searchParams: Record<string, unknown> = {
           pagination: { limit, offset },
@@ -143,7 +143,7 @@ export class ProductEndpoint {
   async *allChunks<T extends AllProductsOptions>(
     options?: AllProductsOptions,
   ): AsyncGenerator<BatchGetResult<GetFindResult<ProductModel, T["expand"]>, "product">, void, void> {
-    yield* this.client.getChunks(
+    yield* this.client.getAllByChunks(
       async (limit, offset) => {
         const searchParams: Record<string, unknown> = {
           pagination: { limit, offset },

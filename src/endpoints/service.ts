@@ -56,7 +56,7 @@ export class ServiceEndpoint {
   async all<T extends AllServiceOptions = AllServiceOptions>(
     options?: Subset<T, AllServiceOptions>,
   ): Promise<BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, "service">> {
-    return this.client.batchGet(
+    return this.client.getAll(
       async (limit, offset) => {
         const searchParameters = composeSearchParameters({
           pagination: { limit, offset },
@@ -88,7 +88,7 @@ export class ServiceEndpoint {
   async *allChunks<T extends AllServiceOptions = AllServiceOptions>(
     options?: Subset<T, AllServiceOptions>,
   ): AsyncGenerator<BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, "service">, void, void> {
-    yield* this.client.getChunks(
+    yield* this.client.getAllByChunks(
       async (limit, offset) => {
         const searchParameters = composeSearchParameters({
           pagination: { limit, offset },
