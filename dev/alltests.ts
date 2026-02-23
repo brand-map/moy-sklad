@@ -80,7 +80,6 @@ class EndpointTestRunner {
       if (Array.isArray(result.result) && result.result.length > 0) {
         console.log(`     → ${result.result.length} items`)
       } else if (typeof result.result === "object" && result.result !== null) {
-        
         console.log(`     → ${truncateResult(result.result)}`)
       }
     }

@@ -2,12 +2,6 @@ import ky, { type KyInstance } from "ky"
 import type { BatchGetOptions, BatchGetResult, Entity, ListResponse } from "./types"
 import { handleError } from "./utils/handle-error"
 
-interface RateLimitState {
-  lastReset: number
-  requestsUsed: number
-  concurrent: number
-}
-
 /**
  * Опции для Basic авторизации
  *
@@ -87,13 +81,6 @@ export class ApiClient {
   private auth: Auth
   private batchGetOptions: Required<BatchGetOptions>
   ky: KyInstance
-  private lastResponse: Response | undefined
-  private rateLimitState: RateLimitState = {
-    lastReset: 0,
-    requestsUsed: 0,
-    concurrent: 0,
-  }
-  private parallelRequestLimit = 3
 
   constructor(options: ApiClientOptions) {
     this.baseUrl = options.baseUrl ?? "https://api.moysklad.ru/api/remap/1.2"
@@ -122,69 +109,7 @@ export class ApiClient {
         "Accept-Encoding": "gzip",
       },
       throwHttpErrors: false,
-      hooks: {
-        afterResponse: [
-          (_request, _options, response) => {
-            // Store the response for access in the request method
-            this.lastResponse = response as unknown as Response
-            // Update rate limit info from response headers
-            this.updateRateLimitInfo(response as unknown as Response)
-            return response
-          },
-        ],
-      },
     })
-  }
-
-  private getRateLimitInfo(headers: Headers | Record<string, string>) {
-    const headersObj = headers instanceof Headers ? Object.fromEntries(headers) : headers
-
-    return {
-      limit: parseInt(headersObj["x-ratelimit-limit"] || "0"),
-      remaining: parseInt(headersObj["x-ratelimit-remaining"] || "0"),
-      reset: parseInt(headersObj["x-lognex-reset"] || "0"),
-      retryAfter: parseInt(headersObj["x-lognex-retry-after"] || "0"),
-      retryTimeInterval: parseInt(headersObj["x-lognex-retry-timeinterval"] || "1000"),
-    }
-  }
-
-  private async checkAndHandleRateLimit(
-    rateLimit: ReturnType<typeof this.getRateLimitInfo>,
-    thresholdPercentage: number = 30,
-  ): Promise<void> {
-    const thresholdValue = Math.ceil((rateLimit.limit * thresholdPercentage) / 100)
-
-    if (rateLimit.remaining <= thresholdValue) {
-      console.log("rate limit works", rateLimit.remaining)
-
-      const waitTime = rateLimit.retryTimeInterval || 3000
-      console.warn(
-        `[{filename}]: approaching rate limit (${rateLimit.remaining}/${rateLimit.limit}), waiting ${waitTime}ms`,
-      )
-      await new Promise((resolve) => setTimeout(resolve, waitTime))
-    }
-  }
-
-  /**
-   * Updates internal rate limit state based on response headers
-   */
-  private updateRateLimitInfo(response: Response): void {
-    console.log(new Date().toISOString(), response.status)
-
-    const rateLimitInfo = this.getRateLimitInfo(response.headers)
-    if (rateLimitInfo) {
-      this.checkAndHandleRateLimit(rateLimitInfo)
-      console.log(rateLimitInfo)
-    }
-  }
-
-  /**
-   * Waits for parallel request slot if at limit
-   */
-  private async waitForParallelSlot(): Promise<void> {
-    while (this.rateLimitState.concurrent >= this.parallelRequestLimit) {
-      await new Promise((resolve) => setTimeout(resolve, 50))
-    }
   }
 
   /**
@@ -199,46 +124,18 @@ export class ApiClient {
    * ```
    */
   async request(endpoint: string, options: RequestOptions = {}): Promise<Response> {
-    await this.waitForParallelSlot()
-    this.rateLimitState.concurrent++
-
-    try {
-      // 1. Consume tokens (this may wait)
-      // await this.bucket.consume(this.requestWeight);
-
-      // 2. Perform the actual HTTP call
-      const normalizedEndpoint = endpoint.startsWith("/") ? endpoint.slice(1) : endpoint
-      const searchParams = new URLSearchParams(options.searchParameters)
-      const kyOptions: Record<string, unknown> = {
-        ...options,
-        searchParams: searchParams.size > 0 ? searchParams : undefined,
-      }
-      if (options.body) kyOptions.json = options.body
-
-      await this.ky(normalizedEndpoint, kyOptions)
-      const response = this.lastResponse
-      if (!response) throw new Error("No response captured")
-
-      // 3. Sync bucket with response headers
-      // const rateLimitInfo = this.parseRateLimitHeaders(response);
-      // if (rateLimitInfo) {
-      // this.bucket.sync(rateLimitInfo.remaining, rateLimitInfo.reset);
-      // }
-
-      // 4. Handle 429 (should be rare now)
-      if (response.status === 429) {
-        // const retryAfter = response.headers.get('Retry-After');
-        const delay = 3100
-        await new Promise((r) => setTimeout(r, delay))
-        // Retry – bucket will handle capacity again
-        return this.request(endpoint, options)
-      }
-
-      if (!response.ok) await handleError(response)
-      return response
-    } finally {
-      this.rateLimitState.concurrent--
+    const normalizedEndpoint = endpoint.startsWith("/") ? endpoint.slice(1) : endpoint
+    const searchParams = new URLSearchParams(options.searchParameters)
+    const kyOptions: Record<string, unknown> = {
+      ...options,
+      searchParams: searchParams.size > 0 ? searchParams : undefined,
     }
+    if (options.body) kyOptions.json = options.body
+
+    const response = await this.ky(normalizedEndpoint, kyOptions)
+
+    if (!response.ok) await handleError(response)
+    return response as Response
   }
 
   /**
