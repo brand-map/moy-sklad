@@ -80,7 +80,7 @@ class EndpointTestRunner {
       if (Array.isArray(result.result) && result.result.length > 0) {
         console.log(`     → ${result.result.length} items`)
       } else if (typeof result.result === "object" && result.result !== null) {
-        const keys = Object.keys(result.result)
+        
         console.log(`     → ${truncateResult(result.result)}`)
       }
     }
@@ -503,10 +503,10 @@ class EndpointTestRunner {
     this.results.push(result)
     this.logResult(result)
 
-    let existingImageIds: string[] = []
+    let _existingImageIds: string[] = []
     if (result.status === "success" && result.result) {
       const imagesResult = result.result as { rows?: Array<{ id: string }> }
-      existingImageIds = imagesResult.rows?.map((img) => img.id) || []
+      _existingImageIds = imagesResult.rows?.map((img) => img.id) || []
     }
     await sleep(PAUSE_MS)
 
