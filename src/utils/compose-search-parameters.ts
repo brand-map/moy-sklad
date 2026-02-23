@@ -133,6 +133,7 @@ export function composeSearchParameters({
   search,
   filter,
   namedfilter,
+  fields,
   ...options
 }: {
   pagination?: PaginationOptions
@@ -186,6 +187,10 @@ export function composeSearchParameters({
     if (filters.length > 0) {
       searchParameters.append("filter", filters.join(";"))
     }
+  }
+  if (fields) {
+    const fields = [] as string[]
+    searchParameters.append('fields', fields.join(','))
   }
 
   for (const [field, value] of Object.entries(options)) {
