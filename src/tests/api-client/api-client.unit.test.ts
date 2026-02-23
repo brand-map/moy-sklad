@@ -16,10 +16,9 @@ describe("ApiClient (unit)", () => {
   })
 
   test("createApiClientFetcher creates ky instance for basic auth", () => {
-    const fetcher = createApiClientFetcher(
-      { login: "user", password: "pass" } as any,
-      { baseUrl: "https://api.example.com" },
-    )
+    const fetcher = createApiClientFetcher({ login: "user", password: "pass" } as any, {
+      baseUrl: "https://api.example.com",
+    })
 
     expect(typeof fetcher).toBe("function")
     expect(typeof (fetcher as any).post).toBe("function")
@@ -144,17 +143,14 @@ describe("ApiClient (unit)", () => {
 
     const seen: Array<{ limit: number; offset: number }> = []
 
-    await client.getAll(
-      async (limit, offset) => {
-        seen.push({ limit, offset })
-        return {
-          rows: [{ id: `${offset}` }],
-          meta: { size: 1 },
-          context: { id: "ctx" },
-        } as any
-      },
-      true,
-    )
+    await client.getAll(async (limit, offset) => {
+      seen.push({ limit, offset })
+      return {
+        rows: [{ id: `${offset}` }],
+        meta: { size: 1 },
+        context: { id: "ctx" },
+      } as any
+    }, true)
 
     expect(seen).toEqual([{ limit: 5, offset: 0 }])
   })

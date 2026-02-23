@@ -190,7 +190,7 @@ export function composeSearchParameters({
   }
   if (fields) {
     const fields = [] as string[]
-    searchParameters.append('fields', fields.join(','))
+    searchParameters.append("fields", fields.join(","))
   }
 
   for (const [field, value] of Object.entries(options)) {

@@ -16,7 +16,6 @@ describe("ReportEndpoint (unit)", () => {
       fields: ["name", "stock"],
     })
 
-
     expect(calls).toHaveLength(1)
     expect(calls[0]?.input).toBe("report/stock/all")
     expect(calls[0]?.options?.method).toBe("GET")

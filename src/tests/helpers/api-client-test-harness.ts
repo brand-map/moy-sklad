@@ -30,11 +30,11 @@ function isMockResponseConfig(value: unknown): value is MockResponseConfig {
 
   const candidate = value as Record<string, unknown>
   return (
-    "status" in candidate
-    || "headers" in candidate
-    || "body" in candidate
-    || "rawBody" in candidate
-    || "delayMs" in candidate
+    "status" in candidate ||
+    "headers" in candidate ||
+    "body" in candidate ||
+    "rawBody" in candidate ||
+    "delayMs" in candidate
   )
 }
 

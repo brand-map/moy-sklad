@@ -111,11 +111,7 @@ async function main(): Promise<void> {
   const records = parseLcov(lcovText)
 
   const endpointTargets = await getTopLevelEndpoints()
-  const targets = [
-    ...endpointTargets,
-    "src/api-client.ts",
-    "src/utils/compose-search-parameters.ts",
-  ]
+  const targets = [...endpointTargets, "src/api-client.ts", "src/utils/compose-search-parameters.ts"]
 
   const failures: string[] = []
 

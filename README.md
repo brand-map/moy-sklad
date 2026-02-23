@@ -48,11 +48,7 @@ for await (const chunk of moysklad.product.allChunks({ filter: { archived: false
 ## Quick Start (Parts)
 
 ```ts
-import {
-  ApiClient,
-  ProductEndpoint,
-  createApiClientFetcher,
-} from "@brand-map/moy-sklad/parts"
+import { ApiClient, ProductEndpoint, createApiClientFetcher } from "@brand-map/moy-sklad/parts"
 
 const fetcher = createApiClientFetcher({ token: "your-token" })
 const client = new ApiClient(fetcher)
