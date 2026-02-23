@@ -20,8 +20,14 @@
     ".": "./src/exports.ts",
     "./parts": "./src/exports-parts.ts"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "fmt": "oxfmt ."
+    "fmt": "oxfmt .",
+    "test:unit": "bun test src/tests/**/*.unit.test.ts",
+    "test:integration": "bun test src/tests/**/*.integration.test.ts",
+    "test:coverage": "bun test --coverage --coverage-reporter=lcov src/tests/**/*.unit.test.ts && bun run scripts/check-coverage.ts && bun run scripts/check-endpoint-tests.ts"
   },
   "dependencies": {
     "ky": "^1.14.3"

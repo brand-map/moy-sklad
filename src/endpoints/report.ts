@@ -26,7 +26,7 @@ import type { GroupModel } from "./group/types"
 export class ReportEndpoint {
   private endpointPath = "report"
 
-  constructor(private client: ApiClient) { }
+  constructor(private client: ApiClient) {}
 
   /**
    * Gets stock report (Остатки).
@@ -51,7 +51,7 @@ export class ReportEndpoint {
       pagination: options?.pagination,
       filter: options?.filter,
       expand: options?.expand,
-      fields: options?.fields
+      fields: options?.fields,
     }
 
     if (options?.groupBy) {
@@ -62,8 +62,6 @@ export class ReportEndpoint {
 
     return this.client.get(`${this.endpointPath}/stock/all`, { searchParameters }).then((res) => res.json()) as any
   }
-
-
 }
 
 /**
@@ -199,10 +197,10 @@ export interface StockReportByOrganization extends StockReport {
 export type GetStockReportResult<T extends StockGroupBy | undefined> = T extends "product"
   ? StockReportByProduct
   : T extends "store"
-  ? StockReportByStore
-  : T extends "organization"
-  ? StockReportByOrganization
-  : StockReport
+    ? StockReportByStore
+    : T extends "organization"
+      ? StockReportByOrganization
+      : StockReport
 
 interface StockReportOptions {
   /**
@@ -211,7 +209,6 @@ interface StockReportOptions {
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/reports/#otchety-ostatki-parametry-zaprosa
    */
   groupBy?: StockGroupBy
-
 
   expand?: Record<string, boolean>
   fields?: string[]
@@ -270,7 +267,10 @@ interface StockReportOptions {
     priceType?: EqualityFilter<string> | string | string[]
 
     /** Фильтрация по типу номенклатуры */
-    type?: EqualityFilter<"product" | "service" | "bundle" | "variant"> | ("product" | "service" | "bundle" | "variant") | ("product" | "service" | "bundle" | "variant")[]
+    type?:
+      | EqualityFilter<"product" | "service" | "bundle" | "variant">
+      | ("product" | "service" | "bundle" | "variant")
+      | ("product" | "service" | "bundle" | "variant")[]
 
     /** Фильтрация по остатку */
     stock?: NumberFilter

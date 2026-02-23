@@ -34,11 +34,11 @@ const moysklad = new Moysklad({
 // Get stock report
 const { rows } = await moysklad.report.stock({
   filter: { store: "store-id", stock: { gt: 0 } },
-  pagination: { limit: 50 }
+  pagination: { limit: 50 },
 })
 
 // Get with grouping by store
 const grouped = await moysklad.report.stock({
-  groupBy: "store"
+  groupBy: "store",
 })
-
+```

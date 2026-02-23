@@ -1,197 +1,161 @@
-# moy-sklad
+# @brand-map/moy-sklad
 
-TypeScript implementation of the Moysklad API client with full type support and comprehensive error handling.
+TypeScript client for MoySklad JSON API.
 
 ## Installation
 
 ```bash
-bun install
+bun add @brand-map/moy-sklad
 # or
-npm install
+npm i @brand-map/moy-sklad
 # or
-yarn install
+yarn add @brand-map/moy-sklad
 ```
 
-## Quick Start (Class API)
+## Exports
 
-```typescript
-import { Moysklad } from "moy-sklad"
+- `@brand-map/moy-sklad` exports `Moysklad`
+- `@brand-map/moy-sklad/parts` exports:
+  - `ApiClient`
+  - `createApiClientFetcher`
+  - `AssortmentEndpoint`
+  - `BundleEndpoint`
+  - `ImageEndpoint`
+  - `ProductEndpoint`
+  - `ReportEndpoint`
+  - `ServiceEndpoint`
+  - `VariantEndpoint`
+  - `WebhookEndpoint`
+
+## Quick Start (Moysklad class)
+
+```ts
+import { Moysklad } from "@brand-map/moy-sklad"
 
 const moysklad = new Moysklad({
-  auth: {
-    token: "your-auth-token",
-  },
+  auth: { token: "your-token" },
 })
 
-// Get assortment with pagination
-const assortment = await moysklad.assortment.list({
-  pagination: { limit: 50, offset: 0 },
-})
-```
-
-## Quick Start (Functional API)
-
-```typescript
-import { ApiClient, listProducts, allProducts } from "moy-sklad"
-
-const client = new ApiClient({
-  auth: {
-    token: "your-auth-token",
-  },
-})
-
-const products = await listProducts(client, {
+const products = await moysklad.product.list({
   pagination: { limit: 50, offset: 0 },
 })
 
-const allItems = await allProducts(client, {
-  expand: ["images", "variants"],
-})
+for await (const chunk of moysklad.product.allChunks({ filter: { archived: false } })) {
+  console.log(chunk.rows.length)
+}
 ```
 
-## Supported Endpoints
+## Quick Start (Parts)
 
-### Products
+```ts
+import { ApiClient, ProductEndpoint, createApiClientFetcher } from "@brand-map/moy-sklad/parts"
 
-- `listProducts()` - Get list of products
-- `allProducts()` - Get all products (with auto pagination)
-- `firstProduct()` - Get first product matching filter
-- `productById()` - Get specific product by ID
+const fetcher = createApiClientFetcher({ token: "your-token" })
+const client = new ApiClient(fetcher)
 
-### Services
-
-- `listServices()` - Get list of services
-- `allServices()` - Get all services
-- `firstService()` - Get first service
-- `serviceById()` - Get specific service by ID
-
-### Bundles
-
-- `listBundles()` - Get list of bundles
-- `allBundles()` - Get all bundles
-- `firstBundle()` - Get first bundle
-- `bundleById()` - Get specific bundle by ID
-
-### Variants
-
-- `listVariants()` - Get list of variants
-- `allVariants()` - Get all variants
-- `firstVariant()` - Get first variant
-- `variantById()` - Get specific variant by ID
-
-### Webhooks
-
-- `listWebhooks()` - Get list of webhooks
-- `createWebhook()` - Create new webhook
-- `updateWebhook()` - Update webhook
-- `deleteWebhook()` - Delete webhook
-- `getWebhook()` - Get specific webhook
-- `batchCreateOrUpdateWebhooks()` - Batch create/update
-- `batchDeleteWebhooks()` - Batch delete
-
-### Assortment
-
-- `listAssortment()` - Get list of assortment items
-- `allAssortment()` - Get all assortment items
-- `firstAssortment()` - Get first assortment item
-
-## Usage Examples
-
-### Basic Filtering and Pagination
-
-```typescript
-const products = await listProducts(client, {
-  pagination: { limit: 25, offset: 50 },
-  filter: { name: "Widget" },
-  order: "name",
-})
-```
-
-### Creating Webhooks
-
-```typescript
-const webhook = await createWebhook(client, {
-  url: "https://example.com/webhook",
-  action: "create",
-  entityType: "product",
-})
-```
-
-## Type Safety
-
-All operations are fully typed for excellent IDE support:
-
-```typescript
-import type { Product, Webhook, Service } from "moy-sklad"
-
-const product: Product = await productById(client, "id")
+const product = new ProductEndpoint(client)
+const first = await product.first()
 ```
 
 ## Authentication
 
-### Token Authentication
+### Token
 
-```typescript
-const client = new ApiClient({
-  auth: {
-    token: "your-auth-token",
-  },
-  // Optional: customize rate limiting
-  tolerateTimeout: 5000,
+```ts
+new Moysklad({
+  auth: { token: "your-token" },
 })
 ```
 
-### Basic Authentication
+### Basic
 
-```typescript
-const client = new ApiClient({
+```ts
+new Moysklad({
   auth: {
-    login: "username",
-    password: "password",
+    login: "your-login",
+    password: "your-password",
   },
 })
 ```
 
-## Rate Limiting
+## Implemented Endpoints
 
-The library automatically handles Moysklad API rate limiting with a token bucket strategy. Rate limits are calculated based on:
+### `assortment`
 
-- Authentication type (token vs user credentials)
-- Request time during peak hours
+- `list`
+- `all`
+- `allChunks`
+- `first`
 
-## Utility Functions
+### `bundle`
 
-The library includes helpful utilities:
+- `list`
+- `all`
+- `allChunks`
+- `first`
+- `byId`
 
-```typescript
-import { parseDateTime, composeDateTime, extractIdFromMetaHref, isAssortmentOfType } from "moy-sklad"
+### `image`
 
-// Parse API datetime format
-const date = parseDateTime("2024-02-15T10:30:00.000")
+- `list`
+- `all`
+- `allChunks`
+- `first`
+- `create`
+- `update`
+- `delete`
+- `batchDelete`
 
-// Compose datetime for API
-const isoString = composeDateTime(new Date())
+### `product`
 
-// Extract ID from meta href
-const id = extractIdFromMetaHref("https://api.moysklad.ru/api/remap/1.2/entity/product/xyz")
+- `list`
+- `all`
+- `allChunks`
+- `first`
+- `byId`
 
-// Check assortment type
-const isProduct = isAssortmentOfType("product", assortmentItem)
-```
+### `report`
+
+- `stock`
+
+### `service`
+
+- `list`
+- `all`
+- `allChunks`
+- `first`
+- `byId`
+
+### `variant`
+
+- `list`
+- `all`
+- `allChunks`
+- `first`
+- `byId`
+
+### `webhook`
+
+- `list`
+- `all`
+- `allChunks`
+- `first`
+- `byId`
+- `create`
+- `update`
+- `delete`
+- `batchCreateOrUpdate`
+- `batchDelete`
+
+## Notes
+
+- Some methods in endpoint files are intentionally not implemented yet and throw `Method not implemented.`.
+- Integration tests are environment-gated and skipped by default.
 
 ## Development
 
 ```bash
-bun run src/test.ts
+bun run test:unit
+bun run test:coverage
+bun run test:integration
 ```
-
-## License and Copyright
-
-This project is a derivative work of moysklad-ts by [Andrei MonsterDeveloper](https://github.com/MonsterDeveloper/moysklad-ts), used under the terms of the GNU General Public License v3.0.
-
-- Original code: Copyright (c) 2023 Andrei MonsterDeveloper
-- Modifications and new code: Copyright (c) 2026 Brand Map
-
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-The full license text is available in the [LICENSE](LICENSE) file.

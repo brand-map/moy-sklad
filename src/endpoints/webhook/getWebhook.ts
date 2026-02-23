@@ -51,7 +51,7 @@
 //   client: ApiClient,
 //   options?: Subset<T, AllWebhooksOptions>,
 // ): Promise<BatchGetResult<Webhook, "webhook">> {
-//   return client.batchGet(async (limit, offset) => {
+//   return client.getAll(async (limit, offset) => {
 //     const searchParameters = composeSearchParameters({
 //       pagination: { limit, offset },
 //       order: options?.order,

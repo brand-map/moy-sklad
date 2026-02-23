@@ -1,3 +1,10 @@
-export { ApiClient, type ApiClientOptions } from "./api-client"
+export { ApiClient, createApiClientFetcher, type ApiClientOptions } from "./api-client"
 
 export { AssortmentEndpoint } from "./endpoints/assortment"
+export { BundleEndpoint } from "./endpoints/bundle"
+export { ImageEndpoint } from "./endpoints/image"
+export { ProductEndpoint } from "./endpoints/product"
+export { ReportEndpoint } from "./endpoints/report"
+export { ServiceEndpoint } from "./endpoints/service"
+export { VariantEndpoint } from "./endpoints/variant"
+export { WebhookEndpoint } from "./endpoints/webhook"

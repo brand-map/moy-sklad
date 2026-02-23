@@ -27,7 +27,7 @@ import type { GroupModel } from "./group"
 export class ServiceEndpoint {
   private endpointPath = "entity/service"
 
-  constructor(private client: ApiClient) { }
+  constructor(private client: ApiClient) {}
 
   /**
    * Gets list of services.
@@ -56,7 +56,7 @@ export class ServiceEndpoint {
   async all<T extends AllServiceOptions = AllServiceOptions>(
     options?: Subset<T, AllServiceOptions>,
   ): Promise<BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, "service">> {
-    return this.client.batchGet(
+    return this.client.getAll(
       async (limit, offset) => {
         const searchParameters = composeSearchParameters({
           pagination: { limit, offset },
@@ -88,7 +88,7 @@ export class ServiceEndpoint {
   async *allChunks<T extends AllServiceOptions = AllServiceOptions>(
     options?: Subset<T, AllServiceOptions>,
   ): AsyncGenerator<BatchGetResult<GetFindResult<ServiceModel, T["expand"]>, "service">, void, void> {
-    yield* this.client.getChunks(
+    yield* this.client.getAllByChunks(
       async (limit, offset) => {
         const searchParameters = composeSearchParameters({
           pagination: { limit, offset },
@@ -298,6 +298,17 @@ export interface ServiceModel extends Model {
   }
 
   requiredCreateFields: "name"
+
+  orderableFields:
+    | "id"
+    | "accountId"
+    | "archived"
+    | "barcodes"
+    | "code"
+    | "description"
+    | "externalCode"
+    | "name"
+    | "updated"
 
   filters: {
     id: IdFilter

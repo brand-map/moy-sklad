@@ -23,7 +23,7 @@ import { composeSearchParameters } from "../utils/compose-search-parameters"
 export class AssortmentEndpoint {
   private endpointPath = "entity/assortment"
 
-  constructor(private client: ApiClient) { }
+  constructor(private client: ApiClient) {}
 
   /**
    * Gets list of assortment items (products, services, bundles, variants, consignments).
@@ -49,7 +49,7 @@ export class AssortmentEndpoint {
       pagination: options?.pagination,
       filter: options?.filter,
       expand: options?.expand,
-      fields: options?.fields
+      fields: options?.fields,
     })
 
     const searchParameters = buildSearchParams(composedSearchParameters, options?.groupBy)
@@ -76,7 +76,7 @@ export class AssortmentEndpoint {
   all<T extends AllAssortmentOptions>(
     options?: Subset<T, AllAssortmentOptions>,
   ): Promise<BatchGetResult<AssortmentModel["object"], "assortment">> {
-    return this.client.batchGet(
+    return this.client.getAll(
       async (limit, offset) => {
         const composedSearchParameters = composeSearchParameters({
           pagination: {
@@ -116,7 +116,7 @@ export class AssortmentEndpoint {
   allChunks<T extends AllAssortmentOptions>(
     options?: Subset<T, AllAssortmentOptions>,
   ): AsyncGenerator<BatchGetResult<AssortmentModel["object"], "assortment">, void, void> {
-    return this.client.getChunks(
+    return this.client.getAllByChunks(
       async (limit, offset) => {
         const composedSearchParameters = composeSearchParameters({
           pagination: {

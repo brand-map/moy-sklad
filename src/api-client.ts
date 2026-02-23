@@ -1,75 +1,6 @@
-import ky, { type KyInstance } from "ky"
+import ky, { type KyInstance, type KyRequest, type Options } from "ky"
 import type { BatchGetOptions, BatchGetResult, Entity, ListResponse } from "./types"
 import { handleError } from "./utils/handle-error"
-// import { TokenBucket } from "./token-bucket"
-
-// /**
-//  * Rate limit information from API response headers
-//  */
-// interface RateLimitInfo {
-//   /** Remaining requests in current window */
-//   remaining: number
-//   /** Total limit per window */
-//   limit: number
-//   /** Unix timestamp when window resets */
-//   reset: number
-//   /** Available requests for this request */
-//   resetTime: Date
-// }
-
-// /**
-//  * Request weight calculation based on auth type and date
-//  */
-// type RequestWeight = 1 | 2 | 3 | 4
-
-interface RateLimitState {
-  lastReset: number
-  requestsUsed: number
-  concurrent: number
-}
-
-// /**
-//  * Calculates the weight of a request based on authentication type and current date
-//  */
-// function getRequestWeight(auth: Auth): RequestWeight {
-//   // Check if using user credentials (login/password or user token)
-//   const isUserAuth = "login" in auth
-
-//   if (!isUserAuth) {
-//     // Solution token auth - standard weight
-//     return 1
-//   }
-
-//   // User auth - weight depends on date
-//   const now = new Date()
-
-//   // Dec 1, 2026 and later: weight 4
-//   if (now >= new Date(2026, 11, 1)) {
-//     return 4
-//   }
-
-//   // Sept 1, 2026 and later: weight 3
-//   if (now >= new Date(2026, 8, 1)) {
-//     return 3
-//   }
-
-//   // May 12, 2026 and later: weight 2
-//   if (now >= new Date(2026, 4, 12)) {
-//     return 2
-//   }
-
-//   // Before May 12, 2026: weight 1
-//   return 1
-// }
-
-// /**
-//  * Calculates rate limit threshold (requests per 3 seconds)
-//  */
-// function getRateLimitThreshold(weight: RequestWeight): number {
-//   // The base limit is 45 units per 3 seconds
-//   const RATE_LIMIT_UNITS = 45
-//   return Math.floor(RATE_LIMIT_UNITS / weight)
-// }
 
 /**
  * Опции для Basic авторизации
@@ -137,203 +68,43 @@ export type ApiClientOptions = {
   batchGetOptions?: BatchGetOptions
 }
 
-type RequestOptions = Omit<RequestInit, "body"> & {
-  body?: object
+type RequestOptions = Omit<Options, "body"> & {
+  body?: Options["body"] | Record<string, any>
   searchParameters?: URLSearchParams
 }
-type RequestOptionsWithoutMethod = Omit<RequestOptions, "method">
+
+export function createApiClientFetcher(auth: Auth, options?: { userAgent?: string; baseUrl?: string }) {
+  const baseUrl = options?.baseUrl ?? "https://api.moysklad.ru/api/remap/1.2"
+  const userAgent = options?.userAgent ?? "brand-map/moy-sklad (+https://github.com/brand-map/moy-sklad)"
+
+  return ky.create({
+    prefixUrl: baseUrl,
+    headers: {
+      Authorization: "token" in auth ? `Bearer ${auth.token}` : `Basic ${btoa(`${auth.login}:${auth.password}`)}`,
+      "User-Agent": userAgent,
+      "Content-Type": "application/json",
+      Accept: "application/json;charset=utf-8",
+      "Accept-Encoding": "gzip",
+    },
+    throwHttpErrors: false,
+  })
+}
 
 /** API клиент */
 export class ApiClient {
-  private baseUrl: string
-  private userAgent: string
-  private auth: Auth
+  public static baseUrl = "https://api.moysklad.ru/api/remap/1.2"
   private batchGetOptions: Required<BatchGetOptions>
-  // private requestWeight: RequestWeight
-  // // private rateLimitThreshold: number
-  // private bucket: TokenBucket;
-  ky: KyInstance
-  private lastResponse: Response | undefined
-  private rateLimitState: RateLimitState = {
-    lastReset: 0,
-    requestsUsed: 0,
-    concurrent: 0,
-  }
-  private parallelRequestLimit = 3
+  #ky: KyInstance
 
-  constructor(options: ApiClientOptions) {
-    this.baseUrl = options.baseUrl ?? "https://api.moysklad.ru/api/remap/1.2"
-    this.userAgent = options.userAgent ?? "brand-map/moy-sklad (+https://github.com/brand-map/moy-sklad)"
-
-    this.auth = options.auth
-    // this.requestWeight = getRequestWeight(options.auth)
-    // this.rateLimitThreshold = getRateLimitThreshold(this.requestWeight)
-    // this.requestWeight = getRequestWeight(options.auth);
-    // const threshold = getRateLimitThreshold(this.requestWeight);
-    // this.bucket = new TokenBucket(threshold, 3); // capacity = 45/weight
+  constructor(fether: KyInstance, options?: Pick<ApiClientOptions, "batchGetOptions">) {
     this.batchGetOptions = {
       limit: 1000,
       expandLimit: 100,
       concurrencyLimit: 3,
-      ...options.batchGetOptions,
+      ...options?.batchGetOptions,
     }
 
-    // Ensure concurrency limit respects API constraints (max 5 parallel requests)
-    // if (this.batchGetOptions.concurrencyLimit > this.parallelRequestLimit) {
-    //   this.batchGetOptions.concurrencyLimit = this.parallelRequestLimit
-    // }
-
-    // Initialize ky instance with default headers and configuration
-    this.ky = ky.create({
-      prefixUrl: this.baseUrl,
-      headers: {
-        Authorization:
-          "token" in this.auth
-            ? `Bearer ${this.auth.token}`
-            : `Basic ${btoa(`${this.auth.login}:${this.auth.password}`)}`,
-        "User-Agent": this.userAgent,
-        "Content-Type": "application/json",
-        Accept: "application/json;charset=utf-8",
-        "Accept-Encoding": "gzip",
-      },
-      throwHttpErrors: false,
-      hooks: {
-        afterResponse: [
-          (_request, _options, response) => {
-            // Store the response for access in the request method
-            this.lastResponse = response as unknown as Response
-            // Update rate limit info from response headers
-            this.updateRateLimitInfo(response as unknown as Response)
-            return response
-          },
-        ],
-      },
-    })
-  }
-
-  /**
-   * Parses rate limit information from response headers
-   */
-  // private parseRateLimitHeaders(response: Response): RateLimitInfo | null {
-  //   const remaining = response.headers.get("x-ratelimit-remaining")
-  //   const limit = response.headers.get("x-ratelimit-limit")
-  //   const reset = response.headers.get("x-lognex-reset")
-
-  //   if (!remaining || !limit || !reset) {
-  //     return null
-  //   }
-
-  //   return {
-  //     remaining: parseInt(remaining, 10),
-  //     limit: parseInt(limit, 10),
-  //     reset: parseInt(reset, 10),
-  //     resetTime: new Date(parseInt(reset, 10) * 1000),
-  //   }
-  // }
-
-  private getRateLimitInfo(headers: Headers | Record<string, string>) {
-    const headersObj = headers instanceof Headers ? Object.fromEntries(headers) : headers
-
-    return {
-      limit: parseInt(headersObj["x-ratelimit-limit"] || "0"),
-      remaining: parseInt(headersObj["x-ratelimit-remaining"] || "0"),
-      reset: parseInt(headersObj["x-lognex-reset"] || "0"),
-      retryAfter: parseInt(headersObj["x-lognex-retry-after"] || "0"),
-      retryTimeInterval: parseInt(headersObj["x-lognex-retry-timeinterval"] || "1000"),
-    }
-  }
-
-  private async checkAndHandleRateLimit(
-    rateLimit: ReturnType<typeof this.getRateLimitInfo>,
-    thresholdPercentage: number = 30,
-  ): Promise<void> {
-    const thresholdValue = Math.ceil((rateLimit.limit * thresholdPercentage) / 100)
-
-    if (rateLimit.remaining <= thresholdValue) {
-      console.log("rate limit works", rateLimit.remaining)
-
-      const waitTime = rateLimit.retryTimeInterval || 3000
-      console.warn(
-        `[{filename}]: approaching rate limit (${rateLimit.remaining}/${rateLimit.limit}), waiting ${waitTime}ms`,
-      )
-      await new Promise((resolve) => setTimeout(resolve, waitTime))
-    }
-  }
-
-  /**
-   * Updates internal rate limit state based on response headers
-   */
-  private updateRateLimitInfo(response: Response): void {
-    console.log(new Date().toISOString(), response.status)
-
-    const rateLimitInfo = this.getRateLimitInfo(response.headers)
-    if (rateLimitInfo) {
-      this.checkAndHandleRateLimit(rateLimitInfo)
-      console.log(rateLimitInfo)
-    }
-
-    // console.log('before', this.rateLimitState);
-
-    //   if (!rateLimitInfo) {
-    //     return
-    //   }
-    //   // Reset state if we've entered a new rate limit window
-    //   const now = Math.floor(Date.now() / 1000)
-    //   if (now >= rateLimitInfo.reset) {
-    //     this.rateLimitState.lastReset = rateLimitInfo.reset
-    //     this.rateLimitState.requestsUsed = 0
-    //   }
-
-    //   // Update remaining capacity
-    //   this.rateLimitState.requestsUsed =
-    //     rateLimitInfo.limit - rateLimitInfo.remaining
-  }
-
-  /**
-   * Calculates milliseconds to wait before next request based on rate limits
-   */
-  // private calculateBackoffDelay(): number {
-  //   const now = Math.floor(Date.now() / 1000)
-
-  //   // If we're in a new window, no delay needed
-  //   if (now >= this.rateLimitState.lastReset) {
-  //     return 0
-  //   }
-
-  //   // Calculate how much of the window remains
-  //   const windowRemaining = this.rateLimitState.lastReset - now
-  //   const requestsRemaining =
-  //     this.rateLimitThreshold - this.rateLimitState.requestsUsed
-
-  //   // If we have requests remaining, no delay needed
-  //   if (requestsRemaining > 1) {
-  //     return 0
-  //   }
-
-  //   // We're at or near the limit - wait until window resets
-  //   return windowRemaining * 1000 + 100 // Add 100ms buffer
-  // }
-
-  /**
-   * Waits for rate limit window if necessary
-   */
-  // private async waitForRateLimit(): Promise<void> {
-  //   const delay = this.calculateBackoffDelay()
-
-  //   if (delay > 0) {
-  //     await new Promise((resolve) => setTimeout(resolve, delay))
-  //     // Reset counter after waiting
-  //     this.rateLimitState.requestsUsed = 0
-  //   }
-  // }
-
-  /**
-   * Waits for parallel request slot if at limit
-   */
-  private async waitForParallelSlot(): Promise<void> {
-    while (this.rateLimitState.concurrent >= this.parallelRequestLimit) {
-      await new Promise((resolve) => setTimeout(resolve, 50))
-    }
+    this.#ky = fether
   }
 
   /**
@@ -344,50 +115,29 @@ export class ApiClient {
    *
    * @example
    * ```ts
-   * const response = await apiClient.request("/entity/counterparty", { method: "POST", body: { name: "ООО Ромашка" } });
+   * const response = await apiClient. #request("/entity/counterparty", { method: "POST", body: { name: "ООО Ромашка" } });
    * ```
    */
-  async request(endpoint: string, options: RequestOptions = {}): Promise<Response> {
-    await this.waitForParallelSlot()
-    this.rateLimitState.concurrent++
+  async #request(
+    endpoint: string,
+    { body, searchParameters, ...requestOptions }: RequestOptions = {},
+  ): Promise<Response> {
+    const normalizedEndpoint = endpoint.startsWith("/") ? endpoint.slice(1) : endpoint
+    const searchParams = searchParameters ? new URLSearchParams(searchParameters) : undefined
 
-    try {
-      // 1. Consume tokens (this may wait)
-      // await this.bucket.consume(this.requestWeight);
-
-      // 2. Perform the actual HTTP call
-      const normalizedEndpoint = endpoint.startsWith("/") ? endpoint.slice(1) : endpoint
-      const searchParams = new URLSearchParams(options.searchParameters)
-      const kyOptions: Record<string, unknown> = {
-        ...options,
-        searchParams: searchParams.size > 0 ? searchParams : undefined,
-      }
-      if (options.body) kyOptions.json = options.body
-
-      await this.ky(normalizedEndpoint, kyOptions)
-      const response = this.lastResponse
-      if (!response) throw new Error("No response captured")
-
-      // 3. Sync bucket with response headers
-      // const rateLimitInfo = this.parseRateLimitHeaders(response);
-      // if (rateLimitInfo) {
-      // this.bucket.sync(rateLimitInfo.remaining, rateLimitInfo.reset);
-      // }
-
-      // 4. Handle 429 (should be rare now)
-      if (response.status === 429) {
-        // const retryAfter = response.headers.get('Retry-After');
-        const delay = 3100
-        await new Promise((r) => setTimeout(r, delay))
-        // Retry – bucket will handle capacity again
-        return this.request(endpoint, options)
-      }
-
-      if (!response.ok) await handleError(response)
-      return response
-    } finally {
-      this.rateLimitState.concurrent--
+    const kyOptions = {
+      ...requestOptions,
+      searchParams: searchParams?.size ? searchParams : undefined,
+      body: body && typeof body === "object" ? JSON.stringify(body) : body,
     }
+
+    const response = await this.#ky(normalizedEndpoint, kyOptions)
+
+    if (!response.ok) {
+      await handleError(response)
+    }
+
+    return response as Response
   }
 
   /**
@@ -395,8 +145,8 @@ export class ApiClient {
    *
    * {@linkcode request}
    * */
-  get(url: string, options: RequestOptionsWithoutMethod = {}): Promise<Response> {
-    return this.request(url, { ...options, method: "GET" })
+  public get(url: string, options: RequestOptions = {}): Promise<Response> {
+    return this.#request(url, { ...options, method: "GET" })
   }
 
   /**
@@ -404,8 +154,8 @@ export class ApiClient {
    *
    * {@linkcode request}
    */
-  post(url: string, options: RequestOptionsWithoutMethod = {}): Promise<Response> {
-    return this.request(url, { ...options, method: "POST" })
+  public post(url: string, options: RequestOptions = {}): Promise<Response> {
+    return this.#request(url, { ...options, method: "POST" })
   }
 
   /**
@@ -413,8 +163,8 @@ export class ApiClient {
    *
    * {@linkcode request}
    */
-  put(url: string, options: RequestOptionsWithoutMethod = {}): Promise<Response> {
-    return this.request(url, { ...options, method: "PUT" })
+  public put(url: string, options: RequestOptions = {}): Promise<Response> {
+    return this.#request(url, { ...options, method: "PUT" })
   }
 
   /**
@@ -422,8 +172,8 @@ export class ApiClient {
    *
    * {@linkcode request}
    */
-  delete(url: string, options: RequestOptionsWithoutMethod = {}): Promise<Response> {
-    return this.request(url, { ...options, method: "DELETE" })
+  public delete(url: string, options: RequestOptions = {}): Promise<Response> {
+    return this.#request(url, { ...options, method: "DELETE" })
   }
 
   /**
@@ -433,7 +183,7 @@ export class ApiClient {
    *
    * @returns Нормализованный URL
    */
-  private normalizeUrl(url: string): string {
+  public static normalizeUrl(url: string): string {
     return url.replaceAll(/\/{2,}/g, "/")
   }
 
@@ -447,9 +197,9 @@ export class ApiClient {
   private buildStringUrl(url: string): URL {
     const shouldIncludeBaseUrl = !url.startsWith("http")
 
-    const returnUrl = shouldIncludeBaseUrl ? `${this.baseUrl}/${url}` : url
+    const returnUrl = shouldIncludeBaseUrl ? `${ApiClient.baseUrl}/${url}` : url
 
-    return new URL(this.normalizeUrl(returnUrl))
+    return new URL(ApiClient.normalizeUrl(returnUrl))
   }
 
   /**
@@ -462,9 +212,9 @@ export class ApiClient {
   private buildArrayUrl(url: string[]): URL {
     const shouldIncludeBaseUrl = !url[0]?.startsWith("http")
 
-    const returnUrl = shouldIncludeBaseUrl ? `${this.baseUrl}/${url.join("/")}` : url.join("/")
+    const returnUrl = shouldIncludeBaseUrl ? `${ApiClient.baseUrl}/${url.join("/")}` : url.join("/")
 
-    return new URL(this.normalizeUrl(returnUrl))
+    return new URL(ApiClient.normalizeUrl(returnUrl))
   }
 
   /**
@@ -486,7 +236,7 @@ export class ApiClient {
    * // "https://api.moysklad.ru/api/remap/1.2/entity/counterparty/5427bc76-b95f-11eb-0a80-04bb000cd583"
    * ```
    */
-  buildUrl(url: string | string[]): URL {
+  public buildUrl(url: string | string[]): URL {
     if (typeof url === "string") {
       return this.buildStringUrl(url)
     }
@@ -502,20 +252,20 @@ export class ApiClient {
    *
    * @returns Объект с массивом сущностей и контекстом
    */
-  async batchGet<T, E extends Entity>(
+  public async getAll<T, E extends Entity>(
     fetcher: (limit: number, offset: number) => Promise<ListResponse<T, E>>,
     hasExpand?: boolean,
   ): Promise<BatchGetResult<T, E>> {
     let context: BatchGetResult<T, E>["context"] | undefined
     const allRows: T[] = []
 
-    for await (const chunk of this.getChunks(fetcher, hasExpand)) {
+    for await (const chunk of this.getAllByChunks(fetcher, hasExpand)) {
       context = chunk.context
       allRows.push(...chunk.rows)
     }
 
     if (context == null) {
-      throw new Error("getChunks returned no chunks")
+      throw new Error("getAllByChunks returned no chunks")
     }
 
     return { context, rows: allRows }
@@ -530,7 +280,7 @@ export class ApiClient {
    *
    * @yields Объект чанка с `rows` и `context`
    */
-  async *getChunks<T, E extends Entity>(
+  public async *getAllByChunks<T, E extends Entity>(
     fetcher: (limit: number, offset: number) => Promise<ListResponse<T, E>>,
     hasExpand?: boolean,
   ): AsyncGenerator<BatchGetResult<T, E>, void, void> {
@@ -566,13 +316,13 @@ export class ApiClient {
     }
   }
 
-  /**
-   * Perform a request and directly return parsed JSON.
-   *
-   * This helper reduces boilerplate for callers that need the response body as a typed object.
-   */
-  async requestJson<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
-    const response = await this.request(endpoint, options)
-    return (await response.json()) as T
-  }
+  // /**
+  //  * Perform a request and directly return parsed JSON.
+  //  *
+  //  * This helper reduces boilerplate for callers that need the response body as a typed object.
+  //  */
+  // private async requestJson<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
+  //   const response = await this. #request(endpoint, options)
+  //   return (await response.json()) as T
+  // }
 }
