@@ -128,6 +128,7 @@ function traverseFilter(field: string, filter: Filter | undefined) {
 export function composeSearchParameters({
   pagination,
   expand,
+  applyExpandDefaultLimit = true,
   order,
   search,
   filter,
@@ -136,6 +137,7 @@ export function composeSearchParameters({
 }: {
   pagination?: PaginationOptions
   expand?: Record<string, unknown>
+  applyExpandDefaultLimit?: boolean
   order?: OrderOption<string> | OrderOption<string>[]
   search?: string
   filter?: Record<string, Filter | undefined>
@@ -151,7 +153,7 @@ export function composeSearchParameters({
 
   if (typeof pagination?.limit === "number") {
     searchParameters.append("limit", pagination.limit.toString())
-  } else if (expandFields && expandFields.length > 0) {
+  } else if (applyExpandDefaultLimit && expandFields && expandFields.length > 0) {
     searchParameters.append("limit", "100")
   }
 
@@ -187,6 +189,10 @@ export function composeSearchParameters({
   }
 
   for (const [field, value] of Object.entries(options)) {
+    if (value === undefined || value === null) {
+      continue
+    }
+
     searchParameters.append(field, String(value))
   }
 

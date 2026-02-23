@@ -189,7 +189,10 @@ export class VariantEndpoint {
       searchParams.fields = options.fields.join(",")
     }
 
-    const searchParameters = composeSearchParameters(searchParams)
+    const searchParameters = composeSearchParameters({
+      ...searchParams,
+      applyExpandDefaultLimit: false,
+    })
 
     return this.client.get(`${this.endpointPath}/${id}`, { searchParameters }).then((res) => res.json()) as any
   }
