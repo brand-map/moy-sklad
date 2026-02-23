@@ -20,6 +20,9 @@
     ".": "./src/exports.ts",
     "./parts": "./src/exports-parts.ts"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "fmt": "oxfmt ."
   },

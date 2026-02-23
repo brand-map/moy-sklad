@@ -1,75 +1,12 @@
 import ky, { type KyInstance } from "ky"
 import type { BatchGetOptions, BatchGetResult, Entity, ListResponse } from "./types"
 import { handleError } from "./utils/handle-error"
-// import { TokenBucket } from "./token-bucket"
-
-// /**
-//  * Rate limit information from API response headers
-//  */
-// interface RateLimitInfo {
-//   /** Remaining requests in current window */
-//   remaining: number
-//   /** Total limit per window */
-//   limit: number
-//   /** Unix timestamp when window resets */
-//   reset: number
-//   /** Available requests for this request */
-//   resetTime: Date
-// }
-
-// /**
-//  * Request weight calculation based on auth type and date
-//  */
-// type RequestWeight = 1 | 2 | 3 | 4
 
 interface RateLimitState {
   lastReset: number
   requestsUsed: number
   concurrent: number
 }
-
-// /**
-//  * Calculates the weight of a request based on authentication type and current date
-//  */
-// function getRequestWeight(auth: Auth): RequestWeight {
-//   // Check if using user credentials (login/password or user token)
-//   const isUserAuth = "login" in auth
-
-//   if (!isUserAuth) {
-//     // Solution token auth - standard weight
-//     return 1
-//   }
-
-//   // User auth - weight depends on date
-//   const now = new Date()
-
-//   // Dec 1, 2026 and later: weight 4
-//   if (now >= new Date(2026, 11, 1)) {
-//     return 4
-//   }
-
-//   // Sept 1, 2026 and later: weight 3
-//   if (now >= new Date(2026, 8, 1)) {
-//     return 3
-//   }
-
-//   // May 12, 2026 and later: weight 2
-//   if (now >= new Date(2026, 4, 12)) {
-//     return 2
-//   }
-
-//   // Before May 12, 2026: weight 1
-//   return 1
-// }
-
-// /**
-//  * Calculates rate limit threshold (requests per 3 seconds)
-//  */
-// function getRateLimitThreshold(weight: RequestWeight): number {
-//   // The base limit is 45 units per 3 seconds
-//   const RATE_LIMIT_UNITS = 45
-//   return Math.floor(RATE_LIMIT_UNITS / weight)
-// }
 
 /**
  * Опции для Basic авторизации
@@ -149,9 +86,6 @@ export class ApiClient {
   private userAgent: string
   private auth: Auth
   private batchGetOptions: Required<BatchGetOptions>
-  // private requestWeight: RequestWeight
-  // // private rateLimitThreshold: number
-  // private bucket: TokenBucket;
   ky: KyInstance
   private lastResponse: Response | undefined
   private rateLimitState: RateLimitState = {
@@ -166,22 +100,13 @@ export class ApiClient {
     this.userAgent = options.userAgent ?? "brand-map/moy-sklad (+https://github.com/brand-map/moy-sklad)"
 
     this.auth = options.auth
-    // this.requestWeight = getRequestWeight(options.auth)
-    // this.rateLimitThreshold = getRateLimitThreshold(this.requestWeight)
-    // this.requestWeight = getRequestWeight(options.auth);
-    // const threshold = getRateLimitThreshold(this.requestWeight);
-    // this.bucket = new TokenBucket(threshold, 3); // capacity = 45/weight
+
     this.batchGetOptions = {
       limit: 1000,
       expandLimit: 100,
       concurrencyLimit: 3,
       ...options.batchGetOptions,
     }
-
-    // Ensure concurrency limit respects API constraints (max 5 parallel requests)
-    // if (this.batchGetOptions.concurrencyLimit > this.parallelRequestLimit) {
-    //   this.batchGetOptions.concurrencyLimit = this.parallelRequestLimit
-    // }
 
     // Initialize ky instance with default headers and configuration
     this.ky = ky.create({
@@ -210,26 +135,6 @@ export class ApiClient {
       },
     })
   }
-
-  /**
-   * Parses rate limit information from response headers
-   */
-  // private parseRateLimitHeaders(response: Response): RateLimitInfo | null {
-  //   const remaining = response.headers.get("x-ratelimit-remaining")
-  //   const limit = response.headers.get("x-ratelimit-limit")
-  //   const reset = response.headers.get("x-lognex-reset")
-
-  //   if (!remaining || !limit || !reset) {
-  //     return null
-  //   }
-
-  //   return {
-  //     remaining: parseInt(remaining, 10),
-  //     limit: parseInt(limit, 10),
-  //     reset: parseInt(reset, 10),
-  //     resetTime: new Date(parseInt(reset, 10) * 1000),
-  //   }
-  // }
 
   private getRateLimitInfo(headers: Headers | Record<string, string>) {
     const headersObj = headers instanceof Headers ? Object.fromEntries(headers) : headers
@@ -271,61 +176,7 @@ export class ApiClient {
       this.checkAndHandleRateLimit(rateLimitInfo)
       console.log(rateLimitInfo)
     }
-
-    // console.log('before', this.rateLimitState);
-
-    //   if (!rateLimitInfo) {
-    //     return
-    //   }
-    //   // Reset state if we've entered a new rate limit window
-    //   const now = Math.floor(Date.now() / 1000)
-    //   if (now >= rateLimitInfo.reset) {
-    //     this.rateLimitState.lastReset = rateLimitInfo.reset
-    //     this.rateLimitState.requestsUsed = 0
-    //   }
-
-    //   // Update remaining capacity
-    //   this.rateLimitState.requestsUsed =
-    //     rateLimitInfo.limit - rateLimitInfo.remaining
   }
-
-  /**
-   * Calculates milliseconds to wait before next request based on rate limits
-   */
-  // private calculateBackoffDelay(): number {
-  //   const now = Math.floor(Date.now() / 1000)
-
-  //   // If we're in a new window, no delay needed
-  //   if (now >= this.rateLimitState.lastReset) {
-  //     return 0
-  //   }
-
-  //   // Calculate how much of the window remains
-  //   const windowRemaining = this.rateLimitState.lastReset - now
-  //   const requestsRemaining =
-  //     this.rateLimitThreshold - this.rateLimitState.requestsUsed
-
-  //   // If we have requests remaining, no delay needed
-  //   if (requestsRemaining > 1) {
-  //     return 0
-  //   }
-
-  //   // We're at or near the limit - wait until window resets
-  //   return windowRemaining * 1000 + 100 // Add 100ms buffer
-  // }
-
-  /**
-   * Waits for rate limit window if necessary
-   */
-  // private async waitForRateLimit(): Promise<void> {
-  //   const delay = this.calculateBackoffDelay()
-
-  //   if (delay > 0) {
-  //     await new Promise((resolve) => setTimeout(resolve, delay))
-  //     // Reset counter after waiting
-  //     this.rateLimitState.requestsUsed = 0
-  //   }
-  // }
 
   /**
    * Waits for parallel request slot if at limit

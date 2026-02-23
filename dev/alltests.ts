@@ -58,11 +58,7 @@ class EndpointTestRunner {
     })
   }
 
-  private async trackResult(
-    endpoint: string,
-    method: string,
-    fn: () => Promise<unknown>,
-  ): Promise<TestResult> {
+  private async trackResult(endpoint: string, method: string, fn: () => Promise<unknown>): Promise<TestResult> {
     const start = Date.now()
     try {
       const result = await fn()
@@ -121,25 +117,19 @@ class EndpointTestRunner {
     const { assortment } = this.moysklad
 
     // Test list
-    let result = await this.trackResult("assortment", "list", () =>
-      assortment.list({ pagination: { limit: 5 } }),
-    )
+    let result = await this.trackResult("assortment", "list", () => assortment.list({ pagination: { limit: 5 } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test first
-    result = await this.trackResult("assortment", "first", () =>
-      assortment.first({ filter: { archived: false } }),
-    )
+    result = await this.trackResult("assortment", "first", () => assortment.first({ filter: { archived: false } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test all (limited)
-    result = await this.trackResult("assortment", "all", () =>
-      assortment.all({ filter: { archived: false } }),
-    )
+    result = await this.trackResult("assortment", "all", () => assortment.all({ filter: { archived: false } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
@@ -167,25 +157,19 @@ class EndpointTestRunner {
     const { product } = this.moysklad
 
     // Test list
-    let result = await this.trackResult("product", "list", () =>
-      product.list({ pagination: { limit: 5 } }),
-    )
+    let result = await this.trackResult("product", "list", () => product.list({ pagination: { limit: 5 } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test first
-    result = await this.trackResult("product", "first", () =>
-      product.first({ filter: { archived: false } }),
-    )
+    result = await this.trackResult("product", "first", () => product.first({ filter: { archived: false } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test all (limited)
-    result = await this.trackResult("product", "all", () =>
-      product.all({ filter: { archived: false } }),
-    )
+    result = await this.trackResult("product", "all", () => product.all({ filter: { archived: false } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
@@ -231,25 +215,19 @@ class EndpointTestRunner {
     const { service } = this.moysklad
 
     // Test list
-    let result = await this.trackResult("service", "list", () =>
-      service.list({ pagination: { limit: 5 } }),
-    )
+    let result = await this.trackResult("service", "list", () => service.list({ pagination: { limit: 5 } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test first
-    result = await this.trackResult("service", "first", () =>
-      service.first({ filter: { archived: false } }),
-    )
+    result = await this.trackResult("service", "first", () => service.first({ filter: { archived: false } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test all
-    result = await this.trackResult("service", "all", () =>
-      service.all({ filter: { archived: false } }),
-    )
+    result = await this.trackResult("service", "all", () => service.all({ filter: { archived: false } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
@@ -295,25 +273,19 @@ class EndpointTestRunner {
     const { bundle } = this.moysklad
 
     // Test list
-    let result = await this.trackResult("bundle", "list", () =>
-      bundle.list({ pagination: { limit: 5 } }),
-    )
+    let result = await this.trackResult("bundle", "list", () => bundle.list({ pagination: { limit: 5 } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test first
-    result = await this.trackResult("bundle", "first", () =>
-      bundle.first({ filter: { archived: false } }),
-    )
+    result = await this.trackResult("bundle", "first", () => bundle.first({ filter: { archived: false } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test all
-    result = await this.trackResult("bundle", "all", () =>
-      bundle.all({ filter: { archived: false } }),
-    )
+    result = await this.trackResult("bundle", "all", () => bundle.all({ filter: { archived: false } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
@@ -359,25 +331,19 @@ class EndpointTestRunner {
     const { variant } = this.moysklad
 
     // Test list
-    let result = await this.trackResult("variant", "list", () =>
-      variant.list({ pagination: { limit: 5 } }),
-    )
+    let result = await this.trackResult("variant", "list", () => variant.list({ pagination: { limit: 5 } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test first
-    result = await this.trackResult("variant", "first", () =>
-      variant.first({ filter: { archived: false } }),
-    )
+    result = await this.trackResult("variant", "first", () => variant.first({ filter: { archived: false } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test all
-    result = await this.trackResult("variant", "all", () =>
-      variant.all({ filter: { archived: false } }),
-    )
+    result = await this.trackResult("variant", "all", () => variant.all({ filter: { archived: false } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
@@ -423,17 +389,13 @@ class EndpointTestRunner {
     const { webhook } = this.moysklad
 
     // Test list
-    let result = await this.trackResult("webhook", "list", () =>
-      webhook.list(),
-    )
+    let result = await this.trackResult("webhook", "list", () => webhook.list())
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test first
-    result = await this.trackResult("webhook", "first", () =>
-      webhook.first({ pagination: { limit: 1 } }),
-    )
+    result = await this.trackResult("webhook", "first", () => webhook.first({ pagination: { limit: 1 } }))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
@@ -492,17 +454,13 @@ class EndpointTestRunner {
       await sleep(PAUSE_MS)
 
       // Test update
-      result = await this.trackResult("webhook", "update", () =>
-        webhook.update(createdWebhook.id, { enabled: false }),
-      )
+      result = await this.trackResult("webhook", "update", () => webhook.update(createdWebhook.id, { enabled: false }))
       this.results.push(result)
       this.logResult(result)
       await sleep(PAUSE_MS)
 
       // Test delete
-      result = await this.trackResult("webhook", "delete", () =>
-        webhook.delete(createdWebhook.id),
-      )
+      result = await this.trackResult("webhook", "delete", () => webhook.delete(createdWebhook.id))
       this.results.push(result)
       this.logResult(result)
       await sleep(PAUSE_MS)
@@ -511,7 +469,6 @@ class EndpointTestRunner {
     console.log()
   }
 
-
   async testImageEndpoint(): Promise<void> {
     console.log("\n🖼️ Image Endpoint")
     console.log("-".repeat(40))
@@ -519,7 +476,7 @@ class EndpointTestRunner {
     const { image, product } = this.moysklad
 
     // Get a product with images to test against
-    const productSingle = await product.byId('8f19776a-02b5-11f1-0a80-1af600003a6d')
+    const productSingle = await product.byId("8f19776a-02b5-11f1-0a80-1af600003a6d")
     let productId: string | undefined
     if (productSingle.id) {
       productId = productSingle.id
@@ -542,9 +499,7 @@ class EndpointTestRunner {
     }
 
     // Test list
-    let result = await this.trackResult("image", "list", () =>
-      image.list("product", productId!),
-    )
+    let result = await this.trackResult("image", "list", () => image.list("product", productId!))
     this.results.push(result)
     this.logResult(result)
 
@@ -556,17 +511,13 @@ class EndpointTestRunner {
     await sleep(PAUSE_MS)
 
     // Test first
-    result = await this.trackResult("image", "first", () =>
-      image.first("product", productId!),
-    )
+    result = await this.trackResult("image", "first", () => image.first("product", productId!))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
 
     // Test all
-    result = await this.trackResult("image", "all", () =>
-      image.all("product", productId!),
-    )
+    result = await this.trackResult("image", "all", () => image.all("product", productId!))
     this.results.push(result)
     this.logResult(result)
     await sleep(PAUSE_MS)
@@ -585,7 +536,8 @@ class EndpointTestRunner {
     await sleep(PAUSE_MS)
 
     // Test create (add a small test image)
-    const testImageContent = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAA3NCSVQICAjb4U/gAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+    const testImageContent =
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAA3NCSVQICAjb4U/gAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
     result = await this.trackResult("image", "create", () =>
       image.create("product", productId!, {
         filename: `test-image-${Date.now()}.png`,
@@ -612,9 +564,7 @@ class EndpointTestRunner {
 
     // Test delete (delete the created image if we have one)
     if (createdImageId) {
-      result = await this.trackResult("image", "delete", () =>
-        image.delete("product", productId!, createdImageId!),
-      )
+      result = await this.trackResult("image", "delete", () => image.delete("product", productId!, createdImageId!))
       this.results.push(result)
       this.logResult(result)
       await sleep(PAUSE_MS)
@@ -653,13 +603,14 @@ class EndpointTestRunner {
       const productWithImages = productListResult.rows?.[0]
       const images = productWithImages?.images
       // Check if images is an array (expanded with fields) or just meta object
-      const hasPermanentHref = images && 'rows' in images && images?.rows?.some(
-        (img) => img?.meta?.downloadPermanentHref !== undefined
-      )
+      const hasPermanentHref =
+        images && "rows" in images && images?.rows?.some((img) => img?.meta?.downloadPermanentHref !== undefined)
       if (hasPermanentHref) {
         console.log("     ✅ Product images have downloadPermanentHref")
       } else {
-        console.log("     ⚠️  Product images: no downloadPermanentHref (may not have images or not expanded with fields)")
+        console.log(
+          "     ⚠️  Product images: no downloadPermanentHref (may not have images or not expanded with fields)",
+        )
       }
     }
     await sleep(PAUSE_MS)
@@ -680,13 +631,14 @@ class EndpointTestRunner {
       const bundleListResult = result.result as { rows?: Array<{ images?: Image[] | ImageCollectionMetaOnly }> }
       const bundleWithImages = bundleListResult.rows?.[0]
       const images = bundleWithImages?.images
-      const hasPermanentHref = Array.isArray(images) && images.some(
-        (img) => img?.meta?.downloadPermanentHref !== undefined
-      )
+      const hasPermanentHref =
+        Array.isArray(images) && images.some((img) => img?.meta?.downloadPermanentHref !== undefined)
       if (hasPermanentHref) {
         console.log("     ✅ Bundle images have downloadPermanentHref")
       } else {
-        console.log("     ⚠️  Bundle images: no downloadPermanentHref (may not have images or not expanded with fields)")
+        console.log(
+          "     ⚠️  Bundle images: no downloadPermanentHref (may not have images or not expanded with fields)",
+        )
       }
     }
     await sleep(PAUSE_MS)
@@ -707,13 +659,14 @@ class EndpointTestRunner {
       const variantListResult = result.result as { rows?: Array<{ images?: Image[] | ImageCollectionMetaOnly }> }
       const variantWithImages = variantListResult.rows?.[0]
       const images = variantWithImages?.images
-      const hasPermanentHref = Array.isArray(images) && images.some(
-        (img) => img?.meta?.downloadPermanentHref !== undefined
-      )
+      const hasPermanentHref =
+        Array.isArray(images) && images.some((img) => img?.meta?.downloadPermanentHref !== undefined)
       if (hasPermanentHref) {
         console.log("     ✅ Variant images have downloadPermanentHref")
       } else {
-        console.log("     ⚠️  Variant images: no downloadPermanentHref (may not have images or not expanded with fields)")
+        console.log(
+          "     ⚠️  Variant images: no downloadPermanentHref (may not have images or not expanded with fields)",
+        )
       }
     }
     await sleep(PAUSE_MS)
@@ -734,9 +687,8 @@ class EndpointTestRunner {
       const productWithImages = productListResult.rows?.[0]
       const images = productWithImages?.images
       // Without fields param, images should be just { meta: {...} }, not an array
-      const hasPermanentHref = Array.isArray(images) && images.some(
-        (img) => img?.meta?.downloadPermanentHref !== undefined
-      )
+      const hasPermanentHref =
+        Array.isArray(images) && images.some((img) => img?.meta?.downloadPermanentHref !== undefined)
       if (!hasPermanentHref) {
         console.log("     ✅ Without fields param: no downloadPermanentHref (as expected)")
       } else {
@@ -778,9 +730,7 @@ class EndpointTestRunner {
     console.log()
     console.log("Endpoint Summary:")
     console.log("-".repeat(40))
-    console.log(
-      "Endpoint       | Total | ✅ Success | ❌ Errors | ⏭️ Skipped",
-    )
+    console.log("Endpoint       | Total | ✅ Success | ❌ Errors | ⏭️ Skipped")
     console.log("-".repeat(60))
 
     for (const summary of summaries) {

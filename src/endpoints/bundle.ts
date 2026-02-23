@@ -33,7 +33,7 @@ import type { GroupModel } from "./group"
 export class BundleEndpoint {
   private endpointPath = "entity/bundle"
 
-  constructor(private client: ApiClient) { }
+  constructor(private client: ApiClient) {}
 
   /**
    * Gets list of bundles.

@@ -27,7 +27,7 @@ import type { GroupModel } from "./group"
 export class ServiceEndpoint {
   private endpointPath = "entity/service"
 
-  constructor(private client: ApiClient) { }
+  constructor(private client: ApiClient) {}
 
   /**
    * Gets list of services.
