@@ -137,7 +137,10 @@ export class WebhookEndpoint {
    * @see https://dev.moysklad.ru/doc/api/remap/1.2/#/dictionaries/webhook#3-massovoe-sozdanie-i-obnovlenie-vebhukov
    */
   async batchCreateOrUpdate(items: WebhookCreateOrUpdateItem[], urlId?: string): Promise<Webhook[]> {
-    const id = urlId ?? (items[0] && "meta" in items[0] ? items[0].meta.href.split("/").pop() : "")
+    const id = urlId ?? (items[0] && "meta" in items[0] ? items[0].meta.href.split("/").pop() : undefined)
+    if(!id){
+      throw new Error("No Webhook ID figured out!")
+    }
     return this.client.post(`${this.endpointPath}/${id}`, { body: items }).then((res) => res.json()) as any
   }
 
