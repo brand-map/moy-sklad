@@ -151,13 +151,15 @@ describe("WebhookEndpoint (unit)", () => {
     expect(calls[0]?.input).toBe("entity/webhook/derived-id")
   })
 
-  test("batchCreateOrUpdate falls back to empty url id when no meta and no explicit id", async () => {
+  test("batchCreateOrUpdate throws when no meta and no explicit id", async () => {
     const { client, calls } = createApiClientTestHarness({ responses: [[{ id: "wh-3" }]] })
     const endpoint = new WebhookEndpoint(client)
 
-    await endpoint.batchCreateOrUpdate([{ url: "https://example.com", action: "CREATE", entityType: "product" }] as any)
+    await expect(
+      endpoint.batchCreateOrUpdate([{ url: "https://example.com", action: "CREATE", entityType: "product" }] as any),
+    ).rejects.toThrow("No Webhook ID figured out")
 
-    expect(calls[0]?.input).toBe("entity/webhook/")
+    expect(calls).toHaveLength(0)
   })
 
   test("batchDelete posts to /delete", async () => {

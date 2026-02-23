@@ -87,7 +87,7 @@ interface BaseCounterparty extends Idable, Meta<"counterparty"> {
 }
 
 export interface LegalCounterparty extends BaseCounterparty {
-  companyType: CounterpartyCompanyType.Legal
+  companyType: "legal"
   inn?: string
   kpp?: string
   legalTitle?: string
@@ -96,7 +96,7 @@ export interface LegalCounterparty extends BaseCounterparty {
 }
 
 export interface EntrepreneurCounterparty extends BaseCounterparty {
-  companyType: CounterpartyCompanyType.Entrepreneur
+  companyType: "entrepreneur"
   certificateDate?: DateTime
   certificateNumber?: string
   inn?: string
@@ -109,7 +109,7 @@ export interface EntrepreneurCounterparty extends BaseCounterparty {
 }
 
 export interface IndividualCounterparty extends BaseCounterparty {
-  companyType: CounterpartyCompanyType.Individual
+  companyType: "individual"
   birthDate?: DateTime
   inn?: string
   legalFirstName?: string

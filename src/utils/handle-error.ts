@@ -58,11 +58,31 @@ function isErrorsObject(data: unknown): data is { errors: MoyskladApiErrorObject
   )
 }
 
-function processErrorsObject({ errors: [error] }: { errors: MoyskladApiErrorObject[] }, response: Response): void {
-  if (!error) {
-    throw new MoyskladError("No errors in errors array", response)
+function pickFirstError(data: unknown): MoyskladApiErrorObject | undefined {
+  if (isErrorObject(data)) {
+    return data
   }
-  throw new MoyskladApiError(error.error, response, error.code, error.info)
+
+  if (isErrorsObject(data)) {
+    return data.errors.find((error) => isErrorObject(error))
+  }
+
+  if (Array.isArray(data)) {
+    for (const item of data) {
+      if (isErrorObject(item)) {
+        return item
+      }
+
+      if (isErrorsObject(item)) {
+        const nestedError = item.errors.find((error) => isErrorObject(error))
+        if (nestedError) {
+          return nestedError
+        }
+      }
+    }
+  }
+
+  return undefined
 }
 
 export async function handleError(response: Response): Promise<never> {
@@ -80,18 +100,22 @@ export async function handleError(response: Response): Promise<never> {
     throw new MoyskladError("Response body is empty", response)
   }
 
-  const data: unknown = JSON.parse(text)
+  let data: unknown
 
-  if (Array.isArray(data) && data.length > 0) {
-    const errorsObject = data.find((error) => isErrorsObject(error))
+  try {
+    data = JSON.parse(text)
+  } catch {
+    throw new MoyskladError(`HTTP ${response.status} ${response.statusText} (invalid JSON error payload)`, response)
+  }
 
-    if (!errorsObject) {
-      throw new MoyskladError(`HTTP ${response.status} ${response.statusText} (${JSON.stringify(data)})`, response)
-    }
+  const apiError = pickFirstError(data)
 
-    processErrorsObject(errorsObject, response)
-  } else if (isErrorsObject(data)) {
-    processErrorsObject(data, response)
+  if (apiError) {
+    throw new MoyskladApiError(apiError.error, response, apiError.code, apiError.info)
+  }
+
+  if (typeof data === "object" && data !== null) {
+    throw new MoyskladError(`HTTP ${response.status} ${response.statusText} (${JSON.stringify(data)})`, response)
   }
 
   throw new MoyskladError(`HTTP ${response.status} ${response.statusText}`, response)

@@ -8,11 +8,14 @@ export type CapturedRequest = {
   options: Options | undefined
 }
 
+type ResponseBody = ConstructorParameters<typeof Response>[0]
+type ResponseHeaders = NonNullable<ConstructorParameters<typeof Response>[1]>["headers"]
+
 export type MockResponseConfig = {
   status?: number
-  headers?: HeadersInit
+  headers?: ResponseHeaders
   body?: unknown
-  rawBody?: BodyInit
+  rawBody?: ResponseBody
   delayMs?: number
 }
 
@@ -43,14 +46,14 @@ export function createApiClientTestHarness(options?: {
   const responses = options?.responses ?? []
 
   const fetcher = (async (input: KyRequest, requestOptions?: Options) => {
-    const serializedInput =
-      typeof input === "string"
-        ? input
-        : input instanceof Request
-          ? input.url
-          : input instanceof URL
-            ? input.toString()
-            : String(input)
+    let serializedInput: string
+    if (typeof input === "string") {
+      serializedInput = input
+    } else if (typeof input === "object" && input !== null && "url" in input && typeof input.url === "string") {
+      serializedInput = input.url
+    } else {
+      serializedInput = String(input)
+    }
 
     const call: CapturedRequest = {
       input: serializedInput,
@@ -61,14 +64,19 @@ export function createApiClientTestHarness(options?: {
 
     const responseEntry = responses[calls.length - 1]
     const responseValue = typeof responseEntry === "function" ? responseEntry(call, calls.length - 1) : responseEntry
-    const responseConfig = isMockResponseConfig(responseValue) ? responseValue : { body: responseValue }
+    let responseConfig: MockResponseConfig
+    if (isMockResponseConfig(responseValue)) {
+      responseConfig = responseValue
+    } else {
+      responseConfig = { body: responseValue }
+    }
 
-    if (responseConfig.delayMs && responseConfig.delayMs > 0) {
+    if (typeof responseConfig.delayMs === "number" && responseConfig.delayMs > 0) {
       await new Promise((resolve) => setTimeout(resolve, responseConfig.delayMs))
     }
 
-    const responseBody = responseConfig.rawBody ?? JSON.stringify(responseConfig.body ?? {})
-    const headers = responseConfig.headers ?? {
+    const responseBody: ResponseBody = responseConfig.rawBody ?? JSON.stringify(responseConfig.body ?? {})
+    const headers: ResponseHeaders = responseConfig.headers ?? {
       "Content-Type": "application/json",
     }
 
@@ -104,7 +112,7 @@ export function getSearchParamsObject(call: CapturedRequest): Record<string, str
   return Object.fromEntries(getSearchParams(call).entries())
 }
 
-export function getSerializedBody(call: CapturedRequest): BodyInit | null | undefined {
+export function getSerializedBody(call: CapturedRequest): Options["body"] | undefined {
   return call.options?.body
 }
 

@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test"
 
 import { ImageEndpoint } from "../../endpoints/image"
+import type { ImageMeta } from "../../endpoints/image"
 import { createApiClientTestHarness, getSearchParamsObject } from "../helpers/api-client-test-harness"
 
 describe("ImageEndpoint (unit)", () => {
@@ -146,7 +147,7 @@ describe("ImageEndpoint (unit)", () => {
     const { client, calls } = createApiClientTestHarness({ responses: [[{ info: "ok" }]] })
     const endpoint = new ImageEndpoint(client)
 
-    const metaList = [
+    const metaList: ImageMeta[] = [
       {
         href: "https://example/image/1",
         type: "image",

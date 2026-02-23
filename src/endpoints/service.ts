@@ -299,6 +299,17 @@ export interface ServiceModel extends Model {
 
   requiredCreateFields: "name"
 
+  orderableFields:
+    | "id"
+    | "accountId"
+    | "archived"
+    | "barcodes"
+    | "code"
+    | "description"
+    | "externalCode"
+    | "name"
+    | "updated"
+
   filters: {
     id: IdFilter
     accountId: IdFilter

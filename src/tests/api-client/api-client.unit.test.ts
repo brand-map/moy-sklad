@@ -89,6 +89,54 @@ describe("ApiClient (unit)", () => {
     await expect(client.get("entity/product")).rejects.toBeInstanceOf(MoyskladError)
   })
 
+  test("request throws MoyskladError when response body is invalid JSON", async () => {
+    const { client } = createApiClientTestHarness({
+      responses: [
+        {
+          status: 500,
+          rawBody: "{",
+          headers: { "Content-Type": "application/json" },
+        },
+      ],
+    })
+
+    await expect(client.get("entity/product")).rejects.toThrow("invalid JSON error payload")
+  })
+
+  test("request extracts first valid API error from mixed errors array", async () => {
+    const { client } = createApiClientTestHarness({
+      responses: [
+        {
+          status: 400,
+          body: {
+            errors: [{ message: "unknown shape" }, { error: "Second error is valid", code: 999 }],
+          },
+        },
+      ],
+    })
+
+    await expect(client.get("entity/product")).rejects.toMatchObject({
+      message: "Second error is valid",
+      code: 999,
+    })
+  })
+
+  test("request extracts API error from array payload", async () => {
+    const { client } = createApiClientTestHarness({
+      responses: [
+        {
+          status: 400,
+          body: [{ errors: [{ error: "Array payload error", code: 321 }] }],
+        },
+      ],
+    })
+
+    await expect(client.get("entity/product")).rejects.toMatchObject({
+      message: "Array payload error",
+      code: 321,
+    })
+  })
+
   test("getAll uses expandLimit when hasExpand is true", async () => {
     const { client } = createApiClientTestHarness({
       batchGetOptions: { limit: 1000, expandLimit: 5, concurrencyLimit: 1 },
